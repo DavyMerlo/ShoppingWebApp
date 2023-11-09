@@ -1,9 +1,7 @@
 package com.davy.restapi.category.controller;
 
-import com.davy.restapi.address.request.AddressCreateRequest;
 import com.davy.restapi.category.request.CategoryCreateRequest;
 import com.davy.restapi.category.request.CategoryUpdateRequest;
-import com.davy.restapi.category.response.CategoryListResponse;
 import com.davy.restapi.category.service.CategoryService;
 import com.davy.restapi.shared.handler.ResponseHandler;
 import lombok.RequiredArgsConstructor;

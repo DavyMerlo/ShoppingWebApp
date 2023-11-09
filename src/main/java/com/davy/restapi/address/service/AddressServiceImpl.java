@@ -31,10 +31,10 @@ public class AddressServiceImpl implements AddressService {
         if(addressRepository.getAllAddresses().isEmpty()){
             ThrowException.objectException("Addresses");
         }
-        response.addresses = addressRepository.getAllAddresses()
+        response.setAddresses(addressRepository.getAllAddresses()
                 .stream()
                 .map(addressItemsMapper)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
         return response;
     }
 

@@ -17,6 +17,13 @@ public class UserController {
 
     private final UserService userService;
 
+    @GetMapping()
+    public ResponseEntity<?> findAllUsers(){
+
+        var data = userService.findAllUsers();
+        return ResponseHandler.generateResponse("successful",  HttpStatus.OK, data);
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<?> findUserById(@PathVariable final Long id){
 
