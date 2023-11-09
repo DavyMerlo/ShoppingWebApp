@@ -1,0 +1,51 @@
+package com.davy.restapi.orderlines.entity;
+
+import com.davy.restapi.product.entity.Product;
+import com.davy.restapi.order.entity.Order;
+import com.davy.restapi.shared.entity.BaseEntity;
+import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@Entity
+@NoArgsConstructor
+@Table(name = "order_lines")
+@SequenceGenerator(
+        name="default_gen",
+        sequenceName = "order_lines_id_seq",
+        allocationSize=1)
+public class OrderLines extends BaseEntity {
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    private Product product;
+
+    @Column(name = "quantity")
+    private short quantity;
+
+
+    @Builder
+    public OrderLines(LocalDateTime createdAt,
+                      LocalDateTime updatedAt,
+                      LocalDateTime deletedAt,
+                      Long createdBy,
+                      Long updatedBy,
+                      Order order,
+                      Product product,
+                      short quantity) {
+        super(createdAt, updatedAt, deletedAt, createdBy, updatedBy);
+        this.order = order;
+        this.product = product;
+        this.quantity = quantity;
+    }
+}
