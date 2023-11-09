@@ -11,7 +11,6 @@ import com.davy.restapi.address.repository.AddressRepository;
 import com.davy.restapi.card.repository.CardRepository;
 import com.davy.restapi.token.repository.TokenRepository;
 import com.davy.restapi.token.enums.TokenType;
-import com.davy.restapi.user.dto.UserItems;
 import com.davy.restapi.user.enums.Role;
 import com.davy.restapi.user.entity.User;
 import com.davy.restapi.user.mapper.UserItemsMapper;
@@ -23,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
