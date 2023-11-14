@@ -2,7 +2,6 @@ package com.davy.restapi.category.service;
 
 import com.davy.restapi.category.entity.Category;
 import com.davy.restapi.category.mapper.CategoryItemsMapper;
-import com.davy.restapi.category.mapper.CategoryUpdateMapper;
 import com.davy.restapi.category.request.CategoryCreateRequest;
 import com.davy.restapi.category.request.CategoryUpdateRequest;
 import com.davy.restapi.category.response.CategoryListResponse;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryServiceImp implements CategoryService {
+public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryItemsMapper categoryItemsMapper;

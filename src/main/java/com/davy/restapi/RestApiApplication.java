@@ -1,6 +1,6 @@
 package com.davy.restapi;
 
-import com.davy.restapi.authetication.service.AuthenticationServiceImp;
+import com.davy.restapi.authetication.service.AuthenticationServiceImpl;
 import com.davy.restapi.user.entity.User;
 import com.davy.restapi.authetication.service.JwtServiceImp;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 public class RestApiApplication implements CommandLineRunner{
 
     JwtServiceImp jwtServiceImp;
-    AuthenticationServiceImp authenticationServiceImp;
+    AuthenticationServiceImpl authenticationServiceImpl;
 
     public static void main(String[] args){
         SpringApplication.run(RestApiApplication.class, args);
@@ -36,11 +36,11 @@ public class RestApiApplication implements CommandLineRunner{
 
     private void saveUserToken(User user,
                                String jwtToken) {
-        authenticationServiceImp.saveUserToken(user, jwtToken);
+        authenticationServiceImpl.saveUserToken(user, jwtToken);
     }
 
     private User demoUser(){
-        return authenticationServiceImp.createDemoUser();
+        return authenticationServiceImpl.createDemoUser();
     }
 
     private void printCustomerTokenOnConsole(String firstname,

@@ -2,7 +2,7 @@ package com.davy.restapi.authetication.controller;
 
 import com.davy.restapi.authetication.request.AuthenticationRequest;
 import com.davy.restapi.authetication.response.AuthenticationResponse;
-import com.davy.restapi.authetication.service.AuthenticationServiceImp;
+import com.davy.restapi.authetication.service.AuthenticationServiceImpl;
 import com.davy.restapi.authetication.request.RegisterRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,7 +20,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationServiceImp service;
+    private final AuthenticationServiceImpl service;
 
     @PostMapping("register")
     public ResponseEntity<AuthenticationResponse> register(

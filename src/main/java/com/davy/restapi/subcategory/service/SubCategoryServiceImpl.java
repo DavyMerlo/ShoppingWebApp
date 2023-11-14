@@ -1,6 +1,5 @@
 package com.davy.restapi.subcategory.service;
 
-import com.davy.restapi.category.entity.Category;
 import com.davy.restapi.shared.exceptions.ThrowException;
 import com.davy.restapi.subcategory.entity.SubCategory;
 import com.davy.restapi.subcategory.mapper.SubCategoryItemsMapper;
@@ -11,12 +10,11 @@ import com.davy.restapi.subcategory.response.SubCategoryResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class SubCategoryServiceImp implements SubCategoryService {
+public class SubCategoryServiceImpl implements SubCategoryService {
 
     private final SubCategoryRepository subCategoryRepository;
     private final SubCategoryItemsMapper subCategoryItemsMapper;

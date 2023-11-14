@@ -30,7 +30,7 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationServiceImp {
+public class AuthenticationServiceImpl {
 
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;

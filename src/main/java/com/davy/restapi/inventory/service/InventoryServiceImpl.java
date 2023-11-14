@@ -8,17 +8,15 @@ import com.davy.restapi.inventory.request.InventoryCreateRequest;
 import com.davy.restapi.inventory.request.InventoryUpdateRequest;
 import com.davy.restapi.inventory.response.InventoryListResponse;
 import com.davy.restapi.inventory.response.InventorySingleResponse;
-import com.davy.restapi.inventory.response.InventoryUpdateResponse;
 import com.davy.restapi.shared.exceptions.ThrowException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class InventoryServiceImp implements InventoryService {
+public class InventoryServiceImpl implements InventoryService {
 
     private final InventoryRepository inventoryRepository;
     private final InventoryItemsMapper inventoryItemsMapper;
