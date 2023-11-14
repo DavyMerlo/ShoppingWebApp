@@ -1,13 +1,12 @@
 package com.davy.restapi.shared.response;
 
+import lombok.Builder;
 import lombok.Data;
-import org.springframework.validation.FieldError;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
 
 @Data
+@Builder
 public class ApiErrorResponse {
 
     private final String errorCode;

@@ -11,6 +11,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -27,15 +28,15 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
             final ApplicationException exception,
             final HttpServletRequest request
             ) {
-        var response = new ApiErrorResponse(
-                exception.getErrorCode(),
-                exception.getMessage(),
-                exception.getHttpStatus().value(),
-                exception.getHttpStatus().name(),
-                request.getRequestURI(),
-                request.getMethod(),
-                LocalDateTime.now()
-        );
+        var response = ApiErrorResponse.builder()
+                .errorCode(exception.getErrorCode())
+                .message(exception.getMessage())
+                .statusCode(exception.getHttpStatus().value())
+                .statusName(exception.getHttpStatus().name())
+                .path(request.getRequestURI())
+                .method(request.getMethod())
+                .timestamp(LocalDateTime.now())
+                .build();
         return new ResponseEntity<>(response, exception.getHttpStatus());
     }
 
@@ -45,16 +46,33 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
             final HttpServletRequest request,
             final ApplicationException applicationException
     ) {
-        var response = new ApiErrorResponse(
-                ErrorCodes.EMPTY_MODEL_STACK,
-                "Internal server error",
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                HttpStatus.INTERNAL_SERVER_ERROR.name(),
-                request.getRequestURI(),
-                request.getMethod(),
-                LocalDateTime.now()
-        );
+        var response = ApiErrorResponse.builder()
+                .errorCode(ErrorCodes.EMPTY_MODEL_STACK)
+                .message("Internal server error")
+                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .statusName(HttpStatus.INTERNAL_SERVER_ERROR.name())
+                .path(request.getRequestURI())
+                .method(request.getMethod())
+                .timestamp(LocalDateTime.now())
+                .build();
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<?> handeException(
+            final HttpServletRequest request,
+            final AuthenticationException exception){
+
+        var response = ApiErrorResponse.builder()
+                .errorCode(exception.getMessage())
+                .message(exception.getMessage())
+                .statusCode(HttpStatus.UNAUTHORIZED.value())
+                .statusName(HttpStatus.UNAUTHORIZED.name())
+                .path(request.getRequestURI())
+                .method(request.getMethod())
+                .timestamp(LocalDateTime.now())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(IllegalStateException.class)

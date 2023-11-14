@@ -23,6 +23,6 @@ public class AuthenticationRequest {
 
     @NotEmpty(message = "Password should not be empty")
     @NotNull(message = "Password should not be empty")
-    @Size(min=8, message = "Password must be at least 8 characters long")
+//    @Size(min=8, message = "Password must be at least 8 characters long")
     private String password;
 }

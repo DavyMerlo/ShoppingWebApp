@@ -7,8 +7,8 @@ import lombok.Data;
 import java.util.Set;
 
 @Data
-public class FieldErrorResponse {
+public class ValidationErrorResponse {
 
     @JsonProperty("errors")
-    private Set<ValidationErrorItems> fieldErrors;
+    private Set<ValidationErrorItems> validationErrors;
 }

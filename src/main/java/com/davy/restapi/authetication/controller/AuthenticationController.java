@@ -4,9 +4,11 @@ import com.davy.restapi.authetication.request.AuthenticationRequest;
 import com.davy.restapi.authetication.response.AuthenticationResponse;
 import com.davy.restapi.authetication.service.AuthenticationServiceImpl;
 import com.davy.restapi.authetication.request.RegisterRequest;
+import com.davy.restapi.shared.handler.ResponseHandler;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,9 +31,11 @@ public class AuthenticationController {
     }
 
     @PostMapping("authenticate")
-    public ResponseEntity<AuthenticationResponse> register(
+    public ResponseEntity<?> register(
             @RequestBody AuthenticationRequest request){
-        return ResponseEntity.ok(service.authenticate(request));
+        var data = service.authenticate(request);
+        //return ResponseEntity.ok(service.authenticate(request));
+        return ResponseHandler.generateResponse("successful", HttpStatus.OK, data);
     }
 
     @PostMapping("refresh-token")

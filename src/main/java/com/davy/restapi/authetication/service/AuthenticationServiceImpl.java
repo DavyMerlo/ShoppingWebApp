@@ -131,8 +131,6 @@ public class AuthenticationServiceImpl {
                 .build();
     }
 
-    //
-
     public void refreshToken(
             HttpServletRequest request,
             HttpServletResponse response

@@ -1,17 +1,12 @@
 package com.davy.restapi.shared.exceptions;
 
-import com.davy.restapi.shared.response.FieldErrorResponse;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.davy.restapi.shared.response.ValidationErrorResponse;
 import lombok.*;
-import org.springframework.web.ErrorResponse;
 
-import java.util.Set;
-
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 public class RequestNotValidException extends RuntimeException{
 
-//    @JsonProperty("errors")
-//    private final Set<String> errors;
-
-    private final FieldErrorResponse errors;
+    private final ValidationErrorResponse errors;
 }

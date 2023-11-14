@@ -2,7 +2,7 @@ package com.davy.restapi.shared.validators;
 
 import com.davy.restapi.shared.exceptions.RequestNotValidException;
 import com.davy.restapi.shared.mapper.ValidationMapper;
-import com.davy.restapi.shared.response.FieldErrorResponse;
+import com.davy.restapi.shared.response.ValidationErrorResponse;
 import jakarta.validation.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -25,8 +25,8 @@ public class RequestValidator<T> {
                     .stream()
                     .map(validationMapper)
                     .collect(Collectors.toSet());
-            FieldErrorResponse response = new FieldErrorResponse();
-            response.setFieldErrors(errorsMessages);
+            ValidationErrorResponse response = new ValidationErrorResponse();
+            response.setValidationErrors(errorsMessages);
             throw new RequestNotValidException(response);
         }
     }
