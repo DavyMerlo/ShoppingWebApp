@@ -4,6 +4,8 @@ import ch.qos.logback.core.spi.ErrorCodes;
 import com.davy.restapi.shared.exceptions.RequestNotValidException;
 import com.davy.restapi.shared.response.ApiErrorResponse;
 import com.davy.restapi.shared.exceptions.ApplicationException;
+import com.davy.restapi.shared.response.UnauthorizedResponse;
+import com.davy.restapi.shared.response.ValidationErrorResponse;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +13,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -59,18 +62,14 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<?> handeException(
+    public ResponseEntity<?> handeAuthenticationException(
             final HttpServletRequest request,
             final AuthenticationException exception){
 
-        var response = ApiErrorResponse.builder()
-                .errorCode(exception.getMessage())
-                .message(exception.getMessage())
-                .statusCode(HttpStatus.UNAUTHORIZED.value())
-                .statusName(HttpStatus.UNAUTHORIZED.name())
-                .path(request.getRequestURI())
-                .method(request.getMethod())
-                .timestamp(LocalDateTime.now())
+        var response = UnauthorizedResponse.builder()
+                .message(HttpStatus.UNAUTHORIZED.name())
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .url(request.getRequestURI())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
@@ -91,8 +90,13 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 
     @ExceptionHandler(RequestNotValidException.class)
     public ResponseEntity<?> handeException(RequestNotValidException exception){
-        return ResponseEntity
-                .badRequest()
-                .body(exception.getErrors());
+
+        var response = ValidationErrorResponse.builder()
+                .validationErrors(exception.getValidationErrors())
+                .message(HttpStatus.BAD_REQUEST.name())
+                .status((short) HttpStatus.BAD_REQUEST.value())
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

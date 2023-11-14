@@ -21,27 +21,27 @@ public class UserController {
     public ResponseEntity<?> findAllUsers(){
 
         var data = userService.findAllUsers();
-        return ResponseHandler.generateResponse("successful",  HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(HttpStatus.OK.name(),  HttpStatus.OK, data);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<?> findUserById(@PathVariable final Long id){
 
         var data = userService.findUserById(id);
-        return ResponseHandler.generateResponse("successful",  HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(HttpStatus.OK.name(),  HttpStatus.OK, data);
     }
 
     @GetMapping("/{userId}/address")
     public ResponseEntity<?> findUserWithAddressByUserId(@PathVariable final Long userId){
         var data = userService.findUserWithAddressByUserId(userId);
-        return ResponseHandler.generateResponse("successful",  HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(HttpStatus.OK.name(),  HttpStatus.OK, data);
     }
 
     @GetMapping("/{userId}/card")
     public ResponseEntity<?> findUserWithCardByUserId(@PathVariable final Long userId){
 
         var data = userService.findUserWithCardByUserId(userId);
-        return ResponseHandler.generateResponse("successful", HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(HttpStatus.OK.name(), HttpStatus.OK, data);
     }
 
     @PatchMapping
