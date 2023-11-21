@@ -4,6 +4,7 @@ import com.davy.restapi.address.entity.Address;
 import com.davy.restapi.authetication.response.AuthenticationResponse;
 import com.davy.restapi.authetication.request.RegisterRequest;
 import com.davy.restapi.authetication.request.AuthenticationRequest;
+import com.davy.restapi.authetication.response.RefreshTokenResponse;
 import com.davy.restapi.card.entity.CustomerCard;
 import com.davy.restapi.shared.validators.RequestValidator;
 import com.davy.restapi.token.entity.Token;
@@ -150,10 +151,11 @@ public class AuthenticationServiceImpl {
                var accessToken = jwtServiceImp.generateToken(user);
                revokeAllUserTokens(user);
                saveUserToken(user, accessToken);
-               var authResponse = AuthenticationResponse.builder()
+               var authResponse = RefreshTokenResponse.builder()
                        .accessToken(accessToken)
                        .refreshToken(refreshToken)
                        .build();
+                System.out.println(authResponse.getRefreshToken());
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }
