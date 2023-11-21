@@ -22,6 +22,7 @@ import org.springframework.web.filter.CorsFilter;
 
 
 import java.util.Arrays;
+import java.util.List;
 
 import static com.davy.restapi.user.enums.Permission.*;
 import static com.davy.restapi.user.enums.Role.ADMIN;
@@ -68,6 +69,13 @@ public class SecurityConfiguration {
                         .requestMatchers(PUT, "api/v1/users/**").hasAuthority(ADMIN_UPDATE.name())
                         .requestMatchers(DELETE, "api/v1/users/**").hasAuthority(ADMIN_DELETE.name())
 
+                        .requestMatchers("api/v1/products/**").hasAnyRole(MANAGER.name())
+
+                        .requestMatchers(GET, "api/v1/products/**").hasAuthority(MANAGER_READ.name())
+                        .requestMatchers(POST, "api/v1/products/**").hasAuthority(MANAGER_CREATE.name())
+                        .requestMatchers(PUT, "api/v1/products/**").hasAuthority(MANAGER_UPDATE.name())
+                        .requestMatchers(DELETE, "api/v1/products/**").hasAuthority(MANAGER_DELETE.name())
+
                         .anyRequest()
                         .authenticated()
                 )
@@ -88,11 +96,14 @@ public class SecurityConfiguration {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
+        //config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedOrigin("http://localhost:3000");
         config.setAllowedHeaders(Arrays.asList(
                 HttpHeaders.AUTHORIZATION,
                 HttpHeaders.CONTENT_TYPE,
-                HttpHeaders.ACCEPT
+                HttpHeaders.ACCEPT,
+                HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN,
+                HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS
         ));
         config.setAllowedMethods(Arrays.asList(
                 GET.name(),

@@ -48,7 +48,8 @@ class ProductServiceTest extends TestContainer {
                 Vat.STANDARD_RATE,
                 (short) 500,
                 Long.parseLong("1"),
-                Long.parseLong("1")
+                Long.parseLong("1"),
+                null
         );
         ProductListResponse response = productService.saveProduct(request);
         List<ProductDetails> products = response.products;
@@ -68,7 +69,8 @@ class ProductServiceTest extends TestContainer {
                 Vat.STANDARD_RATE,
                 (short) 500,
                 Long.parseLong("1"),
-                Long.parseLong("1")
+                Long.parseLong("1"),
+                null
         );
 
         ProductResponse response = productService.updateProductById(Long.parseLong("1"), request);

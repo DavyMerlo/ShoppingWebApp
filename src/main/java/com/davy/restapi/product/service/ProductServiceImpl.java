@@ -16,6 +16,7 @@ import com.davy.restapi.product.repository.ProductRepository;
 import com.davy.restapi.product.request.ProductRequest;
 import com.davy.restapi.product.response.ProductListResponse;
 import com.davy.restapi.product.response.ProductResponse;
+import com.davy.restapi.product.utils.ImageUtils;
 import com.davy.restapi.shared.exceptions.ThrowException;
 import com.davy.restapi.subcategory.dto.SubCategoryItems;
 import com.davy.restapi.subcategory.mapper.SubCategoryItemsMapper;
@@ -26,6 +27,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -85,7 +87,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListResponse saveProduct(ProductRequest request) {
+    public ProductListResponse saveProduct(ProductRequest request) throws IOException {
 
         checkIfCategoryIdAndSubCategoryIdExists(request);
         var inventory = Inventory.builder()
@@ -95,6 +97,7 @@ public class ProductServiceImpl implements ProductService {
         var product = Product.builder()
                 .name(request.getName())
                 .description(request.getDescription())
+                .imageData(ImageUtils.compressImage(request.getFile().getBytes()))
                 .purchasePrice(request.getPurchasePrice())
                 .sellingPrice(request.getSellingPrice())
                 .VAT(request.getVAT())

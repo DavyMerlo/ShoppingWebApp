@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Builder
 @Getter
@@ -37,6 +38,9 @@ public class ProductRequest {
     @JsonProperty("subCategoryId")
     private Long subCategoryId;
 
+    @JsonProperty("image")
+    private MultipartFile file;
+
     public ProductRequest(String name,
                           String description,
                           float purchasePrice,
@@ -44,7 +48,8 @@ public class ProductRequest {
                           Vat VAT,
                           short quantity,
                           Long categoryId,
-                          Long subCategoryId) {
+                          Long subCategoryId,
+                          MultipartFile file) {
         this.name = name;
         this.description = description;
         this.purchasePrice = purchasePrice;
@@ -53,5 +58,6 @@ public class ProductRequest {
         this.quantity = quantity;
         this.categoryId = categoryId;
         this.subCategoryId = subCategoryId;
+        this.file = file;
     }
 }
