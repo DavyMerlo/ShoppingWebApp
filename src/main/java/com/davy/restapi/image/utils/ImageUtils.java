@@ -1,4 +1,4 @@
-package com.davy.restapi.product.utils;
+package com.davy.restapi.image.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

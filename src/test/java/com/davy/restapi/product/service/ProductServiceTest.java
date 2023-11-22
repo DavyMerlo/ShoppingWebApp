@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -39,7 +40,7 @@ class ProductServiceTest extends TestContainer {
     @Test
     @Transactional
     @Order(4)
-    void shouldBeAbleToSaveProduct() {
+    void shouldBeAbleToSaveProduct() throws IOException {
         ProductRequest request = new ProductRequest(
                 "Davy",
                 "Test",

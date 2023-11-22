@@ -1,14 +1,10 @@
 package com.davy.restapi.product.service;
 
-import com.davy.restapi.category.entity.Category;
 import com.davy.restapi.category.repository.CategoryRepository;
 import com.davy.restapi.inventory.dto.InventoryItems;
 import com.davy.restapi.inventory.entity.Inventory;
 import com.davy.restapi.inventory.mapper.InventoryItemsMapper;
 import com.davy.restapi.inventory.repository.InventoryRepository;
-import com.davy.restapi.inventory.request.InventoryCreateRequest;
-import com.davy.restapi.inventory.request.InventoryUpdateRequest;
-import com.davy.restapi.inventory.service.InventoryService;
 import com.davy.restapi.product.dto.ProductDetails;
 import com.davy.restapi.product.entity.Product;
 import com.davy.restapi.product.mapper.ProductMapper;
@@ -16,7 +12,6 @@ import com.davy.restapi.product.repository.ProductRepository;
 import com.davy.restapi.product.request.ProductRequest;
 import com.davy.restapi.product.response.ProductListResponse;
 import com.davy.restapi.product.response.ProductResponse;
-import com.davy.restapi.product.utils.ImageUtils;
 import com.davy.restapi.shared.exceptions.ThrowException;
 import com.davy.restapi.subcategory.dto.SubCategoryItems;
 import com.davy.restapi.subcategory.mapper.SubCategoryItemsMapper;
@@ -27,10 +22,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -87,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListResponse saveProduct(ProductRequest request) throws IOException {
+    public ProductListResponse saveProduct(ProductRequest request) {
 
         checkIfCategoryIdAndSubCategoryIdExists(request);
         var inventory = Inventory.builder()
@@ -97,7 +90,6 @@ public class ProductServiceImpl implements ProductService {
         var product = Product.builder()
                 .name(request.getName())
                 .description(request.getDescription())
-                .imageData(ImageUtils.compressImage(request.getFile().getBytes()))
                 .purchasePrice(request.getPurchasePrice())
                 .sellingPrice(request.getSellingPrice())
                 .VAT(request.getVAT())

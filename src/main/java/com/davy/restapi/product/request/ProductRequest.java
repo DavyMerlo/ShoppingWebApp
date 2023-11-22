@@ -38,9 +38,6 @@ public class ProductRequest {
     @JsonProperty("subCategoryId")
     private Long subCategoryId;
 
-    @JsonProperty("image")
-    private MultipartFile file;
-
     public ProductRequest(String name,
                           String description,
                           float purchasePrice,
@@ -48,8 +45,7 @@ public class ProductRequest {
                           Vat VAT,
                           short quantity,
                           Long categoryId,
-                          Long subCategoryId,
-                          MultipartFile file) {
+                          Long subCategoryId) {
         this.name = name;
         this.description = description;
         this.purchasePrice = purchasePrice;
@@ -58,6 +54,5 @@ public class ProductRequest {
         this.quantity = quantity;
         this.categoryId = categoryId;
         this.subCategoryId = subCategoryId;
-        this.file = file;
     }
 }

@@ -29,9 +29,6 @@ public class Product extends BaseEntity {
     @Column(name = "descr", columnDefinition = "TEXT")
     private String description;
 
-    @Lob
-    private byte[] imageData;
-
     @Column(name = "purchase_price")
     private float purchasePrice;
 
@@ -70,7 +67,6 @@ public class Product extends BaseEntity {
                    Long updatedBy,
                    String name,
                    String description,
-                   byte[] imageData,
                    float purchasePrice,
                    float sellingPrice,
                    Vat VAT,
@@ -82,7 +78,6 @@ public class Product extends BaseEntity {
         super(createdAt, updatedAt, deletedAt, createdBy, updatedBy);
         this.name = name;
         this.description = description;
-        this.imageData = imageData;
         this.purchasePrice = purchasePrice;
         this.sellingPrice = sellingPrice;
         this.VAT = VAT;

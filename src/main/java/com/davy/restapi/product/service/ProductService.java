@@ -13,7 +13,7 @@ public interface ProductService{
                                         int size);
     ProductResponse findProductById(Long id);
 
-    ProductListResponse saveProduct(ProductRequest request) throws IOException;
+    ProductListResponse saveProduct(ProductRequest request);
 
     ProductResponse updateProductById(Long id,
                              ProductRequest request);
