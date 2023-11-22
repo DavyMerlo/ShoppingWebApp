@@ -21,6 +21,9 @@ public class ProductDetails {
     @JsonProperty("name")
     private String name;
 
+    @JsonProperty("imageUrl")
+    private String imageUrl;
+
     @JsonProperty("description")
     private String description;
 
@@ -46,6 +49,7 @@ public class ProductDetails {
     public ProductDetails(Long id,
                           String name,
                           String description,
+                          String imageUrl,
                           float purchasePrice,
                           float sellingPrice,
                           int vat,
@@ -56,6 +60,7 @@ public class ProductDetails {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.imageUrl = imageUrl;
         this.purchasePrice = purchasePrice;
         this.sellingPrice = sellingPrice;
         this.vat = vat;

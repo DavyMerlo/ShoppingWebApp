@@ -24,6 +24,7 @@ public class ProductMapper implements Function<Product, ProductDetails> {
                 product.getId(),
                 product.getName(),
                 product.getDescription(),
+                product.getImageUrl(),
                 product.getPurchasePrice(),
                 product.getSellingPrice(),
                 product.getVAT().ordinal(),

@@ -19,6 +19,9 @@ public class ProductRequest {
     @JsonProperty("description")
     private String description;
 
+    @JsonProperty("imageUrl")
+    private String imageUrl;
+
     @JsonProperty("purchasePrice")
     private float purchasePrice;
 
@@ -40,6 +43,7 @@ public class ProductRequest {
 
     public ProductRequest(String name,
                           String description,
+                          String imageUrl,
                           float purchasePrice,
                           float sellingPrice,
                           Vat VAT,
@@ -48,6 +52,7 @@ public class ProductRequest {
                           Long subCategoryId) {
         this.name = name;
         this.description = description;
+        this.imageUrl = imageUrl;
         this.purchasePrice = purchasePrice;
         this.sellingPrice = sellingPrice;
         this.VAT = VAT;

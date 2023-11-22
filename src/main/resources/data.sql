@@ -151,7 +151,7 @@ VALUES
 
 ALTER SEQUENCE discount_id_seq RESTART WITH 4;
 
-INSERT INTO product(id, name, descr, purchase_price, selling_price, vat, category_id, sub_category_id, discount_id, inventory_id,
+INSERT INTO product(id, name, descr, image_url, purchase_price, selling_price, vat, category_id, sub_category_id, discount_id, inventory_id,
                     created_at, updated_at, deleted_at, created_by,updated_by)
 VALUES
     (1, 'Fairy Tale', E'A new masterpiece from Stephen King.\n\nCharlie Reade looks like an average high school student. ' ||
@@ -167,6 +167,7 @@ VALUES
                       'When Bowditch dies, ' ||
                       'he leaves Charlie a cassette tape with a story so absurd that no one would ever believe it. ' ||
                       'What he has kept secret all his life is that a gate to another world is hidden in the shed.',
+     'https://media.s-bol.com/Wpzr8Rz7LBEE/mO13Dy3/772x1200.jpg',
      15.55, 24.99, 3, 1, 1, null, 1,localtimestamp, localtimestamp, null, 1,null),
     (2,'Elon Musk', E'ELON MUSK BIOGRAPHY OF BESTSELLER AUTHOR WALTER ISAACSON\n\nIn this biography, bestselling ' ||
                     E'author Walter Isaacson tells the surprisingly intimate story ' ||
@@ -197,6 +198,7 @@ VALUES
                     E'The result is a revealing inside story, full of fantastic anecdotes of triumph and turmoil, ' ||
                     E'that raises just one question: are the demons that drive Musk also what is needed for ' ||
                     E'innovation and progress?',
+     'https://media.s-bol.com/NnDPxJz98w6D/18PY6q/783x1200.jpg',
      17.85, 29.99, 3, 1, 1, null, 2, localtimestamp, localtimestamp, null, 1,null),
     (3,'The Women in Me', E'Together with producer Max Martin, Britney Spears was responsible for the return of ' ||
                           E'teen pop in the second half of the 1990s.\n\nSpears started her career at the age of ' ||
@@ -213,6 +215,7 @@ VALUES
                           E'in 2006, shortly after the birth of her second child. ' ||
                           E'The divorce and custody case were widely reported in the tabloids, ' ||
                           E'as was Spears'' party behavior after her divorce.',
+     'https://media.s-bol.com/30W634XzP96M/nw6KmD/775x1200.jpg',
      5.85, 9.99, 3, 1, 2, null, 3, localtimestamp, localtimestamp, null, 1,null),
     (4,'Elon Musk', E'BIOGRAPHY ELON MUSK BY BESTSELLER AUTHOR WALTER ISAACSON In this biography, ' ||
                     E'bestselling author Walter Isaacson tells the surprisingly intimate story of ' ||
@@ -244,17 +247,20 @@ VALUES
                     E'biographies. He wrote biographies about Steve Jobs, Albert Einstein and Leonardo da Vinci, ' ||
                     E'among others. He also served as CEO of the Aspen Institute, ' ||
                     E'chairman of CNN and editor-in-chief of Time.',
+     'https://media.s-bol.com/7wkko8384EzA/AvAOPz/785x1200.jpg',
      12.85, 17.99, 3, 1, 2, null, 4, localtimestamp, localtimestamp, null, 1,null),
     (5, 'ChatGPT 02 2023', E'About this magazine:\nGet started with ChatGPT yourself. Learn how to ' ||
                            E'write texts on any subject ' ||
                            E'in no time and how to make your own ' ||
                            'texts better and more beautiful. In 132 pages we give you explanations, ' ||
                            'tips and workshops about ChatGPT and you discover other possibilities of AI.',
+     'https://media.s-bol.com/J2zPpkpP1O6v/EnJOjm/934x1200.jpg',
     11.95, 16.99, 3, 1, 3, null, 5, localtimestamp, localtimestamp, null, 1,null),
     (6, 'Puzzlesport - Puzzle book', E'Popular sudokus at an intermediate level\n\nThe sudoku 2-4* champion is ' ||
                                      E'full of intermediate level puzzles. This popular puzzle with 9 blocks of ' ||
                                      E'3x3 compartments is a real brainteaser. The numbers 1 to 9 appear only once ' ||
                                      E'in each row, column and block!',
+     'https://media.s-bol.com/B82N7xqxR8y2/vgYDWZr/947x1200.jpg',
      4.95, 8.99, 3, 1, 4, null, 6, localtimestamp, localtimestamp, null, 1,null),
     (7, 'Transformers - Rise Of The Beasts(Blu-ray)', 'Transformers: Rise of the Beasts returns to the action ' ||
                                                       'and spectacle that has impressed moviegoers worldwide. ' ||
@@ -264,6 +270,7 @@ VALUES
                                                       'by Steven Caple Jr. and has leading roles for Anthony Ramos ' ||
                                                       'and Dominique Fishback, as well as voice roles for ' ||
                                                       'Pete Davidson and Michelle Yeoh, among others.',
+     'https://media.s-bol.com/mnnErMyqmmNA/rLER7w/550x706.jpg',
      14.95, 19.95, 3, 2, 5, null, 7, localtimestamp, localtimestamp, null, 1,null),
     (8, 'TMission: Impossible - Dead Reckoning Part One (Blu-ray)', 'In Mission: Impossible - ' ||
                                                                     'Dead Reckoning Part One, Ethan Hunt ' ||
@@ -277,10 +284,12 @@ VALUES
                                                       'consider the thought that nothing could be more important ' ||
                                                       'than his mission, not even the lives of those closest to him. ' ||
                                                       'Temporary synopsis',
+     'https://media.s-bol.com/gGzQyyY64Wok/lBANl6/934x1200.jpg',
      14.95, 19.95, 3, 2, 5, null, 8, localtimestamp, localtimestamp, null, 1,null),
     (9, 'The Rolling Stones - Hackney Diamonds(CD)', 'Hackney Diamonds is the 24th studio album by The Rolling Stones ' ||
                                                      'and includes the single Angry. ' ||
                                                      'This is the CD jewel case version of the album.',
+     'https://media.s-bol.com/gGE0qrWKl26Y/2YX4QM/1200x1200.jpg',
      14.95, 21.95, 3, 2, 6, null, 9, localtimestamp, localtimestamp, null, 1,null),
     (10, 'Taylor Swift - 1989 (Taylor''s Version) (CD)', 'After Fearless, Red, and Speak Now, 1989 (Taylor''s Version) ' ||
                                                          'is the fourth album that Taylor Swift re-records, ' ||
@@ -300,6 +309,7 @@ VALUES
                                                          '''Midnights'' released in 2022 is with hits '' Anti-Hero'' ' ||
                                                          'and ''Karma'' are still one of ' ||
                                                          'the biggest releases this year.',
+     'https://media.s-bol.com/xBPgMywxBoRn/OmX7Lr/1200x1200.jpg',
      16.95, 23.95, 3, 2, 6, null, 10, localtimestamp, localtimestamp, null, 1,null);
 
 ALTER SEQUENCE product_id_seq RESTART WITH 11;

@@ -15,11 +15,17 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping
-    public ResponseEntity<?> getAllProducts(
+    @GetMapping()
+    public ResponseEntity<?> getAllProductsPageable(
             @RequestParam(value = "page", defaultValue = "0", required = false) int page,
             @RequestParam(value = "size", defaultValue = "10", required = false) int size){
-        var data = productService.findAllProducts(page, size);
+        var data = productService.findAllProductsPageable(page, size);
+        return ResponseHandler.generateResponse("successful", HttpStatus.OK, data);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllProducts(){
+        var data = productService.findAllProducts();
         return ResponseHandler.generateResponse("successful", HttpStatus.OK, data);
     }
 

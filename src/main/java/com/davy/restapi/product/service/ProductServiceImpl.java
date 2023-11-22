@@ -23,7 +23,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,13 +41,44 @@ public class ProductServiceImpl implements ProductService {
     private final SubCategoryItemsMapper subCategoryItemsMapper;
     private final InventoryItemsMapper inventoryItemsMapper;
 
-    @Override
-    public ProductListResponse findAllProducts(int page, int size) {
+
+    public Map<String, Object> findAllProductsPageable(int page, int size) {
 
         var pageableSorted = PageRequest.of(page, size, Sort.by("id"));
-        var response = new ProductListResponse();
         Page<Product> productPage = productRepository.findAll(pageableSorted);
         List<Product> products = productPage.getContent();
+        Map<String, Object> mappedProducts = new HashMap<>();
+        List<ProductDetails> productDetails = new ArrayList<>();
+
+        if(products.isEmpty()){
+            ThrowException.objectException("Products");
+        }
+
+        var productsTest = products
+                .stream()
+                .map(productMapper)
+                .toList();
+
+        for(var item : productsTest){
+            var subCategoryId = item.getSubCategory().getId();
+            var subCategory = mapAndGetSubCategoryItems(subCategoryId);
+            item.getCategory().setSubCategory(subCategory);
+            productDetails.add(item);
+        }
+
+        mappedProducts.put("products", productDetails);
+        mappedProducts.put("currentPage", productPage.getNumber());
+        mappedProducts.put("count", productPage.getTotalElements());
+        mappedProducts.put("totalPages", productPage.getTotalPages());
+        mappedProducts.put("pageSize", productPage.getSize());
+        return mappedProducts;
+    }
+
+    @Override
+    public ProductListResponse findAllProducts() {
+
+        var response = new ProductListResponse();
+        var products = productRepository.findAll();
 
         if(products.isEmpty()){
             ThrowException.objectException("Products");
@@ -56,11 +90,8 @@ public class ProductServiceImpl implements ProductService {
 
         for(var item : response.products){
             var subCategoryId = item.getSubCategory().getId();
-            var inventoryId = item.getInventory().id();
             var subCategory = mapAndGetSubCategoryItems(subCategoryId);
-            var inventory = mapAndGetInventoryItems(inventoryId);
             item.getCategory().setSubCategory(subCategory);
-            item.setInventory(inventory);
         }
         return response;
     }
@@ -90,6 +121,7 @@ public class ProductServiceImpl implements ProductService {
         var product = Product.builder()
                 .name(request.getName())
                 .description(request.getDescription())
+                .imageUrl(request.getImageUrl())
                 .purchasePrice(request.getPurchasePrice())
                 .sellingPrice(request.getSellingPrice())
                 .VAT(request.getVAT())
@@ -98,8 +130,7 @@ public class ProductServiceImpl implements ProductService {
                 .subCategory(subCategoryRepository.getSubCategoryById(request.getSubCategoryId()).get())
                 .build();
         productRepository.saveProduct(product);
-        List<Product> products = productRepository.findAll();
-        return findAllProducts(0, products.size());
+        return this.findAllProducts();
     }
 
     @Override
@@ -111,6 +142,7 @@ public class ProductServiceImpl implements ProductService {
         var inventory = inventoryRepository.getInventoryById(product.getInventory().getId());
         product.setName(request.getName());
         product.setDescription(request.getDescription());
+        product.setImageUrl(request.getImageUrl());
         product.setPurchasePrice(request.getPurchasePrice());
         product.setSellingPrice(request.getSellingPrice());
         product.setVAT(request.getVAT());
@@ -137,14 +169,6 @@ public class ProductServiceImpl implements ProductService {
         return subCategoryRepository.getSubCategoryById(subCategoryIdd)
                 .stream()
                 .map(subCategoryItemsMapper)
-                .findFirst()
-                .get();
-    }
-
-    private InventoryItems mapAndGetInventoryItems(Long inventoryId){
-        return inventoryRepository.getInventoryById(inventoryId)
-                .stream()
-                .map(inventoryItemsMapper)
                 .findFirst()
                 .get();
     }
