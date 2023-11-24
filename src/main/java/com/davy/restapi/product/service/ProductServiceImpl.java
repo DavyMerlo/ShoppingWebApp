@@ -1,9 +1,7 @@
 package com.davy.restapi.product.service;
 
 import com.davy.restapi.category.repository.CategoryRepository;
-import com.davy.restapi.inventory.dto.InventoryItems;
 import com.davy.restapi.inventory.entity.Inventory;
-import com.davy.restapi.inventory.mapper.InventoryItemsMapper;
 import com.davy.restapi.inventory.repository.InventoryRepository;
 import com.davy.restapi.product.dto.ProductDetails;
 import com.davy.restapi.product.entity.Product;
@@ -19,6 +17,7 @@ import com.davy.restapi.subcategory.repository.SubCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +26,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,61 +37,25 @@ public class ProductServiceImpl implements ProductService {
     private final InventoryRepository inventoryRepository;
     private final ProductMapper productMapper;
     private final SubCategoryItemsMapper subCategoryItemsMapper;
-    private final InventoryItemsMapper inventoryItemsMapper;
 
+    public Map<String, Object> findAllProductsPageable(int page) {
 
-    public Map<String, Object> findAllProductsPageable(int page, int size) {
-
-        var pageableSorted = PageRequest.of(page, size, Sort.by("id"));
-        Page<Product> productPage = productRepository.findAll(pageableSorted);
-        List<Product> products = productPage.getContent();
-        Map<String, Object> mappedProducts = new HashMap<>();
-        List<ProductDetails> productDetails = new ArrayList<>();
-
-        if(products.isEmpty()){
-            ThrowException.objectException("Products");
-        }
-
-        var productsTest = products
-                .stream()
-                .map(productMapper)
-                .toList();
-
-        for(var item : productsTest){
-            var subCategoryId = item.getSubCategory().getId();
-            var subCategory = mapAndGetSubCategoryItems(subCategoryId);
-            item.getCategory().setSubCategory(subCategory);
-            productDetails.add(item);
-        }
-
-        mappedProducts.put("products", productDetails);
-        mappedProducts.put("currentPage", productPage.getNumber());
-        mappedProducts.put("count", productPage.getTotalElements());
-        mappedProducts.put("totalPages", productPage.getTotalPages());
-        mappedProducts.put("pageSize", productPage.getSize());
-        return mappedProducts;
+        var pageableSorted = PageRequest.of(page, 5, Sort.by("id"));
+        Page<Product> productPage =
+                productRepository.findAll(pageableSorted);
+        return mappedProductPage(productPage);
     }
 
-    @Override
-    public ProductListResponse findAllProducts() {
-
-        var response = new ProductListResponse();
-        var products = productRepository.findAll();
-
-        if(products.isEmpty()){
-            ThrowException.objectException("Products");
+    public Map<String, Object> findByCategoryIdAndSubCategoryIdPageable(Long catId,
+                                                                        Long subCatId,
+                                                                        int page) {
+        if(catId == null && subCatId == null){
+            return findAllProductsPageable(page);
         }
-        response.products = products
-                .stream()
-                .map(productMapper)
-                .collect(Collectors.toList());
-
-        for(var item : response.products){
-            var subCategoryId = item.getSubCategory().getId();
-            var subCategory = mapAndGetSubCategoryItems(subCategoryId);
-            item.getCategory().setSubCategory(subCategory);
-        }
-        return response;
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<Product> productPage =
+                productRepository.findAllAndFindByCategoryIdAAndSubCategoryId(catId, subCatId, pageable);
+        return mappedProductPage(productPage);
     }
 
     @Override
@@ -103,15 +65,15 @@ public class ProductServiceImpl implements ProductService {
         if(productRepository.getProductById(id).isEmpty()){
             ThrowException.objectByIdException(id, "Product");
         }
-        var product = mapAndGetProductDetails(id);
-        var subCategory = mapAndGetSubCategoryItems(product.getSubCategory().getId());
+        var product = mappedProductDetails(id);
+        var subCategory = mappedSubCategoryItems(product.getSubCategory().getId());
         response.product = product;
         response.product.getCategory().setSubCategory(subCategory);
         return response;
     }
 
     @Override
-    public ProductListResponse saveProduct(ProductRequest request) {
+    public Map<String, Object> saveProduct(ProductRequest request) {
 
         checkIfCategoryIdAndSubCategoryIdExists(request);
         var inventory = Inventory.builder()
@@ -130,7 +92,7 @@ public class ProductServiceImpl implements ProductService {
                 .subCategory(subCategoryRepository.getSubCategoryById(request.getSubCategoryId()).get())
                 .build();
         productRepository.saveProduct(product);
-        return this.findAllProducts();
+        return this.findAllProductsPageable(0);
     }
 
     @Override
@@ -165,7 +127,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    private SubCategoryItems mapAndGetSubCategoryItems(Long subCategoryIdd){
+    private SubCategoryItems mappedSubCategoryItems(Long subCategoryIdd){
         return subCategoryRepository.getSubCategoryById(subCategoryIdd)
                 .stream()
                 .map(subCategoryItemsMapper)
@@ -173,11 +135,42 @@ public class ProductServiceImpl implements ProductService {
                 .get();
     }
 
-    private ProductDetails mapAndGetProductDetails(Long productId){
+    private ProductDetails mappedProductDetails(Long productId){
         return  productRepository.getProductById(productId)
                 .stream()
                 .map(productMapper)
                 .findFirst()
                 .get();
+    }
+
+    private Map<String, Object> mappedProductPage(Page productPage){
+        List<Product> products = productPage.getContent();
+        Map<String, Object> mappedProducts = new HashMap<>();
+        List<ProductDetails> productDetails = new ArrayList<>();
+
+        if(products.isEmpty()){
+            ThrowException.objectException("Products");
+        }
+
+        var productsTest = products
+                .stream()
+                .map(productMapper)
+                .toList();
+
+        for(var item : productsTest){
+            var subCategoryId = item.getSubCategory().getId();
+            var subCategory = mappedSubCategoryItems(subCategoryId);
+            item.getCategory().setSubCategory(subCategory);
+            productDetails.add(item);
+        }
+
+        mappedProducts.put("products", productDetails);
+        mappedProducts.put("currentPage", productPage.getNumber());
+        mappedProducts.put("count", productPage.getTotalElements());
+        mappedProducts.put("totalPages", productPage.getTotalPages());
+        mappedProducts.put("pageSize", productPage.getSize());
+        mappedProducts.put("next", productPage.nextPageable().isPaged());
+        mappedProducts.put("previous", productPage.previousPageable().isPaged());
+        return mappedProducts;
     }
 }

@@ -1,11 +1,14 @@
 package com.davy.restapi.subcategory.service;
 
+import com.davy.restapi.category.response.CategoryListResponse;
 import com.davy.restapi.subcategory.request.SubCategoryRequest;
 import com.davy.restapi.subcategory.response.SubCategoryListResponse;
 import com.davy.restapi.subcategory.response.SubCategoryResponse;
 
 public interface SubCategoryService {
     SubCategoryListResponse findAllSubCategories();
+
+    SubCategoryListResponse findSubCategoriesByCategoryId(Long id);
 
     SubCategoryResponse findSubCategoryById(Long id);
 

@@ -48,6 +48,13 @@ public class SecurityConfiguration {
                         .requestMatchers(WHITE_LIST_URL)
                         .permitAll()
 
+                        .requestMatchers("api/v1/categories/**").hasAnyRole(ADMIN.name(), MANAGER.name())
+
+                        .requestMatchers(GET, "api/v1/categories/**").hasAnyAuthority(ADMIN_READ.name(), MANAGER_READ.name())
+                        .requestMatchers(POST, "api/v1/categories/**").hasAnyAuthority(ADMIN_CREATE.name(), MANAGER_CREATE.name())
+                        .requestMatchers(PUT, "api/v1/categories/**").hasAnyAuthority(ADMIN_UPDATE.name(), MANAGER_UPDATE.name())
+                        .requestMatchers(DELETE, "api/v1/categories/**").hasAnyAuthority(ADMIN_DELETE.name(), MANAGER_DELETE.name())
+
                         .requestMatchers("api/v1/addresses/**").hasAnyRole(ADMIN.name(), MANAGER.name())
 
                         .requestMatchers(GET, "api/v1/addresses/**").hasAnyAuthority(ADMIN_READ.name(), MANAGER_READ.name())

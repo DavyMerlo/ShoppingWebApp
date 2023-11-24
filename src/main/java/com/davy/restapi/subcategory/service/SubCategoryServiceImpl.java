@@ -1,5 +1,6 @@
 package com.davy.restapi.subcategory.service;
 
+import com.davy.restapi.category.response.CategoryListResponse;
 import com.davy.restapi.shared.exceptions.ThrowException;
 import com.davy.restapi.subcategory.entity.SubCategory;
 import com.davy.restapi.subcategory.mapper.SubCategoryItemsMapper;
@@ -26,6 +27,19 @@ public class SubCategoryServiceImpl implements SubCategoryService {
             ThrowException.objectException("Subcategories");
         }
         response.subCategories = subCategoryRepository.getAllSubCategories()
+                .stream()
+                .map(subCategoryItemsMapper)
+                .collect(Collectors.toList());
+        return response;
+    }
+
+    @Override
+    public SubCategoryListResponse findSubCategoriesByCategoryId(Long id) {
+        var response = new SubCategoryListResponse();
+        if(subCategoryRepository.findByCategoryId(id).isEmpty()){
+            ThrowException.objectException("Categories");
+        }
+        response.subCategories = subCategoryRepository.findByCategoryId(id)
                 .stream()
                 .map(subCategoryItemsMapper)
                 .collect(Collectors.toList());

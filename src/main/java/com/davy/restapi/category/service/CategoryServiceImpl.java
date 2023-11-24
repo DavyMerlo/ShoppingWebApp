@@ -5,7 +5,7 @@ import com.davy.restapi.category.mapper.CategoryItemsMapper;
 import com.davy.restapi.category.request.CategoryCreateRequest;
 import com.davy.restapi.category.request.CategoryUpdateRequest;
 import com.davy.restapi.category.response.CategoryListResponse;
-import com.davy.restapi.category.response.CategorySingleResponse;
+import com.davy.restapi.category.response.CategoryResponse;
 import com.davy.restapi.category.repository.CategoryRepository;
 import com.davy.restapi.shared.exceptions.ThrowException;
 import lombok.RequiredArgsConstructor;
@@ -34,8 +34,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategorySingleResponse findCategoryById(Long id) {
-        var response = new CategorySingleResponse();
+    public CategoryResponse findCategoryById(Long id) {
+        var response = new CategoryResponse();
         if(categoryRepository.getCategoryById(id).isEmpty()){
             ThrowException.objectByIdException(id, "Category");
         }
@@ -48,8 +48,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategorySingleResponse findCategoryBySubCategoryId(Long subCatId) {
-        var response = new CategorySingleResponse();
+    public CategoryResponse findCategoryBySubCategoryId(Long subCatId) {
+        var response = new CategoryResponse();
         if(categoryRepository.getCategoryBySubCategoryId(subCatId).isEmpty()){
             ThrowException.objectByIdException(subCatId, "SubCategory");
         }
@@ -62,7 +62,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategorySingleResponse updateCategoryById(Long id, CategoryUpdateRequest request) {
+    public CategoryResponse updateCategoryById(Long id, CategoryUpdateRequest request) {
         var category = categoryRepository.getCategoryById(id);
         if(category.isEmpty()){
             ThrowException.objectByIdException(id, "Category");

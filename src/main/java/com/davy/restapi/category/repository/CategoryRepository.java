@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category,Long>,
         CustomCategoryRepository {
+    List<Category> findBySubcategoriesId(Long id);
 }
+
