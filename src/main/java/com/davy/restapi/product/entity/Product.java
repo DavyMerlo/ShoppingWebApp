@@ -9,6 +9,7 @@ import com.davy.restapi.shared.entity.BaseEntity;
 import com.davy.restapi.product.enums.Vat;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 

@@ -96,8 +96,8 @@ VALUES
     (7, 25, localtimestamp, localtimestamp, null, 1,null),
     (8, 368, localtimestamp, localtimestamp, null, 1,null),
     (9, 521, localtimestamp, localtimestamp, null, 1,null),
-    (10, 214, localtimestamp, localtimestamp, null, 1,null);
---     (11, 253, localtimestamp, localtimestamp, null),
+    (10, 214, localtimestamp, localtimestamp, null, 1,null),
+    (11, 253, localtimestamp, localtimestamp, null, 1, null);
 --     (12, 20, localtimestamp, localtimestamp, null),
 --     (13, 365, localtimestamp, localtimestamp, null),
 --     (14, 78, localtimestamp, localtimestamp, null),
@@ -310,9 +310,24 @@ VALUES
                                                          'and ''Karma'' are still one of ' ||
                                                          'the biggest releases this year.',
      'https://media.s-bol.com/xBPgMywxBoRn/OmX7Lr/1200x1200.jpg',
-     16.95, 23.95, 3, 2, 6, null, 10, localtimestamp, localtimestamp, null, 1,null);
+     16.95, 23.95, 3, 2, 6, null, 10, localtimestamp, localtimestamp, null, 1,null),
+    (11, 'Suicide Squad: Kill The Justice League - PlayStation 5', 'Suicide Squad: Kill the Justice League is de nieuwe ' ||
+                                                                   'game van Rocksteady Studios, de makers van de Batman: ' ||
+                                                                   'Arkham-serie, en zet het genre van third-person ' ||
+                                                                   'actie-shooters op zijn kop met de ultieme groep ' ||
+                                                                   'buitenbeentjes die het onmogelijke moet doen om de wereld ' ||
+                                                                   'te redden: de Justice League doden. Sluit je aan bij de ' ||
+                                                                   'net gerekruteerde leden van Amanda Wallers beruchte ' ||
+                                                                   'Task Force X (oftewel The Suicide Squad): Harley Quinn, ' ||
+                                                                   'Deadshot, Captain Boomerang en King Shark. Zij krijgen ' ||
+                                                                   'de onmogelijke missie om de Justice League om te brengen. ' ||
+                                                                   'Duik in de uitgebreide en dynamische open wereld van ' ||
+                                                                   'Metropolis, die wordt verwoest door Brainiacs invasie ' ||
+                                                                   'en geterroriseerd door de helden die het ooit beschermden',
+     'https://media.s-bol.com/By7rjxOGQVEQ/Z3pvGv/1023x1200.jpg',
+     50.95, 69.95, 3, 2, 7, null, 11, localtimestamp, localtimestamp, null, 1,null);
 
-ALTER SEQUENCE product_id_seq RESTART WITH 11;
+ALTER SEQUENCE product_id_seq RESTART WITH 12;
 
 
 

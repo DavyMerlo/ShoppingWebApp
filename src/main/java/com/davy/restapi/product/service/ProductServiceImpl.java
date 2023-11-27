@@ -8,12 +8,12 @@ import com.davy.restapi.product.entity.Product;
 import com.davy.restapi.product.mapper.ProductMapper;
 import com.davy.restapi.product.repository.ProductRepository;
 import com.davy.restapi.product.request.ProductRequest;
-import com.davy.restapi.product.response.ProductListResponse;
 import com.davy.restapi.product.response.ProductResponse;
 import com.davy.restapi.shared.exceptions.ThrowException;
 import com.davy.restapi.subcategory.dto.SubCategoryItems;
 import com.davy.restapi.subcategory.mapper.SubCategoryItemsMapper;
 import com.davy.restapi.subcategory.repository.SubCategoryRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
 
     public Map<String, Object> findAllProductsPageable(int page) {
 
-        var pageableSorted = PageRequest.of(page, 5, Sort.by("id"));
+        var pageableSorted = PageRequest.of(page, 8, Sort.by("id"));
         Page<Product> productPage =
                 productRepository.findAll(pageableSorted);
         return mappedProductPage(productPage);
@@ -49,13 +49,25 @@ public class ProductServiceImpl implements ProductService {
     public Map<String, Object> findByCategoryIdAndSubCategoryIdPageable(Long catId,
                                                                         Long subCatId,
                                                                         int page) {
+        Pageable pageable = PageRequest.of(page, 8);
         if(catId == null && subCatId == null){
             return findAllProductsPageable(page);
         }
-        Pageable pageable = PageRequest.of(page, 5);
-        Page<Product> productPage =
+        else if(subCatId == null){
+            Page<Product> productPage =
+                productRepository.findAllAndFindByCategoryId(catId, pageable);
+            return mappedProductPage(productPage);
+        }
+        else if(catId == null){
+            Page<Product> productPage =
+                    productRepository.findAllAndFindBySubCategoryId(subCatId, pageable);
+            return mappedProductPage(productPage);
+        }
+        else{
+            Page<Product> productPage =
                 productRepository.findAllAndFindByCategoryIdAAndSubCategoryId(catId, subCatId, pageable);
-        return mappedProductPage(productPage);
+            return mappedProductPage(productPage);
+        }
     }
 
     @Override

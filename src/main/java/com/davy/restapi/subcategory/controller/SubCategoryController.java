@@ -1,10 +1,8 @@
 package com.davy.restapi.subcategory.controller;
 
-import com.davy.restapi.payment.request.PaymentCreateRequest;
 import com.davy.restapi.shared.handler.ResponseHandler;
 import com.davy.restapi.shared.service.CatalogFacadeService;
 import com.davy.restapi.subcategory.request.SubCategoryRequest;
-import com.davy.restapi.subcategory.service.SubCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +15,11 @@ public class SubCategoryController {
 
     private final CatalogFacadeService catalogFacadeService;
 
-    @GetMapping
-    public ResponseEntity<?> findAllSubCategories(){
-        var data = catalogFacadeService.findAllSubCategories();
-        return ResponseHandler.generateResponse("successful", HttpStatus.OK, data);
+    @GetMapping()
+    public ResponseEntity<?> findSubCategoriesByCategoryId(@RequestParam(name = "category",
+            required = false) Long category){
+        var data = catalogFacadeService.findSubCategoriesByCategoryId(category);
+        return ResponseHandler.generateResponse("successful",  HttpStatus.OK, data);
     }
 
     @GetMapping("/{id}")

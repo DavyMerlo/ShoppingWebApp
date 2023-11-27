@@ -38,13 +38,6 @@ public class CategoryController {
         return ResponseHandler.generateResponse("successful",  HttpStatus.OK, data);
     }
 
-    @GetMapping("/{id}/subcategories")
-    public ResponseEntity<?> findSubCategoriesByCategoryId(@PathVariable(value = "id")
-                                                           final  Long id){
-        var data = catalogFacadeService.findSubCategoriesByCategoryId(id);
-        return ResponseHandler.generateResponse("successful",  HttpStatus.OK, data);
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCategoryById(@PathVariable(value = "id")
                                                     final Long id,

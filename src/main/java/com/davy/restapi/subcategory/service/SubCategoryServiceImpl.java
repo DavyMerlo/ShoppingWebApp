@@ -35,6 +35,10 @@ public class SubCategoryServiceImpl implements SubCategoryService {
 
     @Override
     public SubCategoryListResponse findSubCategoriesByCategoryId(Long id) {
+
+        if(id == null){
+            return findAllSubCategories();
+        }
         var response = new SubCategoryListResponse();
         if(subCategoryRepository.findByCategoryId(id).isEmpty()){
             ThrowException.objectException("Categories");
