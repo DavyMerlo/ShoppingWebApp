@@ -27,10 +27,8 @@ public class CatalogFacadeServiceImpl implements CatalogFacadeService {
 
 
     @Override
-    public Map<String, Object> findByCategoryIdAndSubCategoryIdPageable(Long categoryId,
-                                                                        Long subCategoryId,
-                                                                        int page){
-        return productService.findByCategoryIdAndSubCategoryIdPageable(categoryId, subCategoryId, page);
+    public Map<String, Object> findByCategoryIdAndSubCategoryIdPageable(Long categoryId, Long subCategoryId, String name, int page) {
+        return productService.filterAndSearchProductsByNamePageable(categoryId, subCategoryId, name, page);
     }
 
     @Override

@@ -31,9 +31,9 @@ public class UserController {
         return ResponseHandler.generateResponse(HttpStatus.OK.name(),  HttpStatus.OK, data);
     }
 
-    @GetMapping("/{userId}/address")
-    public ResponseEntity<?> findUserWithAddressByUserId(@PathVariable final Long userId){
-        var data = userService.findUserWithAddressByUserId(userId);
+    @GetMapping("/{id}/address")
+    public ResponseEntity<?> findUserWithAddressByUserId(@PathVariable final Long id){
+        var data = userService.findUserWithAddressByUserId(id);
         return ResponseHandler.generateResponse(HttpStatus.OK.name(),  HttpStatus.OK, data);
     }
 

@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
         allocationSize=1)
 public class Product extends BaseEntity {
 
+    @Column(name = "name")
     private String name;
 
     @Column(name = "descr", columnDefinition = "TEXT")

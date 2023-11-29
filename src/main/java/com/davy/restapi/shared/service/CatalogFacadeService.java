@@ -13,8 +13,10 @@ import com.davy.restapi.subcategory.response.SubCategoryResponse;
 import java.util.Map;
 
 public interface CatalogFacadeService {
+
     Map<String, Object> findByCategoryIdAndSubCategoryIdPageable(Long categoryId,
                                                                  Long subCategoryId,
+                                                                 String name,
                                                                  int page);
     Map<String, Object> findAllProductsPageable(int page);
 

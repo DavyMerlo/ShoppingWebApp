@@ -13,7 +13,6 @@ import com.davy.restapi.shared.exceptions.ThrowException;
 import com.davy.restapi.subcategory.dto.SubCategoryItems;
 import com.davy.restapi.subcategory.mapper.SubCategoryItemsMapper;
 import com.davy.restapi.subcategory.repository.SubCategoryRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -46,12 +45,16 @@ public class ProductServiceImpl implements ProductService {
         return mappedProductPage(productPage);
     }
 
-    public Map<String, Object> findByCategoryIdAndSubCategoryIdPageable(Long catId,
+    public Map<String, Object> filterAndSearchProductsByNamePageable(Long catId,
                                                                         Long subCatId,
+                                                                        String name,
                                                                         int page) {
         Pageable pageable = PageRequest.of(page, 8);
-        if(catId == null && subCatId == null){
+        if(catId == null && subCatId == null && name == null){
             return findAllProductsPageable(page);
+        }
+        else if(catId == null && subCatId == null){
+            return mappedProductPage(productRepository.findAll(ProductSpecification.nameLike(name), pageable));
         }
         else if(subCatId == null){
             Page<Product> productPage =

@@ -41,6 +41,9 @@ public class ProductRequest {
     @JsonProperty("subCategoryId")
     private Long subCategoryId;
 
+    public ProductRequest() {
+    }
+
     public ProductRequest(String name,
                           String description,
                           String imageUrl,

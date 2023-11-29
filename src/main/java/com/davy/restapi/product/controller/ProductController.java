@@ -16,11 +16,12 @@ public class ProductController {
     private final CatalogFacadeService catalogFacadeService;
 
     @GetMapping()
-    public ResponseEntity<?> getAllProductsByCategoryIdOrSubCategoryIdPageable(
+    public ResponseEntity<?> filterAndSearchProductsByNamePageable(
+            @RequestParam(name = "search", required = false) String search,
             @RequestParam(name = "category", required = false) Long categoryId,
             @RequestParam(name = "subcategory", required = false) Long subCategoryId,
             @RequestParam(name = "page", defaultValue = "0") int page){
-        var data = catalogFacadeService.findByCategoryIdAndSubCategoryIdPageable(categoryId, subCategoryId, page);
+        var data = catalogFacadeService.findByCategoryIdAndSubCategoryIdPageable(categoryId, subCategoryId, search, page);
         return ResponseHandler.generateResponse("successful", HttpStatus.OK, data);
     }
 
