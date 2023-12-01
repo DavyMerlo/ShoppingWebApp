@@ -29,7 +29,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("authenticate")
-    public ResponseEntity<?> register(
+    public ResponseEntity<?> authenticate(
             @RequestBody AuthenticationRequest request){
         var data = service.authenticate(request);
         return ResponseHandler.generateResponse(HttpStatus.OK.name(), HttpStatus.OK, data);

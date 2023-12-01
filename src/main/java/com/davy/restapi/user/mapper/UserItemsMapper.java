@@ -12,6 +12,7 @@ public class UserItemsMapper implements Function<User, UserItems> {
     public UserItems apply(User user) {
         return new UserItems(
                 user.getId(),
+                user.getUsername(),
                 user.getFirstname(),
                 user.getLastname(),
                 user.getEmail(),

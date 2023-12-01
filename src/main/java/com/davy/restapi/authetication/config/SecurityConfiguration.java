@@ -34,7 +34,14 @@ import static org.springframework.http.HttpMethod.*;
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfiguration {
-    private static final String[] WHITE_LIST_URL = {"/api/v1/auth/**"};
+
+    private static final String[] WHITE_LIST_URL =
+            {
+                    "/api/v1/auth/**",
+                    "/api/v1/products/**",
+                    "/api/v1/categories/**",
+                    "/api/v1/subcategories/**",
+            };
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
@@ -76,12 +83,12 @@ public class SecurityConfiguration {
                         .requestMatchers(PUT, "api/v1/users/**").hasAuthority(ADMIN_UPDATE.name())
                         .requestMatchers(DELETE, "api/v1/users/**").hasAuthority(ADMIN_DELETE.name())
 
-                        .requestMatchers("api/v1/products/**").hasAnyRole(MANAGER.name())
-
-                        .requestMatchers(GET, "api/v1/products/**").hasAuthority(MANAGER_READ.name())
-                        .requestMatchers(POST, "api/v1/products/**").hasAuthority(MANAGER_CREATE.name())
-                        .requestMatchers(PUT, "api/v1/products/**").hasAuthority(MANAGER_UPDATE.name())
-                        .requestMatchers(DELETE, "api/v1/products/**").hasAuthority(MANAGER_DELETE.name())
+//                        .requestMatchers("api/v1/products/**").hasAnyRole(MANAGER.name())
+//
+//                        .requestMatchers(GET, "api/v1/products/**").hasAuthority(MANAGER_READ.name())
+//                        .requestMatchers(POST, "api/v1/products/**").hasAuthority(MANAGER_CREATE.name())
+//                        .requestMatchers(PUT, "api/v1/products/**").hasAuthority(MANAGER_UPDATE.name())
+//                        .requestMatchers(DELETE, "api/v1/products/**").hasAuthority(MANAGER_DELETE.name())
 
                         .anyRequest()
                         .authenticated()
