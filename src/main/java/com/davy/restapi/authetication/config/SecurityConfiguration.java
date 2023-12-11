@@ -20,9 +20,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-
 import java.util.Arrays;
-import java.util.List;
 
 import static com.davy.restapi.user.enums.Permission.*;
 import static com.davy.restapi.user.enums.Role.ADMIN;
@@ -41,6 +39,7 @@ public class SecurityConfiguration {
                     "/api/v1/products/**",
                     "/api/v1/categories/**",
                     "/api/v1/subcategories/**",
+                    "/api/v1/users/**",
             };
 
     private final JwtAuthenticationFilter jwtAuthFilter;
@@ -76,19 +75,12 @@ public class SecurityConfiguration {
                         .requestMatchers(PUT, "api/v1/cards/**").hasAnyAuthority(ADMIN_UPDATE.name(), MANAGER_UPDATE.name())
                         .requestMatchers(DELETE, "api/v1/cards/**").hasAnyAuthority(ADMIN_DELETE.name(), MANAGER_DELETE.name())
 
-                        .requestMatchers("api/v1/users/**").hasAnyRole(MANAGER.name())
-
-                        .requestMatchers(GET, "api/v1/users/**").hasAuthority(ADMIN_READ.name())
-                        .requestMatchers(POST, "api/v1/users/**").hasAuthority(ADMIN_CREATE.name())
-                        .requestMatchers(PUT, "api/v1/users/**").hasAuthority(ADMIN_UPDATE.name())
-                        .requestMatchers(DELETE, "api/v1/users/**").hasAuthority(ADMIN_DELETE.name())
-
-//                        .requestMatchers("api/v1/products/**").hasAnyRole(MANAGER.name())
+//                        .requestMatchers("api/v1/users/**").hasAnyRole(MANAGER.name())
 //
-//                        .requestMatchers(GET, "api/v1/products/**").hasAuthority(MANAGER_READ.name())
-//                        .requestMatchers(POST, "api/v1/products/**").hasAuthority(MANAGER_CREATE.name())
-//                        .requestMatchers(PUT, "api/v1/products/**").hasAuthority(MANAGER_UPDATE.name())
-//                        .requestMatchers(DELETE, "api/v1/products/**").hasAuthority(MANAGER_DELETE.name())
+//                        .requestMatchers(GET, "api/v1/users/**").hasAuthority(ADMIN_READ.name())
+//                        .requestMatchers(POST, "api/v1/users/**").hasAuthority(ADMIN_CREATE.name())
+//                        .requestMatchers(PUT, "api/v1/users/**").hasAuthority(ADMIN_UPDATE.name())
+//                        .requestMatchers(DELETE, "api/v1/users/**").hasAuthority(ADMIN_DELETE.name())
 
                         .anyRequest()
                         .authenticated()
@@ -120,8 +112,9 @@ public class SecurityConfiguration {
                 HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS
         ));
         config.setAllowedMethods(Arrays.asList(
-                GET.name(),
+                HttpMethod.GET.name(),
                 HttpMethod.POST.name(),
+                HttpMethod.PATCH.name(),
                 HttpMethod.PUT.name(),
                 HttpMethod.DELETE.name()
         ));

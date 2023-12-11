@@ -4,6 +4,7 @@ import ch.qos.logback.core.spi.ErrorCodes;
 import com.davy.restapi.shared.exceptions.RequestNotValidException;
 import com.davy.restapi.shared.response.ApiErrorResponse;
 import com.davy.restapi.shared.exceptions.ApplicationException;
+import com.davy.restapi.shared.response.PassWordErrorResponse;
 import com.davy.restapi.shared.response.UnauthorizedResponse;
 import com.davy.restapi.shared.response.ValidationErrorResponse;
 import jakarta.persistence.EntityNotFoundException;
@@ -33,7 +34,6 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
             ) {
         var response = ApiErrorResponse.builder()
                 .errorCode(exception.getErrorCode())
-                .message(exception.getMessage())
                 .statusCode(exception.getHttpStatus().value())
                 .statusName(exception.getHttpStatus().name())
                 .path(request.getRequestURI())
@@ -51,7 +51,6 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     ) {
         var response = ApiErrorResponse.builder()
                 .errorCode(ErrorCodes.EMPTY_MODEL_STACK)
-                .message("Internal server error")
                 .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .statusName(HttpStatus.INTERNAL_SERVER_ERROR.name())
                 .path(request.getRequestURI())
@@ -75,25 +74,22 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     }
 
     @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<?> handeException(IllegalStateException exception){
-        return ResponseEntity
-                .badRequest()
-                .body(exception.getMessage());
-    }
-
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<?> handeException(){
-        return ResponseEntity
-                .notFound()
+    public ResponseEntity<?> handleException(IllegalStateException exception){
+        var response = PassWordErrorResponse.builder()
+                .Error(exception.getMessage())
+                .message(false)
+                .status((short) HttpStatus.NOT_FOUND.value())
                 .build();
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(RequestNotValidException.class)
-    public ResponseEntity<?> handeException(RequestNotValidException exception){
+    public ResponseEntity<?> handleException(RequestNotValidException exception){
 
         var response = ValidationErrorResponse.builder()
                 .validationErrors(exception.getValidationErrors())
-                .message(HttpStatus.BAD_REQUEST.name())
+                .message(false)
                 .status((short) HttpStatus.BAD_REQUEST.value())
                 .build();
 

@@ -2,6 +2,7 @@ package com.davy.restapi.authetication.controller;
 
 import com.davy.restapi.authetication.request.AuthenticationRequest;
 import com.davy.restapi.authetication.response.AuthenticationResponse;
+import com.davy.restapi.authetication.service.AuthenticationService;
 import com.davy.restapi.authetication.service.AuthenticationServiceImpl;
 import com.davy.restapi.authetication.request.RegisterRequest;
 import com.davy.restapi.shared.handler.ResponseHandler;
@@ -19,20 +20,20 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationServiceImpl service;
+    private final AuthenticationService service;
 
     @PostMapping("register")
     public ResponseEntity<?> register(
             @RequestBody RegisterRequest request){
         var data = service.register(request);
-        return ResponseHandler.generateResponse(HttpStatus.OK.name(), HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 
     @PostMapping("authenticate")
     public ResponseEntity<?> authenticate(
             @RequestBody AuthenticationRequest request){
         var data = service.authenticate(request);
-        return ResponseHandler.generateResponse(HttpStatus.OK.name(), HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 
     @PostMapping("refresh-token")

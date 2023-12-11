@@ -21,25 +21,25 @@ public class OrderLineController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findOrderLineById(@PathVariable(value = "id") final Long id){
         var data = orderLineService.findOrderLineById(id);
-        return ResponseHandler.generateResponse("successful",  HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
     }
 
     @GetMapping
     public ResponseEntity<?> findAllOrderLines(){
         var data = orderLineService.findAllOrderLines();
-        return ResponseHandler.generateResponse("successful", HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 
     @PostMapping
     public ResponseEntity<?> saveOrderOrderLine(@RequestBody OrderLineCreateRequest request){
         var data = orderLineService.saveOrderOrderLine(request);
-        return ResponseHandler.generateResponse("successful", HttpStatus.CREATED, data);
+        return ResponseHandler.generateResponse(true, HttpStatus.CREATED, data);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateOrderLineById(@PathVariable(value = "id") final Long id,
                                              @RequestBody OrderLineUpdateRequest request){
         var data = orderLineService.updateOrderLineById(id, request);
-        return ResponseHandler.generateResponse("successful", HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 }

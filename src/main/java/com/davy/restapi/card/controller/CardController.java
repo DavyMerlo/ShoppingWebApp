@@ -21,25 +21,25 @@ public class CardController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable(value = "id") final Long id){
         var data = cardService.findCardById(id);
-        return ResponseHandler.generateResponse("successful", HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 
     @GetMapping
     public ResponseEntity<?> findAllCards(){
         var data = cardService.findAllCards();
-        return ResponseHandler.generateResponse("successful", HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 
     @PostMapping
     public ResponseEntity<?> saveCard(@RequestBody CardCreateRequest request){
         var data = cardService.saveCard(request);
-        return ResponseHandler.generateResponse("successful", HttpStatus.CREATED, data);
+        return ResponseHandler.generateResponse(true, HttpStatus.CREATED, data);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCardById(@PathVariable(value = "id") final Long id,
                                                @RequestBody CardUpdateRequest request){
         var data = cardService.updateCardById(id, request);
-        return ResponseHandler.generateResponse("successful", HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 }

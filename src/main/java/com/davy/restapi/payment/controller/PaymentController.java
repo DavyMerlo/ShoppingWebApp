@@ -19,25 +19,25 @@ public class PaymentController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findPaymentById(@PathVariable(value = "id") final Long id){
         var data = paymentService.findPaymentById(id);
-        return ResponseHandler.generateResponse("successful",  HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
     }
 
     @GetMapping
     public ResponseEntity<?> findAllPayments(){
         var data = paymentService.findAllPayments();
-        return ResponseHandler.generateResponse("successful", HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 
     @PostMapping
     public ResponseEntity<?> savePayment(@RequestBody PaymentCreateRequest request){
         var data = paymentService.savePayment(request);
-        return ResponseHandler.generateResponse("successful", HttpStatus.CREATED, data);
+        return ResponseHandler.generateResponse(true, HttpStatus.CREATED, data);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updatePaymentById(@PathVariable(value = "id") final Long id,
                                              @RequestBody PaymentUpdateRequest request){
         var data = paymentService.updatePaymentById(id, request);
-        return ResponseHandler.generateResponse("successful", HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 }

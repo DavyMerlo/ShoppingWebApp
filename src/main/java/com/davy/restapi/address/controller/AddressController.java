@@ -25,25 +25,25 @@ public class AddressController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findAddressById(@PathVariable(value = "id") final Long id){
         var data = addressService.findAddressById(id);
-        return ResponseHandler.generateResponse("successful",  HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
     }
 
     @GetMapping
     public ResponseEntity<?> findAllAddresses(){
         var data = addressService.findAllAddresses();
-        return ResponseHandler.generateResponse("successful", HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 
     @PostMapping
     public ResponseEntity<?> saveAddress(@RequestBody AddressCreateRequest request){
         var data = addressService.saveAddress(request);
-        return ResponseHandler.generateResponse("successful", HttpStatus.CREATED, data);
+        return ResponseHandler.generateResponse(true, HttpStatus.CREATED, data);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAddressById(@PathVariable(value = "id") final Long id,
                                                @RequestBody AddressUpdateRequest request){
         var data = addressService.updateAddressById(id, request);
-        return ResponseHandler.generateResponse("successful", HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 }

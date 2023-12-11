@@ -12,15 +12,19 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Component
-public class RequestValidator<T> {
+public class RequestValidatorImpl<T> implements RequestValidator<T>{
+
     private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+
     private final Validator validator = factory.getValidator();
 
     private final ValidationMapper validationMapper;
 
     private final Set<ValidationErrorItems> validationErrors;
 
-    public void validate (T request){
+    @Override
+    public void validate(T request) {
+        validationErrors.clear();
         Set<ConstraintViolation<T>> violations = validator.validate(request);
         boolean requestHasViolations = !violations.isEmpty();
         if(requestHasViolations){

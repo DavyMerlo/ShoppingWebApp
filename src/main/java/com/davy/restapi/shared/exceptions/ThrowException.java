@@ -20,4 +20,13 @@ public final class ThrowException {
                 null
         );
     }
+
+    public static void passWordException(String message){
+        throw new ApplicationException(
+                message,
+                String.format(message),
+                HttpStatus.NOT_FOUND,
+                null
+        );
+    }
 }

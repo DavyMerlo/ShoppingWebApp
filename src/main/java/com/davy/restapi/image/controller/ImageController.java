@@ -23,7 +23,7 @@ public class ImageController {
     public ResponseEntity<?> saveImage(@RequestParam("image") MultipartFile file)
             throws IOException {
         var data = imageService.save(file);
-        return ResponseHandler.generateResponse("successful", HttpStatus.CREATED, data);
+        return ResponseHandler.generateResponse(true, HttpStatus.CREATED, data);
     }
 
     @GetMapping(path = {"/{id}"})
@@ -31,7 +31,7 @@ public class ImageController {
             throws IOException, DataFormatException {
 
         var data = imageService.getById(id);
-        return ResponseHandler.generateResponse("successful", HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 
     @GetMapping(path = {"actualImage/{id}"})

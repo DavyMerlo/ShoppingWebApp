@@ -1,7 +1,7 @@
 package com.davy.restapi.user.controller;
 
 import com.davy.restapi.shared.handler.ResponseHandler;
-import com.davy.restapi.authetication.request.ChangePasswordRequest;
+import com.davy.restapi.user.request.ChangePasswordRequest;
 import com.davy.restapi.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,35 +21,34 @@ public class UserController {
     public ResponseEntity<?> findAllUsers(){
 
         var data = userService.findAllUsers();
-        return ResponseHandler.generateResponse(HttpStatus.OK.name(),  HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<?> findUserById(@PathVariable final Long id){
 
         var data = userService.findUserById(id);
-        return ResponseHandler.generateResponse(HttpStatus.OK.name(),  HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 
     @GetMapping("/{id}/address")
     public ResponseEntity<?> findUserWithAddressByUserId(@PathVariable final Long id){
         var data = userService.findUserWithAddressByUserId(id);
-        return ResponseHandler.generateResponse(HttpStatus.OK.name(),  HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
     }
 
     @GetMapping("/{userId}/card")
     public ResponseEntity<?> findUserWithCardByUserId(@PathVariable final Long userId){
 
         var data = userService.findUserWithCardByUserId(userId);
-        return ResponseHandler.generateResponse(HttpStatus.OK.name(), HttpStatus.OK, data);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 
-    @PatchMapping
-    public ResponseEntity<?> changePassword(
-            @RequestBody ChangePasswordRequest request,
+    @PatchMapping()
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request,
             Principal connectedUser
     ){
-        userService.changePassword(request, connectedUser);
-        return ResponseEntity.accepted().build();
+        var data = userService.changePassword(request, connectedUser);
+        return ResponseHandler.generateResponse(true, HttpStatus.CREATED, data);
     }
 }

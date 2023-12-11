@@ -8,8 +8,7 @@ import com.davy.restapi.address.request.AddressCreateRequest;
 import com.davy.restapi.address.response.AddressListResponse;
 import com.davy.restapi.address.response.AddressResponse;
 import com.davy.restapi.shared.exceptions.ThrowException;
-import com.davy.restapi.shared.validators.RequestValidator;
-import jakarta.validation.Validator;
+import com.davy.restapi.shared.validators.RequestValidatorImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +21,8 @@ public class AddressServiceImpl implements AddressService {
 
     private final AddressRepository addressRepository;
     private final AddressItemsMapper addressItemsMapper;
-    private final RequestValidator<AddressCreateRequest> addressCreateRequestValidator;
-    private final RequestValidator<AddressUpdateRequest> addressUpdateRequestValidator;
+    private final RequestValidatorImpl<AddressCreateRequest> addressCreateRequestValidatorImpl;
+    private final RequestValidatorImpl<AddressUpdateRequest> addressUpdateRequestValidatorImpl;
 
     @Override
     public AddressListResponse findAllAddresses() {
@@ -54,7 +53,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public AddressResponse saveAddress(AddressCreateRequest request) {
-        addressCreateRequestValidator.validate(request);
+        addressCreateRequestValidatorImpl.validate(request);
         var address = Address.builder()
                 .street(request.getStreet())
                 .houseNumber(request.getHouseNumber())
@@ -68,7 +67,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public AddressResponse updateAddressById(Long id, AddressUpdateRequest request) {
-        addressUpdateRequestValidator.validate(request);
+        addressUpdateRequestValidatorImpl.validate(request);
         var address = addressRepository.getAddressById(id);
         if(address.isEmpty()){
             ThrowException.objectByIdException(id, "Address");

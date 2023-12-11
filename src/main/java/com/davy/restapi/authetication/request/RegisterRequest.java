@@ -13,13 +13,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegisterRequest {
 
-//    @NotEmpty(message = "password should not be empty")
-//    @NotNull(message = "password should not be empty")
+    @NotEmpty(message = "password should not be empty")
+    @NotNull(message = "password should not be empty")
     private String firstName;
 
 
-//    @NotEmpty(message = "password should not be empty")
-//    @NotNull(message = "password should not be empty")
+    @NotEmpty(message = "password should not be empty")
+    @NotNull(message = "password should not be empty")
     private String lastName;
 
 

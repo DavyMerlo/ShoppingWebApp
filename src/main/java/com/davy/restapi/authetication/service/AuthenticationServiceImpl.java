@@ -7,6 +7,7 @@ import com.davy.restapi.authetication.request.AuthenticationRequest;
 import com.davy.restapi.authetication.response.RefreshTokenResponse;
 import com.davy.restapi.card.entity.CustomerCard;
 import com.davy.restapi.shared.validators.RequestValidator;
+import com.davy.restapi.shared.validators.RequestValidatorImpl;
 import com.davy.restapi.token.entity.Token;
 import com.davy.restapi.address.repository.AddressRepository;
 import com.davy.restapi.card.repository.CardRepository;
@@ -31,21 +32,21 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationServiceImpl {
+public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
     private final CardRepository cardRepository;
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtServiceImp jwtServiceImp;
+    private final JwtService jwtServiceImp;
     private final AuthenticationManager authenticationManager;
-    private final RequestValidator<AuthenticationRequest> authenticationRequestValidator;
-    private final RequestValidator<RegisterRequest> requestRequestValidator;
+    private final RequestValidator<AuthenticationRequest> authenticationRequestValidatorImpl;
+    private final RequestValidator<RegisterRequest> requestRequestValidatorImpl;
     private final UserItemsMapper userItemsMapper;
 
     public AuthenticationResponse register(RegisterRequest request) {
-        requestRequestValidator.validate(request);
+        requestRequestValidatorImpl.validate(request);
 
         //Create address of the user
         Address address = createAddress(request);
@@ -112,7 +113,7 @@ public class AuthenticationServiceImpl {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationRequestValidator.validate(request);
+        authenticationRequestValidatorImpl.validate(request);
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),

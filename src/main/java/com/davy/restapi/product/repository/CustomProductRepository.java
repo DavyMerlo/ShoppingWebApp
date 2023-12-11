@@ -1,13 +1,6 @@
 package com.davy.restapi.product.repository;
 
 import com.davy.restapi.product.entity.Product;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.domain.Page;
-import org.springframework.data.repository.NoRepositoryBean;
-import org.springframework.stereotype.Repository;
-
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 

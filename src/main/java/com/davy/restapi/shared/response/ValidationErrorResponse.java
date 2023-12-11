@@ -17,7 +17,7 @@ public class ValidationErrorResponse {
     private Set<ValidationErrorItems> validationErrors;
 
     @JsonProperty("message")
-    private String message;
+    private Boolean message;
 
     @JsonProperty("status")
     private Short status;
