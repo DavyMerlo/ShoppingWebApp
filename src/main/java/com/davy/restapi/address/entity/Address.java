@@ -47,8 +47,9 @@ public class Address extends BaseEntity {
                    String busNumber,
                    String postalCode,
                    String localAuthority,
-                   User user) {
-        super(createdAt, updatedAt, deletedAt, createdBy, updatedBy);
+                   User user,
+                   Long id) {
+        super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy);
         this.street = street;
         this.houseNumber = houseNumber;
         this.busNumber = busNumber;

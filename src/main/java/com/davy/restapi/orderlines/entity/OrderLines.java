@@ -42,8 +42,9 @@ public class OrderLines extends BaseEntity {
                       Long updatedBy,
                       Order order,
                       Product product,
-                      short quantity) {
-        super(createdAt, updatedAt, deletedAt, createdBy, updatedBy);
+                      short quantity,
+                      Long id) {
+        super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy);
         this.order = order;
         this.product = product;
         this.quantity = quantity;

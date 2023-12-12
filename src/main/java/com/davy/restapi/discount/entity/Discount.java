@@ -48,8 +48,9 @@ public class Discount extends BaseEntity {
                     String description,
                     byte discountPercent,
                     DiscountStatus status,
-                    Product product) {
-        super(createdAt, updatedAt, deletedAt, createdBy, updatedBy);
+                    Product product,
+                    Long id) {
+        super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy);
         this.name = name;
         this.description = description;
         this.discountPercent = discountPercent;

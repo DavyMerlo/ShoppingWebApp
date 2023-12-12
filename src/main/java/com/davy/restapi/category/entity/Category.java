@@ -38,8 +38,9 @@ public class Category extends BaseEntity {
                     Long createdBy,
                     Long updatedBy,
                     String name,
-                    List<SubCategory> subcategories) {
-        super(createdAt, updatedAt, deletedAt, createdBy, updatedBy);
+                    List<SubCategory> subcategories,
+                    Long id) {
+        super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy);
         this.name = name;
         this.subcategories = subcategories;
     }

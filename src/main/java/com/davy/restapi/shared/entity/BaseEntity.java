@@ -62,11 +62,14 @@ public abstract class BaseEntity implements Serializable {
     private Long updatedBy;
 
 
-    public BaseEntity(LocalDateTime createdAt,
+    public BaseEntity(
+                      Long id,
+                      LocalDateTime createdAt,
                       LocalDateTime updatedAt,
                       LocalDateTime deletedAt,
                       Long createdBy,
                       Long updatedBy) {
+        this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;

@@ -46,8 +46,9 @@ public class Payment extends BaseEntity {
                    int amount,
                    PaymentMethod paymentMethod,
                    PaymentStatus paymentStatus,
-                   Order order) {
-        super(createdAt, updatedAt, deletedAt, createdBy, updatedBy);
+                   Order order,
+                   Long id) {
+        super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy);
         this.amount = amount;
         this.paymentMethod = paymentMethod;
         this.paymentStatus = paymentStatus;

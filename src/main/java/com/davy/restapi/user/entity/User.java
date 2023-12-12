@@ -13,6 +13,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.swing.text.StyledEditorKit;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -58,6 +59,10 @@ public class User extends BaseEntity implements UserDetails {
     @JoinColumn(name = "card_id", referencedColumnName = "id")
     private CustomerCard customerCard;
 
+    private Boolean locked = false;
+
+    private Boolean enabled = false;
+
     @Builder
     public User(LocalDateTime createdAt,
                 LocalDateTime updatedAt,
@@ -71,8 +76,11 @@ public class User extends BaseEntity implements UserDetails {
                 Role role,
                 //List<Token> tokens,
                 Address address,
-                CustomerCard customerCard) {
-        super(createdAt, updatedAt, deletedAt, createdBy, updatedBy);
+                CustomerCard customerCard,
+                Long id,
+                Boolean enabled,
+                Boolean locked) {
+        super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy);
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
@@ -80,6 +88,8 @@ public class User extends BaseEntity implements UserDetails {
         this.role = role;
         this.address = address;
         this.customerCard = customerCard;
+        this.enabled = enabled;
+        this.locked = locked;
     }
 
     @Override
@@ -105,7 +115,7 @@ public class User extends BaseEntity implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !locked;
     }
 
     @Override
@@ -115,6 +125,6 @@ public class User extends BaseEntity implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }

@@ -49,8 +49,9 @@ public class Order extends BaseEntity {
                  User user,
                  OrderStatus status,
                  List<OrderLines> orderItems,
-                 Payment payment) {
-        super(createdAt, updatedAt, deletedAt, createdBy, updatedBy);
+                 Payment payment,
+                 Long id) {
+        super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy);
         this.user = user;
         this.status = status;
         this.orderItems = orderItems;

@@ -13,6 +13,7 @@ import com.davy.restapi.shared.exceptions.ThrowException;
 import com.davy.restapi.subcategory.dto.SubCategoryItems;
 import com.davy.restapi.subcategory.mapper.SubCategoryItemsMapper;
 import com.davy.restapi.subcategory.repository.SubCategoryRepository;
+import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -75,16 +76,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse findProductById(Long id) {
-
-        var response = new ProductResponse();
         if(productRepository.getProductById(id).isEmpty()){
             ThrowException.objectByIdException(id, "Product");
         }
         var product = mappedProductDetails(id);
-        var subCategory = mappedSubCategoryItems(product.getSubCategory().getId());
-        response.product = product;
-        response.product.getCategory().setSubCategory(subCategory);
-        return response;
+        var subCategoryId = product.getSubCategory().getId();
+        var subCategory = mappedSubCategoryItems(subCategoryId);
+        product.getCategory().setSubCategory(subCategory);
+        return ProductResponse.builder()
+                .product(product)
+                .build();
     }
 
     @Override
@@ -112,26 +113,25 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse updateProductById(Long id, ProductRequest request) {
-
-        checkIfCategoryIdAndSubCategoryIdExists(request);
-
-        var product = productRepository.getProductById(id).get();
-        var inventory = inventoryRepository.getInventoryById(product.getInventory().getId());
-        product.setName(request.getName());
-        product.setDescription(request.getDescription());
-        product.setImageUrl(request.getImageUrl());
-        product.setPurchasePrice(request.getPurchasePrice());
-        product.setSellingPrice(request.getSellingPrice());
-        product.setVAT(request.getVAT());
-        product.setInventory(inventory.get());
-        product.setCategory(categoryRepository.getCategoryById(request.getCategoryId()).get());
-        product.setSubCategory(subCategoryRepository.getSubCategoryById(request.getSubCategoryId()).get());
-        product.setUpdatedAt(LocalDateTime.now());
-        inventoryRepository.updateInventory(inventory.get());
-        productRepository.updateProduct(product);
-        return this.findProductById(product.getId());
-
-
+        Product productToUpdate = productRepository.getProductById(id).get();
+        Product updatedProduct = Product.builder()
+                .id(productToUpdate.getId())
+                .name(request.getName())
+                .description(request.getDescription())
+                .imageUrl(request.getImageUrl())
+                .purchasePrice(request.getPurchasePrice())
+                .sellingPrice(request.getSellingPrice())
+                .VAT(request.getVAT())
+                .category(categoryRepository.getCategoryById(request.getCategoryId()).get())
+                .subCategory(subCategoryRepository.getSubCategoryById(request.getSubCategoryId()).get())
+                .updatedAt(LocalDateTime.now())
+                .inventory(Inventory.builder()
+                        .id(productToUpdate.getInventory().getId())
+                        .quantity(request.getQuantity())
+                        .build())
+                .build();
+        productRepository.updateProduct(updatedProduct);
+        return findProductById(updatedProduct.getId());
     }
 
     private void checkIfCategoryIdAndSubCategoryIdExists(ProductRequest request){

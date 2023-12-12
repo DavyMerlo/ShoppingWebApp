@@ -79,8 +79,9 @@ public class Product extends BaseEntity {
                    Category category,
                    OrderLines orderLines,
                    Discount discount,
-                   Inventory inventory) {
-        super(createdAt, updatedAt, deletedAt, createdBy, updatedBy);
+                   Inventory inventory,
+                   Long id ) {
+        super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy);
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;

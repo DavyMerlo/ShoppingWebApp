@@ -1,10 +1,13 @@
 package com.davy.restapi.authetication.service;
 
 import com.davy.restapi.address.entity.Address;
+import com.davy.restapi.authetication.confirmationtoken.ConfirmationToken;
+import com.davy.restapi.authetication.confirmationtoken.ConfirmationTokenService;
 import com.davy.restapi.authetication.response.AuthenticationResponse;
 import com.davy.restapi.authetication.request.RegisterRequest;
 import com.davy.restapi.authetication.request.AuthenticationRequest;
 import com.davy.restapi.authetication.response.RefreshTokenResponse;
+import com.davy.restapi.authetication.response.RegisterResponse;
 import com.davy.restapi.card.entity.CustomerCard;
 import com.davy.restapi.shared.validators.RequestValidator;
 import com.davy.restapi.shared.validators.RequestValidatorImpl;
@@ -20,6 +23,7 @@ import com.davy.restapi.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,7 +32,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.rmi.server.UID;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -44,73 +50,55 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final RequestValidator<AuthenticationRequest> authenticationRequestValidatorImpl;
     private final RequestValidator<RegisterRequest> requestRequestValidatorImpl;
     private final UserItemsMapper userItemsMapper;
+    private final ConfirmationTokenService confirmationTokenService;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public RegisterResponse register(RegisterRequest request) {
         requestRequestValidatorImpl.validate(request);
 
-        //Create address of the user
         Address address = createAddress(request);
-
-        //Create customer card
         CustomerCard customerCard = createCustomerCard();
-
-        //Create the user
         User user = createUser(request, address, customerCard);
 
-        //Save the address of the user
         addressRepository.save(address);
-
-        //Save the user
         var savedUser = userRepository.save(user);
 
-        //Save the customer card
         cardRepository.save(customerCard);
 
-        //Generate token by user
-        var jwtToken = jwtServiceImp.generateToken(user);
+        String token = UUID.randomUUID().toString();
 
-        //Generate refresh token by user
-        var refreshToken = jwtServiceImp.generateRefreshToken(user);
+        ConfirmationToken confirmationToken = new ConfirmationToken(
+                token,
+                LocalDateTime.now().plusMinutes(15),
+                null,
+                user
+        );
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
 
-        //Save user token by the saved user and the generated jwt token
-        saveUserToken(savedUser, jwtToken);
-
-        //return response: access and refresh token
-        return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken)
+        return RegisterResponse.builder()
+                .confirmationResponse(token)
                 .user(userItemsMapper.apply(savedUser))
                 .build();
     }
 
-    private Address createAddress(RegisterRequest request){
-        return Address.builder()
-                .street(request.getStreet())
-                .houseNumber(request.getHouseNumber())
-                .busNumber(request.getBusNumber())
-                .localAuthority(request.getLocalAuthority())
-                .postalCode(request.getPostalCode())
-                .build();
+    @Override
+    @Transactional
+    public String confirmToken(String token) {
+        ConfirmationToken confirmationToken = confirmationTokenService
+                .getToken(token)
+                .orElseThrow(() ->
+                        new IllegalStateException("token not found"));
+        if (confirmationToken.getConfirmedAt() != null) {
+            throw new IllegalStateException("email already confirmed");
+        }
+        LocalDateTime expiredAt = confirmationToken.getExpiresAt();
+        if (expiredAt.isBefore(LocalDateTime.now())) {
+            throw new IllegalStateException("token expired");
+        }
+        confirmationTokenService.setConfirmedAt(token);
+        userRepository.enableAppUser(confirmationToken.getUser().getEmail());
+        return "confirmed";
     }
 
-    private CustomerCard createCustomerCard(){
-        return CustomerCard.builder()
-                .points((byte) 0)
-                .number("1515151515151515")
-                .build();
-    }
-
-    private User createUser(RegisterRequest request, Address address, CustomerCard customerCard){
-        return User.builder()
-                .customerCard(customerCard)
-                .firstname(request.getFirstName())
-                .lastname(request.getLastName())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
-                .address(address)
-                .build();
-    }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationRequestValidatorImpl.validate(request);
@@ -192,6 +180,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .email("davymerlo@live.be")
                 .password(passwordEncoder.encode("Merlo1988"))
                 .role(Role.MANAGER)
+                .enabled(false)
+                .locked(false)
                 .address(Address.builder()
                         .street("Rootstraat")
                         .houseNumber("30")
@@ -211,5 +201,36 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .updatedAt(LocalDateTime.now())
                 .build();
         return userRepository.save(DemoUser);
+    }
+
+    private Address createAddress(RegisterRequest request){
+        return Address.builder()
+                .street(request.getStreet())
+                .houseNumber(request.getHouseNumber())
+                .busNumber(request.getBusNumber())
+                .localAuthority(request.getLocalAuthority())
+                .postalCode(request.getPostalCode())
+                .build();
+    }
+
+    private CustomerCard createCustomerCard(){
+        return CustomerCard.builder()
+                .points((byte) 0)
+                .number("1515151515151515")
+                .build();
+    }
+
+    private User createUser(RegisterRequest request, Address address, CustomerCard customerCard){
+        return User.builder()
+                .customerCard(customerCard)
+                .firstname(request.getFirstName())
+                .lastname(request.getLastName())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.CUSTOMER)
+                .address(address)
+                .enabled(false)
+                .locked(false)
+                .build();
     }
 }

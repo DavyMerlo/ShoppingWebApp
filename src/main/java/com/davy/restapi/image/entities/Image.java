@@ -40,8 +40,9 @@ public class Image extends BaseEntity {
                  Long updatedBy,
                  String name,
                  String type,
-                 byte[] imageData) {
-        super(createdAt, updatedAt, deletedAt, createdBy, updatedBy);
+                 byte[] imageData,
+                 Long id) {
+        super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy);
         this.name = name;
         this.type = type;
         this.imageData = imageData;

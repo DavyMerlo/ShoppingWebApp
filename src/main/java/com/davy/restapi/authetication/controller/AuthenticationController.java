@@ -8,6 +8,7 @@ import com.davy.restapi.authetication.request.RegisterRequest;
 import com.davy.restapi.shared.handler.ResponseHandler;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,5 +43,10 @@ public class AuthenticationController {
             HttpServletResponse response
     ) throws IOException {
         service.refreshToken(request, response);
+    }
+
+    @GetMapping(path = "confirm")
+    public String confirm(@RequestParam("token") String token){
+        return service.confirmToken(token);
     }
 }

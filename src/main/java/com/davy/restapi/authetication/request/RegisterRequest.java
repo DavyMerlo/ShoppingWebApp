@@ -13,18 +13,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegisterRequest {
 
-    @NotEmpty(message = "password should not be empty")
-    @NotNull(message = "password should not be empty")
+    @NotEmpty(message = "Firstname should not be empty")
+    @NotNull(message = "Firstname should not be empty")
     private String firstName;
 
 
-    @NotEmpty(message = "password should not be empty")
-    @NotNull(message = "password should not be empty")
+    @NotEmpty(message = "Lastname should not be empty")
+    @NotNull(message = "Lastname should not be empty")
     private String lastName;
 
 
-    @NotEmpty(message = "password should not be empty")
-    @NotNull(message = "password should not be empty")
+    @NotEmpty(message = "Email should not be empty")
+    @NotNull(message = "Email should not be empty")
 //    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
 //            flags = Pattern.Flag.CASE_INSENSITIVE,
 //            message = "Email-address is not valid")
@@ -39,7 +39,7 @@ public class RegisterRequest {
 
 //    @NotEmpty(message = "Role should not be empty")
 //    @NotNull(message = "Role should not be empty")
-    private Role role;
+//    private Role role;
 
 
     @NotEmpty(message = "Street should not be empty")

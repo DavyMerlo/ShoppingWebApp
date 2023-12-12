@@ -39,8 +39,9 @@ public class CustomerCard extends BaseEntity {
                         Long updatedBy,
                         String number,
                         User user,
-                        byte points) {
-        super(createdAt, updatedAt, deletedAt, createdBy, updatedBy);
+                        byte points,
+                        Long id) {
+        super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy);
         this.number = number;
         this.user = user;
         this.points = points;

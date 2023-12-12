@@ -13,16 +13,16 @@ import lombok.*;
 @CheckPasswordsMatch()
 public class ChangePasswordRequest {
 
+    @NotEmpty(message = "Current password should not be empty")
+    @NotNull(message = "Current password should not be empty")
     @CheckCurrentPassword()
-    @NotEmpty(message = "current password should not be empty")
-    @NotNull(message = "current password should not be empty")
     private String currentPassword;
 
-    @NotEmpty(message = "new password should not be empty")
-    @NotNull(message = "new password should not be empty")
+    @NotEmpty(message = "New password should not be empty")
+    @NotNull(message = "New password should not be empty")
     private String newPassword;
 
-    @NotEmpty(message = "confirmation password should not be empty")
-    @NotNull(message = "confirmation password should not be empty")
+    @NotEmpty(message = "Confirmation password should not be empty")
+    @NotNull(message = "Confirmation password should not be empty")
     private String confirmationPassword;
 }

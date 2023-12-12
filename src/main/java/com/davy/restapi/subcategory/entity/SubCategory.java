@@ -36,8 +36,9 @@ public class SubCategory extends BaseEntity implements Serializable {
                        Long createdBy,
                        Long updatedBy,
                        String name,
-                       Category category) {
-        super(createdAt, updatedAt, deletedAt, createdBy, updatedBy);
+                       Category category,
+                       Long id) {
+        super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy);
         this.name = name;
         this.category = category;
     }
