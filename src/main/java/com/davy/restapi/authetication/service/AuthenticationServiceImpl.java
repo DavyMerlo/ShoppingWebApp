@@ -3,6 +3,8 @@ package com.davy.restapi.authetication.service;
 import com.davy.restapi.address.entity.Address;
 import com.davy.restapi.authetication.confirmationtoken.ConfirmationToken;
 import com.davy.restapi.authetication.confirmationtoken.ConfirmationTokenService;
+import com.davy.restapi.authetication.email.EmailSender;
+import com.davy.restapi.authetication.email.EmailService;
 import com.davy.restapi.authetication.response.AuthenticationResponse;
 import com.davy.restapi.authetication.request.RegisterRequest;
 import com.davy.restapi.authetication.request.AuthenticationRequest;
@@ -51,31 +53,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final RequestValidator<RegisterRequest> requestRequestValidatorImpl;
     private final UserItemsMapper userItemsMapper;
     private final ConfirmationTokenService confirmationTokenService;
+    private final EmailSender emailSender;
 
     public RegisterResponse register(RegisterRequest request) {
         requestRequestValidatorImpl.validate(request);
-
         Address address = createAddress(request);
         CustomerCard customerCard = createCustomerCard();
         User user = createUser(request, address, customerCard);
-
         addressRepository.save(address);
         var savedUser = userRepository.save(user);
-
         cardRepository.save(customerCard);
 
-        String token = UUID.randomUUID().toString();
-
-        ConfirmationToken confirmationToken = new ConfirmationToken(
-                token,
-                LocalDateTime.now().plusMinutes(15),
-                null,
-                user
-        );
+        ConfirmationToken confirmationToken = getConfirmationToken(user);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
+        sendConfirmationMail(confirmationToken.getToken(), user);
 
         return RegisterResponse.builder()
-                .confirmationResponse(token)
+                .confirmationResponse(confirmationToken.getToken())
                 .user(userItemsMapper.apply(savedUser))
                 .build();
     }
@@ -180,7 +174,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .email("davymerlo@live.be")
                 .password(passwordEncoder.encode("Merlo1988"))
                 .role(Role.MANAGER)
-                .enabled(false)
+                .enabled(true)
                 .locked(false)
                 .address(Address.builder()
                         .street("Rootstraat")
@@ -232,5 +226,31 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .enabled(false)
                 .locked(false)
                 .build();
+    }
+
+    private void sendConfirmationMail(String token, User user){
+        String link = "http://localhost:8888/api/v1/auth/confirm?token=" + token;
+        emailSender.send(user.getEmail(), buildMail(user, link));
+    }
+
+    private ConfirmationToken getConfirmationToken(User user){
+        String token = UUID.randomUUID().toString();
+        return new ConfirmationToken(
+                token,
+                LocalDateTime.now().plusMinutes(15),
+                null,
+                user
+        );
+    }
+
+    private String buildMail(User user, String link){
+        return "<h1>Email Confirmation</h1>"
+                + "<p>Dear "+ user.getFirstname() + " " +user.getLastname() +" ,</p>"
+                + "<p>Thank you for your registration at ECart Belgium!</p>"
+                + "<p>Click on the button below to activate your account:</p>"
+                + "<a target='_blank' href=\"" + link + "\"><button type=\"button\">Confirm Email</button></a>"
+                + "<p>If the button doesn't work, copy and paste this URL in your browser:</p>"
+                + "<p>" + link + "</p>"
+                + "<p>Kind regards</p>";
     }
 }
