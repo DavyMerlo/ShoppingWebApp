@@ -40,6 +40,7 @@ public class SecurityConfiguration {
                     "/api/v1/categories/**",
                     "/api/v1/subcategories/**",
                     "/api/v1/users/**",
+                    "/wss/**",
             };
 
     private final JwtAuthenticationFilter jwtAuthFilter;
@@ -102,7 +103,6 @@ public class SecurityConfiguration {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        //config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedOrigin("http://localhost:3000");
         config.setAllowedHeaders(Arrays.asList(
                 HttpHeaders.AUTHORIZATION,

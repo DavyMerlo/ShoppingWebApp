@@ -1,6 +1,5 @@
 package com.davy.restapi.authetication.response;
 
-import com.davy.restapi.user.dto.UserItems;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,11 +10,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterResponse {
+public class ConfirmTokenResponse {
 
-    @JsonProperty("confirmationToken")
-    private String confirmationToken;
+    @JsonProperty("message")
+    private String message;
 
-    @JsonProperty("user")
-    private UserItems user;
 }

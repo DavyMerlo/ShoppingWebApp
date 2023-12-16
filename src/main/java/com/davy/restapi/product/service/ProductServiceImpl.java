@@ -89,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Map<String, Object> saveProduct(ProductRequest request) {
+    public ProductResponse saveProduct(ProductRequest request) {
 
         checkIfCategoryIdAndSubCategoryIdExists(request);
         var inventory = Inventory.builder()
@@ -108,7 +108,10 @@ public class ProductServiceImpl implements ProductService {
                 .subCategory(subCategoryRepository.getSubCategoryById(request.getSubCategoryId()).get())
                 .build();
         productRepository.saveProduct(product);
-        return this.findAllProductsPageable(0);
+//        return this.findAllProductsPageable(0);
+        return ProductResponse.builder()
+                .product(productMapper.apply(product))
+                .build();
     }
 
     @Override

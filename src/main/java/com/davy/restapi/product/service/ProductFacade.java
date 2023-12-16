@@ -12,7 +12,7 @@ public interface ProductFacade {
                                                               String name,
                                                               int page);
     ProductResponse findProductById(Long id);
-    Map<String, Object> saveProduct(ProductRequest request);
+    ProductResponse saveProduct(ProductRequest request);
     ProductResponse updateProductById(Long id,
                                       ProductRequest request);
 }

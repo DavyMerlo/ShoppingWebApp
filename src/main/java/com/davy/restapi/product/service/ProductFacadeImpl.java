@@ -32,7 +32,7 @@ public class ProductFacadeImpl implements ProductFacade{
     }
 
     @Override
-    public Map<String, Object> saveProduct(ProductRequest request) {
+    public ProductResponse saveProduct(ProductRequest request) {
         return productService.saveProduct(request);
     }
 

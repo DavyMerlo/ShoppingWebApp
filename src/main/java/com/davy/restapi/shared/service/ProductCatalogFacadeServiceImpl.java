@@ -67,7 +67,7 @@ public class ProductCatalogFacadeServiceImpl implements ProductCatalogFacadeServ
     }
 
     @Override
-    public Map<String, Object> saveProduct(ProductRequest request) {
+    public ProductResponse saveProduct(ProductRequest request) {
         return productFacade.saveProduct(request);
     }
 

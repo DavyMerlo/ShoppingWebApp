@@ -5,11 +5,9 @@ import com.davy.restapi.authetication.confirmationtoken.ConfirmationToken;
 import com.davy.restapi.authetication.confirmationtoken.ConfirmationTokenService;
 import com.davy.restapi.authetication.email.EmailSender;
 import com.davy.restapi.authetication.email.EmailService;
-import com.davy.restapi.authetication.response.AuthenticationResponse;
+import com.davy.restapi.authetication.response.*;
 import com.davy.restapi.authetication.request.RegisterRequest;
 import com.davy.restapi.authetication.request.AuthenticationRequest;
-import com.davy.restapi.authetication.response.RefreshTokenResponse;
-import com.davy.restapi.authetication.response.RegisterResponse;
 import com.davy.restapi.card.entity.CustomerCard;
 import com.davy.restapi.shared.validators.RequestValidator;
 import com.davy.restapi.shared.validators.RequestValidatorImpl;
@@ -36,6 +34,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.rmi.server.UID;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -69,14 +68,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         sendConfirmationMail(confirmationToken.getToken(), user);
 
         return RegisterResponse.builder()
-                .confirmationResponse(confirmationToken.getToken())
+                .confirmationToken(confirmationToken.getToken())
                 .user(userItemsMapper.apply(savedUser))
                 .build();
     }
 
     @Override
     @Transactional
-    public String confirmToken(String token) {
+    public ConfirmTokenResponse confirmToken(String token) {
         ConfirmationToken confirmationToken = confirmationTokenService
                 .getToken(token)
                 .orElseThrow(() ->
@@ -90,7 +89,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
         confirmationTokenService.setConfirmedAt(token);
         userRepository.enableAppUser(confirmationToken.getUser().getEmail());
-        return "confirmed";
+//        return "Account confirmed successfully";
+        return ConfirmTokenResponse.builder()
+                .message("Account confirmed successfully")
+                .build();
+    }
+
+    @Override
+    public AccountStatusResponse getAccountStatus(Long userId) {
+        User user = userRepository
+                .findById(userId)
+                .orElseThrow(()
+                        -> new IllegalStateException("user not found"));
+        return AccountStatusResponse.builder()
+                .isActivated(user.getEnabled())
+                .build();
     }
 
 
@@ -229,7 +242,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     private void sendConfirmationMail(String token, User user){
-        String link = "http://localhost:8888/api/v1/auth/confirm?token=" + token;
+//        String link = "http://localhost:8888/api/v1/auth/confirm?token=" + token;
+        String link = "http://localhost:8888/api/v1/auth/confirm/" + token;
         emailSender.send(user.getEmail(), buildMail(user, link));
     }
 
@@ -248,7 +262,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 + "<p>Dear "+ user.getFirstname() + " " +user.getLastname() +" ,</p>"
                 + "<p>Thank you for your registration at ECart Belgium!</p>"
                 + "<p>Click on the button below to activate your account:</p>"
-                + "<a target='_blank' href=\"" + link + "\"><button type=\"button\">Confirm Email</button></a>"
+                + "<a href=\"" + link + "\"><button type=\"button\">Confirm Email</button></a>"
                 + "<p>If the button doesn't work, copy and paste this URL in your browser:</p>"
                 + "<p>" + link + "</p>"
                 + "<p>Kind regards</p>";

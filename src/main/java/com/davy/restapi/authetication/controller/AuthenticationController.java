@@ -45,8 +45,15 @@ public class AuthenticationController {
         service.refreshToken(request, response);
     }
 
-    @GetMapping(path = "confirm")
-    public String confirm(@RequestParam("token") String token){
-        return service.confirmToken(token);
+    @GetMapping(path = "confirm/{token}")
+    public  ResponseEntity<?> confirm(@PathVariable String token){
+        var data = service.confirmToken(token);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
+    }
+
+    @GetMapping(path = "/{userId}/status")
+    public  ResponseEntity<?> getAccountStatus(@PathVariable Long userId){
+        var data = service.getAccountStatus(userId);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 }
