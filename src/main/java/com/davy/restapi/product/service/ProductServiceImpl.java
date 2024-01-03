@@ -109,9 +109,10 @@ public class ProductServiceImpl implements ProductService {
                 .build();
         productRepository.saveProduct(product);
 //        return this.findAllProductsPageable(0);
-        return ProductResponse.builder()
-                .product(productMapper.apply(product))
-                .build();
+//        return ProductResponse.builder()
+//                .product(productMapper.apply(product))
+//                .build();
+        return this.findProductById(product.getId());
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.davy.restapi.authetication.service;
 
 import com.davy.restapi.address.entity.Address;
 import com.davy.restapi.authetication.confirmationtoken.ConfirmationToken;
+import com.davy.restapi.authetication.confirmationtoken.ConfirmationTokenRepository;
 import com.davy.restapi.authetication.confirmationtoken.ConfirmationTokenService;
 import com.davy.restapi.authetication.email.EmailSender;
 import com.davy.restapi.authetication.email.EmailService;
@@ -52,6 +53,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final RequestValidator<RegisterRequest> requestRequestValidatorImpl;
     private final UserItemsMapper userItemsMapper;
     private final ConfirmationTokenService confirmationTokenService;
+    private final ConfirmationTokenRepository confirmationTokenRepository;
     private final EmailSender emailSender;
 
     public RegisterResponse register(RegisterRequest request) {
@@ -92,15 +94,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 //        return "Account confirmed successfully";
         return ConfirmTokenResponse.builder()
                 .message("Account confirmed successfully")
+                .isConfirmed(true)
                 .build();
     }
 
     @Override
-    public AccountStatusResponse getAccountStatus(Long userId) {
-        User user = userRepository
-                .findById(userId)
+    public AccountStatusResponse getAccountStatus(String token) {
+        ConfirmationToken confirmationToken = confirmationTokenRepository
+                .findByToken(token)
                 .orElseThrow(()
-                        -> new IllegalStateException("user not found"));
+                        -> new IllegalStateException("Token not found"));
+        User user = userRepository.findById(confirmationToken.getUser().getId())
+                .orElseThrow(()
+                -> new IllegalStateException("User not found"));
         return AccountStatusResponse.builder()
                 .isActivated(user.getEnabled())
                 .build();
@@ -116,7 +122,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 )
         );
         var user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow();
+                .orElseThrow(()
+                        -> new IllegalStateException("User nog found"));
         var jwtToken = jwtServiceImp.generateToken(user);
         var refreshToken = jwtServiceImp.generateRefreshToken(user);
         revokeAllUserTokens(user);

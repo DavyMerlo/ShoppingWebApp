@@ -20,29 +20,28 @@ public class ProductController {
 
     private final ProductCatalogFacadeService productCatalogFacadeService;
     private final SimpMessagingTemplate messagingTemplate;
-//    private final WebSocketService webSocketService;
 
     @GetMapping()
-    public ResponseEntity<?> filterAndSearchProductsByNamePageable(
+    public ResponseEntity<?> filterProductsByNamePageable(
             @RequestParam(name = "search", required = false) String search,
             @RequestParam(name = "category", required = false) Long categoryId,
             @RequestParam(name = "subcategory", required = false) Long subCategoryId,
             @RequestParam(name = "page", defaultValue = "0") int page){
-        var data = productCatalogFacadeService.filterAndSearchProductsByNamePageable(categoryId, subCategoryId, search, page);
-        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
+        var filteredProduct = productCatalogFacadeService.filterAndSearchProductsByNamePageable(categoryId, subCategoryId, search, page);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, filteredProduct);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<?> getProductById(@PathVariable(value = "id") final Long id){
-        var data = productCatalogFacadeService.findProductById(id);
-        return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
+        var product = productCatalogFacadeService.findProductById(id);
+        return ResponseHandler.generateResponse(true,  HttpStatus.OK, product);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProductById(@PathVariable(value = "id") final Long id,
                                                @RequestBody ProductRequest request){
-        var data = productCatalogFacadeService.updateProductById(id, request);
-        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
+        var updatedProduct = productCatalogFacadeService.updateProductById(id, request);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, updatedProduct);
     }
 
     @PostMapping

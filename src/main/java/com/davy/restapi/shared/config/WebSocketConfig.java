@@ -18,9 +18,23 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/wss").setAllowedOrigins("**");
-        registry.addEndpoint("/wss").setAllowedOrigins("http://localhost:3000").withSockJS();
+//        registry.addEndpoint("/wss").setAllowedOrigins("**");
+//        registry.addEndpoint("/wss").setAllowedOrigins("http://localhost:3000").withSockJS();
+//        registry.addEndpoint("/wss")
+//                .setAllowedOrigins("http://localhost:3000");
+//
+//        registry.addEndpoint("/api/v1/auth").setAllowedOrigins("**");
+//        registry.addEndpoint("/api/v1/auth").setAllowedOrigins("http://localhost:3000").withSockJS();
+//        registry.addEndpoint("/api/v1/auth")
+//                .setAllowedOrigins("http://localhost:3000");
+        // WebSocket endpoint
         registry.addEndpoint("/wss")
-                .setAllowedOrigins("http://localhost:3000");
+                .setAllowedOrigins("http://localhost:3000")
+                .withSockJS(); // Use SockJS for fallback if needed
+
+        // Additional HTTP endpoint for RESTful API
+        registry.addEndpoint("/api/v1/auth")
+                .setAllowedOrigins("http://localhost:3000")
+                .withSockJS();
     }
 }

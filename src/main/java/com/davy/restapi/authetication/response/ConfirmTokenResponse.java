@@ -15,4 +15,6 @@ public class ConfirmTokenResponse {
     @JsonProperty("message")
     private String message;
 
+    @JsonProperty("isConfirmed")
+    private boolean isConfirmed;
 }

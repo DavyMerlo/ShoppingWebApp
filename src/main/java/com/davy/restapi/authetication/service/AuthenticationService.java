@@ -18,5 +18,5 @@ public interface AuthenticationService {
     void saveUserToken(User user, String jwtToken);
     User createDemoUser();
     ConfirmTokenResponse confirmToken(String token);
-    Object getAccountStatus(Long userId);
+    Object getAccountStatus(String token);
 }
