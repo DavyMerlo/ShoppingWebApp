@@ -8,6 +8,6 @@ import com.davy.restapi.card.response.CardResponse;
 public interface CardService {
     CardResponse findCardById(Long id);
     CardListResponse findAllCards();
-    CardListResponse saveCard(CardCreateRequest request);
+    CardResponse saveCard(CardCreateRequest request);
     CardResponse updateCardById(Long id, CardUpdateRequest request);
 }

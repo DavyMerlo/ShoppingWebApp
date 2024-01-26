@@ -13,12 +13,12 @@ import com.davy.restapi.shared.exceptions.ThrowException;
 import com.davy.restapi.subcategory.dto.SubCategoryItems;
 import com.davy.restapi.subcategory.mapper.SubCategoryItemsMapper;
 import com.davy.restapi.subcategory.repository.SubCategoryRepository;
-import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -47,31 +47,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public Map<String, Object> filterAndSearchProductsByNamePageable(Long catId,
-                                                                        Long subCatId,
-                                                                        String name,
-                                                                        int page) {
-        Pageable pageable = PageRequest.of(page, 8);
-        if(catId == null && subCatId == null && name == null){
-            return findAllProductsPageable(page);
-        }
-        else if(catId == null && subCatId == null){
-            return mappedProductPage(productRepository.findAll(ProductSpecification.nameLike(name), pageable));
-        }
-        else if(subCatId == null){
-            Page<Product> productPage =
-                productRepository.findAllAndFindByCategoryId(catId, pageable);
-            return mappedProductPage(productPage);
-        }
-        else if(catId == null){
-            Page<Product> productPage =
-                    productRepository.findAllAndFindBySubCategoryId(subCatId, pageable);
-            return mappedProductPage(productPage);
-        }
-        else{
-            Page<Product> productPage =
-                productRepository.findAllAndFindByCategoryIdAAndSubCategoryId(catId, subCatId, pageable);
-            return mappedProductPage(productPage);
-        }
+                                                                     Long subCatId,
+                                                                     String name,
+                                                                     int page,
+                                                                     String sortBy,
+                                                                     String sortOrder) {
+        Pageable pageable = makePageable(page, sortBy, sortOrder);
+        Specification<Product> spec = specification(catId, subCatId, name);
+        Page<Product> productPage = productRepository.findAll(spec, pageable);
+        return mappedProductPage(productPage);
     }
 
     @Override
@@ -186,5 +170,33 @@ public class ProductServiceImpl implements ProductService {
         mappedProducts.put("next", productPage.nextPageable().isPaged());
         mappedProducts.put("previous", productPage.previousPageable().isPaged());
         return mappedProducts;
+    }
+
+
+    private Pageable makePageable(int page, String sortBy, String sortOrder) {
+        if (sortBy != null && sortOrder != null) {
+            Sort sort = Sort.by(Sort.Direction.fromString(sortOrder), sortBy);
+            return PageRequest.of(page, 8, sort);
+        } else {
+            return PageRequest.of(page, 8);
+        }
+    }
+
+    private Specification<Product> specification(Long catId, Long subCatId, String name) {
+        Specification<Product> spec = Specification.where(null);
+
+        if (name != null) {
+            spec = spec.and(ProductSpecification.nameLike(name));
+        }
+        if (catId != null) {
+            spec = spec.and(ProductSpecification.byCategory(catId));
+        }
+        if (subCatId != null) {
+            spec = spec.and(ProductSpecification.bySubCategory(subCatId));
+        }
+        if (catId != null && subCatId != null) {
+            spec = spec.and(ProductSpecification.byCategoryAndSubCategory(catId, subCatId));
+        }
+        return spec;
     }
 }

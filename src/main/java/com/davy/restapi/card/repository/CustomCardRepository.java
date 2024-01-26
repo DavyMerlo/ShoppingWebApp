@@ -1,5 +1,6 @@
 package com.davy.restapi.card.repository;
 
+import com.davy.restapi.card.dto.Card;
 import com.davy.restapi.card.entity.CustomerCard;
 
 import java.util.List;

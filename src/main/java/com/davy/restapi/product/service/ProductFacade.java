@@ -10,7 +10,9 @@ public interface ProductFacade {
     Map<String, Object> filterAndSearchProductsByNamePageable(Long categoryId,
                                                               Long subCategoryId,
                                                               String name,
-                                                              int page);
+                                                              int page,
+                                                              String sortBy,
+                                                              String sortOrder);
     ProductResponse findProductById(Long id);
     ProductResponse saveProduct(ProductRequest request);
     ProductResponse updateProductById(Long id,

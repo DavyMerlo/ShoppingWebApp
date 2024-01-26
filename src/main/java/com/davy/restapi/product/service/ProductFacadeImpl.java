@@ -22,8 +22,19 @@ public class ProductFacadeImpl implements ProductFacade{
     }
 
     @Override
-    public Map<String, Object> filterAndSearchProductsByNamePageable(Long categoryId, Long subCategoryId, String name, int page) {
-        return productService.filterAndSearchProductsByNamePageable(categoryId, subCategoryId, name,page);
+    public Map<String, Object> filterAndSearchProductsByNamePageable(Long categoryId,
+                                                                     Long subCategoryId,
+                                                                     String name,
+                                                                     int page,
+                                                                     String sortBy,
+                                                                     String sortOrder) {
+        return productService.filterAndSearchProductsByNamePageable(
+                categoryId,
+                subCategoryId,
+                name,
+                page,
+                sortBy,
+                sortOrder);
     }
 
     @Override

@@ -7,10 +7,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Builder
 @Getter
 @Setter
-public class CategoryDetails {
+public class CategorySubCatList {
 
     @JsonProperty("id")
     private Long id;
@@ -18,14 +20,14 @@ public class CategoryDetails {
     @JsonProperty("name")
     private String name;
 
-    @JsonProperty("subCategory")
-    private SubCategoryItems subCategory;
+    @JsonProperty("subCategories")
+    private List<SubCategoryItems> subCategories;
 
-    public CategoryDetails(Long id,
+    public CategorySubCatList(Long id,
                            String name,
-                           SubCategoryItems subCategory) {
+                           List<SubCategoryItems> subCategories) {
         this.id = id;
         this.name = name;
-        this.subCategory = subCategory;
+        this.subCategories = subCategories;
     }
 }

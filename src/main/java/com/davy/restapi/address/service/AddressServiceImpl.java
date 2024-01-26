@@ -2,7 +2,7 @@ package com.davy.restapi.address.service;
 
 import com.davy.restapi.address.request.AddressUpdateRequest;
 import com.davy.restapi.address.entity.Address;
-import com.davy.restapi.address.mapper.AddressItemsMapper;
+import com.davy.restapi.address.mapper.AddressMapper;
 import com.davy.restapi.address.repository.AddressRepository;
 import com.davy.restapi.address.request.AddressCreateRequest;
 import com.davy.restapi.address.response.AddressListResponse;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class AddressServiceImpl implements AddressService {
 
     private final AddressRepository addressRepository;
-    private final AddressItemsMapper addressItemsMapper;
+    private final AddressMapper addressMapper;
     private final RequestValidatorImpl<AddressCreateRequest> addressCreateRequestValidatorImpl;
     private final RequestValidatorImpl<AddressUpdateRequest> addressUpdateRequestValidatorImpl;
 
@@ -32,7 +32,7 @@ public class AddressServiceImpl implements AddressService {
         }
         response.setAddresses(addressRepository.getAllAddresses()
                 .stream()
-                .map(addressItemsMapper)
+                .map(addressMapper)
                 .collect(Collectors.toList()));
         return response;
     }
@@ -43,11 +43,11 @@ public class AddressServiceImpl implements AddressService {
         if(addressRepository.getAddressById(id).isEmpty()){
             ThrowException.objectByIdException(id, "Address");
         }
-        response.address = addressRepository.getAddressById(id)
+        response.setAddress(addressRepository.getAddressById(id)
                 .stream()
-                .map(addressItemsMapper)
+                .map(addressMapper)
                 .findFirst()
-                .get();
+                .get());
         return response;
     }
 

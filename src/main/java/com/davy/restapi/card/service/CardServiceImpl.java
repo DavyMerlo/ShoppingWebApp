@@ -1,8 +1,9 @@
 package com.davy.restapi.card.service;
 
 import com.davy.restapi.card.entity.CustomerCard;
-import com.davy.restapi.card.repository.CardRepository;
 import com.davy.restapi.card.mapper.CardMapper;
+import com.davy.restapi.card.repository.CardRepository;
+import com.davy.restapi.card.mapper.CardDetailsMapper;
 import com.davy.restapi.card.request.CardCreateRequest;
 import com.davy.restapi.card.request.CardUpdateRequest;
 import com.davy.restapi.card.response.CardListResponse;
@@ -10,7 +11,7 @@ import com.davy.restapi.card.response.CardResponse;
 import com.davy.restapi.shared.exceptions.ThrowException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class CardServiceImpl implements CardService {
 
     private final CardRepository cardRepository;
+    private final CardDetailsMapper cardDetailsMapper;
     private final CardMapper cardMapper;
 
     @Override
@@ -28,16 +30,17 @@ public class CardServiceImpl implements CardService {
         }
         response.setCard(cardRepository.getCustomerCardById(id)
                 .stream()
-                .map(cardMapper)
+                .map(cardDetailsMapper)
                 .findFirst()
                 .get());
-        return response;
+       return response;
     }
 
     @Override
     public CardListResponse findAllCards() {
         var response = new CardListResponse();
-        if(cardRepository.getAllCustomerCards().isEmpty()){
+        List<CustomerCard> allCards = cardRepository.getAllCustomerCards();
+        if (allCards.isEmpty()) {
             ThrowException.objectException("Cards");
         }
         response.setCards(cardRepository.getAllCustomerCards()
@@ -48,13 +51,13 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public CardListResponse saveCard(CardCreateRequest request) {
+    public CardResponse saveCard(CardCreateRequest request) {
         var card = CustomerCard.builder()
                 .number(request.getNumber())
                 .points(request.getPoints())
                 .build();
         cardRepository.saveCustomerCard(card);
-        return this.findAllCards();
+        return this.findCardById(card.getId());
     }
 
     @Override

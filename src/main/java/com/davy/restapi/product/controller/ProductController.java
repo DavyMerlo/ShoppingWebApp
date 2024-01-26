@@ -26,8 +26,16 @@ public class ProductController {
             @RequestParam(name = "search", required = false) String search,
             @RequestParam(name = "category", required = false) Long categoryId,
             @RequestParam(name = "subcategory", required = false) Long subCategoryId,
-            @RequestParam(name = "page", defaultValue = "0") int page){
-        var filteredProduct = productCatalogFacadeService.filterAndSearchProductsByNamePageable(categoryId, subCategoryId, search, page);
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "sort", required = false) String sortBy,
+            @RequestParam(name = "order", required = false, defaultValue = "asc") String sortOrder) {
+        var filteredProduct = productCatalogFacadeService.filterAndSearchProductsByNamePageable(
+                categoryId,
+                subCategoryId,
+                search,
+                page,
+                sortBy,
+                sortOrder);
         return ResponseHandler.generateResponse(true, HttpStatus.OK, filteredProduct);
     }
 

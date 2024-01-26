@@ -31,9 +31,8 @@ public class CustomCategoryRepositoryImpl implements CustomCategoryRepository {
 
     @Override
     @Transactional
-    public Optional<Category> saveCategory(Category category) {
+    public void saveCategory(Category category) {
         entityManager.persist(category);
-        return Optional.ofNullable(category);
     }
 
     @Override

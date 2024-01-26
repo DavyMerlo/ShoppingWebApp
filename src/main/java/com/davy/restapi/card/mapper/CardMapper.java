@@ -1,20 +1,18 @@
 package com.davy.restapi.card.mapper;
 
+import com.davy.restapi.card.dto.Card;
 import com.davy.restapi.card.entity.CustomerCard;
-import com.davy.restapi.card.dto.CardItems;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;
 
 @Service
-public class CardMapper implements Function<CustomerCard, CardItems> {
+public class CardMapper implements Function<CustomerCard, Card> {
 
     @Override
-    public CardItems apply(CustomerCard customerCard) {
-        return new CardItems(
+    public Card apply(CustomerCard customerCard) {
+        return new Card(
                 customerCard.getId(),
-                customerCard.getNumber(),
-                customerCard.getPoints()
-        );
+                customerCard.getNumber());
     }
 }

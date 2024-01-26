@@ -1,6 +1,6 @@
 package com.davy.restapi.category.dto;
 
-public record CategoryItems(
+public record Category(
         Long id,
         String name
 ) {

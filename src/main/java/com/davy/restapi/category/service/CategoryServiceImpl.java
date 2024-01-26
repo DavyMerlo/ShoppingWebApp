@@ -1,7 +1,9 @@
 package com.davy.restapi.category.service;
 
 import com.davy.restapi.category.entity.Category;
-import com.davy.restapi.category.mapper.CategoryItemsMapper;
+import com.davy.restapi.category.mapper.CategoryDetailsMapper;
+import com.davy.restapi.category.mapper.CategoryMapper;
+import com.davy.restapi.category.mapper.CategorySubCatListMapper;
 import com.davy.restapi.category.request.CategoryCreateRequest;
 import com.davy.restapi.category.request.CategoryUpdateRequest;
 import com.davy.restapi.category.response.CategoryListResponse;
@@ -18,7 +20,8 @@ import java.util.stream.Collectors;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
-    private final CategoryItemsMapper categoryItemsMapper;
+    private final CategoryMapper categoryMapper;
+    private final CategorySubCatListMapper categorySubCatListMapper;
 
     @Override
     public CategoryListResponse findAllCategories() {
@@ -28,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
         response.categories = categoryRepository.getAllCategories()
                 .stream()
-                .map(categoryItemsMapper)
+                .map(categoryMapper)
                 .collect(Collectors.toList());
         return response;
     }
@@ -41,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
         response.category= categoryRepository.getCategoryById(id)
                 .stream()
-                .map(categoryItemsMapper)
+                .map(categorySubCatListMapper)
                 .findFirst()
                 .get();
         return response;
@@ -55,7 +58,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
         response.category = categoryRepository.getCategoryBySubCategoryId(subCatId)
                 .stream()
-                .map(categoryItemsMapper)
+                .map(categorySubCatListMapper)
                 .findFirst()
                 .get();
         return response;

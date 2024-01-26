@@ -1,6 +1,7 @@
 package com.davy.restapi.card.repository;
 
 import com.davy.restapi.card.entity.CustomerCard;
+import com.davy.restapi.card.response.CardResponse;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;

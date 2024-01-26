@@ -1,7 +1,6 @@
 package com.davy.restapi.category.mapper;
 
-import com.davy.restapi.category.dto.CategoryItems;
-import com.davy.restapi.category.entity.Category;
+import com.davy.restapi.category.dto.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,11 +8,11 @@ import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryItemsMapper implements Function<Category, CategoryItems> {
+public class CategoryMapper implements Function<com.davy.restapi.category.entity.Category, Category> {
 
     @Override
-    public CategoryItems apply(Category category) {
-        return new CategoryItems(
+    public Category apply(com.davy.restapi.category.entity.Category category) {
+        return new Category(
                 category.getId(),
                 category.getName()
         );

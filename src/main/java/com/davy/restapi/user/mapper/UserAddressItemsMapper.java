@@ -1,6 +1,6 @@
 package com.davy.restapi.user.mapper;
 
-import com.davy.restapi.address.dto.AddressItems;
+import com.davy.restapi.address.dto.Address;
 import com.davy.restapi.user.entity.User;
 import com.davy.restapi.user.dto.UserAddressItems;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ public class UserAddressItemsMapper implements Function<User, UserAddressItems> 
                 user.getId(),
                 user.getFirstname(),
                 user.getLastname(),
-                new AddressItems(
+                new Address(
                         user.getAddress().getId(),
                         user.getAddress().getStreet(),
                         user.getAddress().getHouseNumber(),
