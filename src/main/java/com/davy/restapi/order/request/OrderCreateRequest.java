@@ -1,31 +1,18 @@
 package com.davy.restapi.order.request;
 
-import com.davy.restapi.order.enums.OrderStatus;
-import com.davy.restapi.orderlines.dto.OrderLineItems;
-import com.davy.restapi.payment.enums.PaymentMethod;
-import com.davy.restapi.payment.enums.PaymentStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import java.time.LocalDateTime;
 
-import java.util.List;
-
+@Builder
+@Getter
+@Setter
 public class OrderCreateRequest {
     @JsonProperty("userId")
     private Long userId;
 
-    @JsonProperty("status")
-    private OrderStatus status;
-
-    @JsonProperty("paymentMethod")
-    @Enumerated(EnumType.ORDINAL)
-    private PaymentMethod paymentMethod;
-
-    @JsonProperty("paymentMethod")
-    @Enumerated(EnumType.ORDINAL)
-    private PaymentStatus paymentStatus;
-
-    @JsonProperty("orderLines")
-    @Enumerated(EnumType.ORDINAL)
-    private List<OrderLineItems> orderLines;
+    @JsonProperty("orderDate")
+    private LocalDateTime orderDate;
 }

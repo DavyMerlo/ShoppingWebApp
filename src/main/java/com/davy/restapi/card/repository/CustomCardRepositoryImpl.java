@@ -31,9 +31,8 @@ public class CustomCardRepositoryImpl implements CustomCardRepository {
 
     @Override
     @Transactional
-    public Optional<CustomerCard> saveCustomerCard(CustomerCard customerCard) {
+    public void saveCustomerCard(CustomerCard customerCard) {
         entityManager.persist(customerCard);
-        return Optional.ofNullable(customerCard);
     }
 
     @Override

@@ -61,7 +61,7 @@ public class AddressServiceImpl implements AddressService {
                 .localAuthority(request.getLocalAuthority())
                 .postalCode(request.getPostalCode())
                 .build();
-        addressRepository.save(address);
+        addressRepository.saveAddress(address);
         return this.findAddressById(address.getId());
     }
 

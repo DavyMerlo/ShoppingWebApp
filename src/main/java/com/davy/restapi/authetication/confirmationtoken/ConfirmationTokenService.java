@@ -2,7 +2,6 @@ package com.davy.restapi.authetication.confirmationtoken;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 

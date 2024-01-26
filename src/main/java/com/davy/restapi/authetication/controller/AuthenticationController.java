@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.IOException;
 
 @RestController
@@ -19,20 +18,20 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationService service;
+    private final AuthenticationService authenticationService;
     private final SimpMessagingTemplate messagingTemplate;
 
     @PostMapping("register")
     public ResponseEntity<?> register(
             @RequestBody RegisterRequest request){
-        var data = service.register(request);
+        var data = authenticationService.register(request);
         return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 
     @PostMapping("authenticate")
     public ResponseEntity<?> authenticate(
             @RequestBody AuthenticationRequest request){
-        var data = service.authenticate(request);
+        var data = authenticationService.authenticate(request);
         return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 
@@ -41,12 +40,12 @@ public class AuthenticationController {
             HttpServletRequest request,
             HttpServletResponse response
     ) throws IOException {
-        service.refreshToken(request, response);
+        authenticationService.refreshToken(request, response);
     }
 
     @GetMapping(path = "confirm/{token}")
     public  ResponseEntity<?> confirm(@PathVariable String token){
-        var data = service.confirmToken(token);
+        var data = authenticationService.confirmToken(token);
         messagingTemplate.convertAndSend("/topic/status", data.isConfirmed());
         return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }

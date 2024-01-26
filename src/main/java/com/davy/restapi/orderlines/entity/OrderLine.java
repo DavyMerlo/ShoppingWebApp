@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
         name="default_gen",
         sequenceName = "order_lines_id_seq",
         allocationSize=1)
-public class OrderLines extends BaseEntity {
+public class OrderLine extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
@@ -35,15 +35,15 @@ public class OrderLines extends BaseEntity {
 
 
     @Builder
-    public OrderLines(LocalDateTime createdAt,
-                      LocalDateTime updatedAt,
-                      LocalDateTime deletedAt,
-                      Long createdBy,
-                      Long updatedBy,
-                      Order order,
-                      Product product,
-                      short quantity,
-                      Long id) {
+    public OrderLine(LocalDateTime createdAt,
+                     LocalDateTime updatedAt,
+                     LocalDateTime deletedAt,
+                     Long createdBy,
+                     Long updatedBy,
+                     Order order,
+                     Product product,
+                     short quantity,
+                     Long id) {
         super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy);
         this.order = order;
         this.product = product;

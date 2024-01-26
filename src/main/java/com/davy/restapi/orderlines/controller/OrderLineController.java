@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/orderlines")
 @RequiredArgsConstructor
@@ -31,7 +33,7 @@ public class OrderLineController {
     }
 
     @PostMapping
-    public ResponseEntity<?> saveOrderOrderLine(@RequestBody OrderLineCreateRequest request){
+    public ResponseEntity<?> saveOrderOrderLine(@RequestBody List<OrderLineCreateRequest> request){
         var data = orderLineService.saveOrderOrderLine(request);
         return ResponseHandler.generateResponse(true, HttpStatus.CREATED, data);
     }

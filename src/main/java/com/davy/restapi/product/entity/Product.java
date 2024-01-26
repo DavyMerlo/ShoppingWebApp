@@ -4,12 +4,11 @@ import com.davy.restapi.category.entity.Category;
 import com.davy.restapi.discount.entity.Discount;
 import com.davy.restapi.inventory.entity.Inventory;
 import com.davy.restapi.subcategory.entity.SubCategory;
-import com.davy.restapi.orderlines.entity.OrderLines;
+import com.davy.restapi.orderlines.entity.OrderLine;
 import com.davy.restapi.shared.entity.BaseEntity;
 import com.davy.restapi.product.enums.Vat;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
@@ -52,7 +51,7 @@ public class Product extends BaseEntity {
     private Category category;
 
     @OneToOne(mappedBy = "product")
-    private OrderLines orderLines;
+    private OrderLine orderLine;
 
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "discount_id", referencedColumnName = "id")
@@ -77,7 +76,7 @@ public class Product extends BaseEntity {
                    Vat VAT,
                    SubCategory subCategory,
                    Category category,
-                   OrderLines orderLines,
+                   OrderLine orderLine,
                    Discount discount,
                    Inventory inventory,
                    Long id ) {
@@ -90,7 +89,7 @@ public class Product extends BaseEntity {
         this.VAT = VAT;
         this.subCategory = subCategory;
         this.category = category;
-        this.orderLines = orderLines;
+        this.orderLine = orderLine;
         this.discount = discount;
         this.inventory = inventory;
     }

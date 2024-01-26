@@ -1,6 +1,5 @@
 package com.davy.restapi.authetication.email;
 
-import com.davy.restapi.user.entity.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;

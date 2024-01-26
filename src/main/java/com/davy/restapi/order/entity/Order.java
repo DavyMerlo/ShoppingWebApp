@@ -1,7 +1,7 @@
 package com.davy.restapi.order.entity;
 
 import com.davy.restapi.order.enums.OrderStatus;
-import com.davy.restapi.orderlines.entity.OrderLines;
+import com.davy.restapi.orderlines.entity.OrderLine;
 import com.davy.restapi.payment.entity.Payment;
 import com.davy.restapi.user.entity.User;
 import com.davy.restapi.shared.entity.BaseEntity;
@@ -33,7 +33,7 @@ public class Order extends BaseEntity {
     private OrderStatus status;
 
     @OneToMany(mappedBy = "order")
-    private List<OrderLines> orderItems;
+    private List<OrderLine> orderItems;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "payment_id", referencedColumnName = "id")
@@ -48,7 +48,7 @@ public class Order extends BaseEntity {
                  Long updatedBy,
                  User user,
                  OrderStatus status,
-                 List<OrderLines> orderItems,
+                 List<OrderLine> orderItems,
                  Payment payment,
                  Long id) {
         super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy);

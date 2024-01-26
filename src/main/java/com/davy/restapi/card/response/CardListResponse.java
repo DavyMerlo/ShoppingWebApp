@@ -1,6 +1,5 @@
 package com.davy.restapi.card.response;
 
-import com.davy.restapi.address.dto.AddressItems;
 import com.davy.restapi.card.dto.CardItems;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

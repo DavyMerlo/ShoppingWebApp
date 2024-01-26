@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface CustomAddressRepository {
     List<Address> getAllAddresses();
     Optional<Address> getAddressById(Long id);
-    Optional<Address> saveAddress(Address address);
+    void saveAddress(Address address);
     void updateAddress(Address address);
     void removeAddress(Address address);
 }

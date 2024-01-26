@@ -32,9 +32,8 @@ public class CustomAddressRepositoryImpl implements CustomAddressRepository {
 
     @Override
     @Transactional
-    public Optional<Address> saveAddress(Address address) {
+    public void saveAddress(Address address) {
         entityManager.persist(address);
-        return Optional.ofNullable(address);
     }
 
     @Override

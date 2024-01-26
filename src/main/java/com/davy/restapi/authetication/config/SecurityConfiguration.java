@@ -39,7 +39,11 @@ public class SecurityConfiguration {
                     "/api/v1/products/**",
                     "/api/v1/categories/**",
                     "/api/v1/subcategories/**",
+                    "/api/v1/orders/**",
+                    "/api/v1/orderlines/**",
                     "/api/v1/users/**",
+                    "/api/v1/addresses/**",
+                    "/api/v1/cards/**",
                     "/wss/**",
             };
 
@@ -75,13 +79,6 @@ public class SecurityConfiguration {
                         .requestMatchers(POST, "api/v1/cards/**").hasAnyAuthority(ADMIN_CREATE.name(), MANAGER_CREATE.name())
                         .requestMatchers(PUT, "api/v1/cards/**").hasAnyAuthority(ADMIN_UPDATE.name(), MANAGER_UPDATE.name())
                         .requestMatchers(DELETE, "api/v1/cards/**").hasAnyAuthority(ADMIN_DELETE.name(), MANAGER_DELETE.name())
-
-//                        .requestMatchers("api/v1/users/**").hasAnyRole(MANAGER.name())
-//
-//                        .requestMatchers(GET, "api/v1/users/**").hasAuthority(ADMIN_READ.name())
-//                        .requestMatchers(POST, "api/v1/users/**").hasAuthority(ADMIN_CREATE.name())
-//                        .requestMatchers(PUT, "api/v1/users/**").hasAuthority(ADMIN_UPDATE.name())
-//                        .requestMatchers(DELETE, "api/v1/users/**").hasAuthority(ADMIN_DELETE.name())
 
                         .anyRequest()
                         .authenticated()

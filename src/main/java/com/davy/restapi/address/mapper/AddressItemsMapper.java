@@ -19,5 +19,5 @@ public class AddressItemsMapper implements Function<Address, AddressItems> {
                 address.getPostalCode(),
                 address.getLocalAuthority()
         );
-    }
-}
+    };
+};

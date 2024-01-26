@@ -40,5 +40,4 @@ public class OrderController {
         var data = orderService.upOrderById(id, request);
         return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
-
 }

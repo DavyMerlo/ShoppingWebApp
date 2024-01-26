@@ -24,6 +24,7 @@ import com.davy.restapi.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -34,6 +35,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.rmi.server.UID;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -91,7 +93,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
         confirmationTokenService.setConfirmedAt(token);
         userRepository.enableAppUser(confirmationToken.getUser().getEmail());
-//        return "Account confirmed successfully";
         return ConfirmTokenResponse.builder()
                 .message("Account confirmed successfully")
                 .isConfirmed(true)
@@ -249,7 +250,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     private void sendConfirmationMail(String token, User user){
-//        String link = "http://localhost:8888/api/v1/auth/confirm?token=" + token;
         String link = "http://localhost:8888/api/v1/auth/confirm/" + token;
         emailSender.send(user.getEmail(), buildMail(user, link));
     }

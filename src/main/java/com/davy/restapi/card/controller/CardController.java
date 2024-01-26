@@ -1,7 +1,5 @@
 package com.davy.restapi.card.controller;
 
-import com.davy.restapi.address.request.AddressCreateRequest;
-import com.davy.restapi.address.request.AddressUpdateRequest;
 import com.davy.restapi.card.request.CardCreateRequest;
 import com.davy.restapi.card.request.CardUpdateRequest;
 import com.davy.restapi.card.service.CardService;
