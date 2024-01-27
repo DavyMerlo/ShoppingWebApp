@@ -1,6 +1,6 @@
 package com.davy.restapi.user.response;
 
-import com.davy.restapi.user.dto.UserCardItems;
+import com.davy.restapi.user.dto.UserCard;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
@@ -10,5 +10,5 @@ import lombok.Data;
 public class UserCardResponse {
 
     @JsonProperty("user")
-    private UserCardItems user;
+    private UserCard user;
 }

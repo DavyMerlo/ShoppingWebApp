@@ -1,16 +1,15 @@
 package com.davy.restapi.user.mapper;
 
-import com.davy.restapi.user.entity.User;
-import com.davy.restapi.user.dto.UserItems;
+import com.davy.restapi.user.dto.User;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;
 
 @Service
-public class UserItemsMapper implements Function<User, UserItems> {
+public class UserItemsMapper implements Function<com.davy.restapi.user.entity.User, User> {
     @Override
-    public UserItems apply(User user) {
-        return new UserItems(
+    public User apply(com.davy.restapi.user.entity.User user) {
+        return new User(
                 user.getId(),
                 user.getUsername(),
                 user.getFirstname(),

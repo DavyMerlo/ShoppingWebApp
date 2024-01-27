@@ -4,8 +4,8 @@ import com.davy.restapi.shared.validators.RequestValidator;
 import com.davy.restapi.user.entity.User;
 import com.davy.restapi.user.request.ChangePasswordRequest;
 import com.davy.restapi.shared.exceptions.ThrowException;
-import com.davy.restapi.user.mapper.UserAddressItemsMapper;
-import com.davy.restapi.user.mapper.UserCardItemsMapper;
+import com.davy.restapi.user.mapper.UserAddressMapper;
+import com.davy.restapi.user.mapper.userCardMapper;
 import com.davy.restapi.user.mapper.UserItemsMapper;
 import com.davy.restapi.user.repository.UserRepository;
 import com.davy.restapi.user.response.*;
@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final UserItemsMapper userItemsMapper;
-    private final UserAddressItemsMapper addressMapper;
-    private final UserCardItemsMapper userCardItemsMapper;
+    private final UserAddressMapper addressMapper;
+    private final userCardMapper userCardMapper;
     private final RequestValidator<ChangePasswordRequest> changePasswordRequestValidatorImpl;
 
     @Override
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
         return UserCardResponse.builder()
                 .user(userRepository
                         .findById(userId)
-                        .map(userCardItemsMapper)
+                        .map(userCardMapper)
                         .stream()
                         .findFirst()
                         .get())

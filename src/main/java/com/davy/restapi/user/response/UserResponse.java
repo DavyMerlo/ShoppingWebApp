@@ -1,6 +1,6 @@
 package com.davy.restapi.user.response;
 
-import com.davy.restapi.user.dto.UserItems;
+import com.davy.restapi.user.dto.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
@@ -10,5 +10,5 @@ import lombok.Data;
 public class UserResponse {
 
     @JsonProperty("user")
-    private UserItems user;
+    private User user;
 }

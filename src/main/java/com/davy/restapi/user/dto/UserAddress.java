@@ -1,11 +1,11 @@
 package com.davy.restapi.user.dto;
 
-import com.davy.restapi.card.dto.CardDetails;
+import com.davy.restapi.address.dto.Address;
 
-public record UserCardItems(
+public record UserAddress(
         Long id,
         String firstName,
         String lastName,
-        CardDetails card
+        Address address
 ) {
 }

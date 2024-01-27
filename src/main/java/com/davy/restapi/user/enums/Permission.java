@@ -17,7 +17,5 @@ public enum Permission {
     MANAGER_CREATE("categories: create, products:create, addresses:create, users:create, cards:create"),
     MANAGER_DELETE("categories: delete, products:delete, addresses:delete, users:delete, cards:delete");
 
-
-
     private final String permission;
 }

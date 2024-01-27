@@ -2,7 +2,7 @@ package com.davy.restapi.user.dto;
 
 import com.davy.restapi.user.enums.Role;
 
-public record UserItems(
+public record User(
         Long id,
         String userName,
         String firstName,
