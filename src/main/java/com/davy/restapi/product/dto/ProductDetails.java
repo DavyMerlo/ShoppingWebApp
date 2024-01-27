@@ -2,8 +2,7 @@ package com.davy.restapi.product.dto;
 
 import com.davy.restapi.category.dto.CategoryDetails;
 import com.davy.restapi.inventory.dto.InventoryItems;
-import com.davy.restapi.inventory.entity.Inventory;
-import com.davy.restapi.subcategory.dto.SubCategoryItems;
+import com.davy.restapi.subcategory.dto.SubCategory;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
@@ -41,7 +40,7 @@ public class ProductDetails {
 
     @JsonIgnore
     @JsonProperty("subCategory")
-    private SubCategoryItems subCategory;
+    private SubCategory subCategory;
 
     @JsonProperty("inventory")
     private InventoryItems inventory;
@@ -54,7 +53,7 @@ public class ProductDetails {
                           float sellingPrice,
                           int vat,
                           CategoryDetails category,
-                          SubCategoryItems subCategory,
+                          SubCategory subCategory,
                           InventoryItems inventory
     ) {
         this.id = id;

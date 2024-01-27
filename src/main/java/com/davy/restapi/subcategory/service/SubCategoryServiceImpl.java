@@ -1,9 +1,9 @@
 package com.davy.restapi.subcategory.service;
 
-import com.davy.restapi.category.response.CategoryListResponse;
 import com.davy.restapi.shared.exceptions.ThrowException;
 import com.davy.restapi.subcategory.entity.SubCategory;
-import com.davy.restapi.subcategory.mapper.SubCategoryItemsMapper;
+import com.davy.restapi.subcategory.mapper.SubCategoryDetailMapper;
+import com.davy.restapi.subcategory.mapper.SubCategoryMapper;
 import com.davy.restapi.subcategory.repository.SubCategoryRepository;
 import com.davy.restapi.subcategory.request.SubCategoryRequest;
 import com.davy.restapi.subcategory.response.SubCategoryListResponse;
@@ -18,7 +18,8 @@ import java.util.stream.Collectors;
 public class SubCategoryServiceImpl implements SubCategoryService {
 
     private final SubCategoryRepository subCategoryRepository;
-    private final SubCategoryItemsMapper subCategoryItemsMapper;
+    private final SubCategoryMapper subCategoryMapper;
+    private final SubCategoryDetailMapper subCategoryDetailMapper;
 
     @Override
     public SubCategoryListResponse findAllSubCategories() {
@@ -28,7 +29,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
         }
         response.subCategories = subCategoryRepository.getAllSubCategories()
                 .stream()
-                .map(subCategoryItemsMapper)
+                .map(subCategoryMapper)
                 .collect(Collectors.toList());
         return response;
     }
@@ -45,7 +46,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
         }
         response.subCategories = subCategoryRepository.findByCategoryId(id)
                 .stream()
-                .map(subCategoryItemsMapper)
+                .map(subCategoryMapper)
                 .collect(Collectors.toList());
         return response;
     }
@@ -56,9 +57,11 @@ public class SubCategoryServiceImpl implements SubCategoryService {
         if(subCategoryRepository.getSubCategoryById(id).isEmpty()){
             ThrowException.objectByIdException(id, "Subcategory");
         }
+        System.out.println(subCategoryRepository.getSubCategoryById(id).get().getCategory().getId());
+        System.out.println(subCategoryRepository.getSubCategoryById(id).get().getCategory().getName());
         response.subCategory = subCategoryRepository.getSubCategoryById(id)
                 .stream()
-                .map(subCategoryItemsMapper)
+                .map(subCategoryDetailMapper)
                 .findFirst()
                 .get();
         return response;

@@ -1,8 +1,7 @@
 package com.davy.restapi.category.dto;
 
-import com.davy.restapi.subcategory.dto.SubCategoryItems;
+import com.davy.restapi.subcategory.dto.SubCategory;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,11 +18,11 @@ public class CategoryDetails {
     private String name;
 
     @JsonProperty("subCategory")
-    private SubCategoryItems subCategory;
+    private SubCategory subCategory;
 
     public CategoryDetails(Long id,
                            String name,
-                           SubCategoryItems subCategory) {
+                           SubCategory subCategory) {
         this.id = id;
         this.name = name;
         this.subCategory = subCategory;

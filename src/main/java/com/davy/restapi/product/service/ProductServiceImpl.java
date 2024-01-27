@@ -10,8 +10,8 @@ import com.davy.restapi.product.repository.ProductRepository;
 import com.davy.restapi.product.request.ProductRequest;
 import com.davy.restapi.product.response.ProductResponse;
 import com.davy.restapi.shared.exceptions.ThrowException;
-import com.davy.restapi.subcategory.dto.SubCategoryItems;
-import com.davy.restapi.subcategory.mapper.SubCategoryItemsMapper;
+import com.davy.restapi.subcategory.dto.SubCategory;
+import com.davy.restapi.subcategory.mapper.SubCategoryMapper;
 import com.davy.restapi.subcategory.repository.SubCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
     private final SubCategoryRepository subCategoryRepository;
     private final InventoryRepository inventoryRepository;
     private final ProductMapper productMapper;
-    private final SubCategoryItemsMapper subCategoryItemsMapper;
+    private final SubCategoryMapper subCategoryMapper;
 
     public Map<String, Object> findAllProductsPageable(int page) {
 
@@ -125,10 +125,10 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    private SubCategoryItems mappedSubCategoryItems(Long subCategoryIdd){
+    private SubCategory mappedSubCategoryItems(Long subCategoryIdd){
         return subCategoryRepository.getSubCategoryById(subCategoryIdd)
                 .stream()
-                .map(subCategoryItemsMapper)
+                .map(subCategoryMapper)
                 .findFirst()
                 .get();
     }
