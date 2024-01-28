@@ -68,23 +68,21 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     }
 
     @Override
-    public SubCategoryResponse updateSubCategoryById(Long id, SubCategoryRequest request) {
+    public void updateSubCategoryById(Long id, SubCategoryRequest request) {
         var subCategory = subCategoryRepository.getSubCategoryById(id);
         if(subCategory.isEmpty()){
             ThrowException.objectByIdException(id, "Subcategory");
         }
         subCategory.get().setName(request.getName());
         subCategoryRepository.updateSubCategory(subCategory.get());
-        return this.findSubCategoryById(subCategory.get().getId());
     }
 
     @Override
-    public SubCategoryListResponse saveSubCategory(SubCategoryRequest request) {
+    public Long saveSubCategory(SubCategoryRequest request) {
         var subCategory = SubCategory.builder()
                 .name(request.getName())
                 .build();
-        subCategoryRepository.saveSubCategory(subCategory);
-        return this.findAllSubCategories();
+        return subCategoryRepository.saveSubCategory(subCategory);
     }
 
     @Override

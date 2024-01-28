@@ -22,6 +22,12 @@ public class OrderLineController {
         return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
     }
 
+//    @GetMapping("/{orderId}")
+//    public ResponseEntity<?> findOrderLineByOrderId(@PathVariable(value = "orderId") final Long id){
+//        var data = orderLineService.findOrderLineById(id);
+//        return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
+//    }
+
     @GetMapping
     public ResponseEntity<?> findAllOrderLines(){
         var data = orderLineService.findAllOrderLines();

@@ -12,7 +12,7 @@ import java.util.function.Function;
 
 @Service
 @AllArgsConstructor
-public class ProductMapper implements Function<Product, ProductDetails> {
+public class ProductDetailMapper implements Function<Product, ProductDetails> {
 
     private final SubCategoryMapper subCategoryMapper;
     private final CategoryDetailsMapper categoryDetailsMapper;

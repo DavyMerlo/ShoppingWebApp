@@ -1,11 +1,9 @@
 package com.davy.restapi.orderlines.response;
 
-import com.davy.restapi.orderlines.dto.OrderLineDetails;
+import com.davy.restapi.order.dto.Order;
+import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Data
 public class OrderLineResponse {
-
-    List<OrderLineDetails> OrderLines = new ArrayList<>();
+    Order order;
 }

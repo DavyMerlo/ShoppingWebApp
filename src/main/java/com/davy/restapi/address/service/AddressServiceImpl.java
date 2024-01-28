@@ -52,7 +52,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public AddressResponse saveAddress(AddressCreateRequest request) {
+    public Long saveAddress(AddressCreateRequest request) {
         addressCreateRequestValidatorImpl.validate(request);
         var address = Address.builder()
                 .street(request.getStreet())
@@ -61,12 +61,11 @@ public class AddressServiceImpl implements AddressService {
                 .localAuthority(request.getLocalAuthority())
                 .postalCode(request.getPostalCode())
                 .build();
-        addressRepository.saveAddress(address);
-        return this.findAddressById(address.getId());
+        return addressRepository.saveAddress(address);
     }
 
     @Override
-    public AddressResponse updateAddressById(Long id, AddressUpdateRequest request) {
+    public void updateAddressById(Long id, AddressUpdateRequest request) {
         addressUpdateRequestValidatorImpl.validate(request);
         var address = addressRepository.getAddressById(id);
         if(address.isEmpty()){
@@ -78,6 +77,5 @@ public class AddressServiceImpl implements AddressService {
         address.get().setPostalCode(request.getPostalCode());
         address.get().setLocalAuthority(request.getLocalAuthority());
         addressRepository.updateAddress(address.get());
-        return this.findAddressById(address.get().getId());
     }
 }

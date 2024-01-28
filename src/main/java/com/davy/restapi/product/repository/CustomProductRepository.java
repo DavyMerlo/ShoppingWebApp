@@ -10,7 +10,7 @@ public interface CustomProductRepository {
 
     Optional<Product> getProductById(Long id);
 
-    void saveProduct(Product product);
+    Long saveProduct(Product product);
 
     void updateProduct(Product product);
 

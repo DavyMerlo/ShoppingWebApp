@@ -1,7 +1,6 @@
 package com.davy.restapi.orderlines.repository;
 
 import com.davy.restapi.orderlines.entity.OrderLine;
-import com.davy.restapi.product.entity.Product;
 
 import java.util.List;
 import java.util.Optional;

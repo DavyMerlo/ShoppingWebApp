@@ -1,18 +1,8 @@
 package com.davy.restapi.product.service;
 
-import com.davy.restapi.product.dto.ProductDetails;
-import com.davy.restapi.product.enums.Vat;
-import com.davy.restapi.product.request.ProductRequest;
-import com.davy.restapi.product.response.ProductListResponse;
-import com.davy.restapi.product.response.ProductResponse;
 import com.davy.restapi.shared.TestContainer;
-import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.IOException;
-import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ProductServiceTest extends TestContainer {

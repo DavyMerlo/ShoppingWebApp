@@ -13,7 +13,7 @@ public interface CategoryService {
 
     CategoryResponse findCategoryBySubCategoryId(Long subCatId);
 
-    CategoryResponse updateCategoryById(Long id, CategoryUpdateRequest request);
+    void updateCategoryById(Long id, CategoryUpdateRequest request);
 
-    CategoryListResponse saveCategory(CategoryCreateRequest request);
+    Long saveCategory(CategoryCreateRequest request);
 }

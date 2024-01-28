@@ -31,8 +31,10 @@ public class CustomProductRepositoryImpl implements CustomProductRepository{
 
     @Override
     @Transactional
-    public void saveProduct(Product product) {
+    public Long saveProduct(Product product) {
         entityManager.persist(product);
+        entityManager.flush();
+        return product.getId();
     }
 
     @Override

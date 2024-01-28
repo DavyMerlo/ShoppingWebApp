@@ -31,9 +31,10 @@ public class CustomSubCategoryRepositoryImpl implements CustomSubCategoryReposit
 
     @Override
     @Transactional
-    public Optional<SubCategory> saveSubCategory(SubCategory subCategory) {
+    public Long saveSubCategory(SubCategory subCategory) {
         entityManager.persist(subCategory);
-        return Optional.ofNullable(subCategory);
+        entityManager.flush();
+        return subCategory.getId();
     }
 
     @Override

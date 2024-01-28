@@ -1,13 +1,11 @@
 package com.davy.restapi.order.service;
 
-import com.davy.restapi.order.entity.Order;
 import com.davy.restapi.order.enums.OrderStatus;
 import com.davy.restapi.order.mapper.OrderMapper;
 import com.davy.restapi.order.repository.OrderRepository;
 import com.davy.restapi.order.request.OrderUpdateRequest;
 import com.davy.restapi.order.response.OrderListResponse;
 import com.davy.restapi.order.response.OrderResponse;
-import com.davy.restapi.orderlines.service.OrderLineService;
 import com.davy.restapi.shared.exceptions.ThrowException;
 import com.davy.restapi.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

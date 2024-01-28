@@ -32,8 +32,10 @@ public class CustomAddressRepositoryImpl implements CustomAddressRepository {
 
     @Override
     @Transactional
-    public void saveAddress(Address address) {
+    public Long saveAddress(Address address) {
         entityManager.persist(address);
+        entityManager.flush();
+        return address.getId();
     }
 
     @Override

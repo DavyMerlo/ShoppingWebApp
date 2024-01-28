@@ -31,8 +31,10 @@ public class CustomCategoryRepositoryImpl implements CustomCategoryRepository {
 
     @Override
     @Transactional
-    public void saveCategory(Category category) {
+    public Long saveCategory(Category category) {
         entityManager.persist(category);
+        entityManager.flush();
+        return category.getId();
     }
 
     @Override

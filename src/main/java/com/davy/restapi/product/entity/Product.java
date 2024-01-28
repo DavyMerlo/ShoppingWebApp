@@ -50,9 +50,6 @@ public class Product extends BaseEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToOne(mappedBy = "product")
-    private OrderLine orderLine;
-
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "discount_id", referencedColumnName = "id")
     private Discount discount;
@@ -76,7 +73,6 @@ public class Product extends BaseEntity {
                    Vat VAT,
                    SubCategory subCategory,
                    Category category,
-                   OrderLine orderLine,
                    Discount discount,
                    Inventory inventory,
                    Long id ) {
@@ -89,7 +85,6 @@ public class Product extends BaseEntity {
         this.VAT = VAT;
         this.subCategory = subCategory;
         this.category = category;
-        this.orderLine = orderLine;
         this.discount = discount;
         this.inventory = inventory;
     }

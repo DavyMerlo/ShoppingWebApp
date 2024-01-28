@@ -137,7 +137,7 @@ VALUES
 --     (49, 788, localtimestamp, localtimestamp, null),
 --     (50, 147, localtimestamp, localtimestamp, null);
 
-ALTER SEQUENCE product_inventory_id_seq RESTART WITH 11;
+ALTER SEQUENCE product_inventory_id_seq RESTART WITH 12;
 
 
 INSERT INTO discount(ID, DISCOUNT_PERCENT, NAME, DESCR, STATUS, CREATED_AT, UPDATED_AT, DELETED_AT, created_by, updated_by)

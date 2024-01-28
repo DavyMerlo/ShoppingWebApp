@@ -26,13 +26,12 @@ public class OrderLine extends BaseEntity {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
 
     @Column(name = "quantity")
     private short quantity;
-
 
     @Builder
     public OrderLine(LocalDateTime createdAt,

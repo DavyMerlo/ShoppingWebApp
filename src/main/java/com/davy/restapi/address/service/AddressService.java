@@ -8,6 +8,6 @@ import com.davy.restapi.address.response.AddressResponse;
 public interface AddressService {
     AddressListResponse findAllAddresses();
     AddressResponse findAddressById(Long id);
-    AddressResponse saveAddress(AddressCreateRequest request);
-    AddressResponse updateAddressById(Long id, AddressUpdateRequest request);
+    Long saveAddress(AddressCreateRequest request);
+    void updateAddressById(Long id, AddressUpdateRequest request);
 }

@@ -2,7 +2,9 @@ package com.davy.restapi.order.controller;
 
 import com.davy.restapi.order.request.OrderUpdateRequest;
 import com.davy.restapi.order.service.OrderService;
+import com.davy.restapi.orderlines.mapper.OrderLineMapper;
 import com.davy.restapi.orderlines.request.OrderLineCreateRequest;
+import com.davy.restapi.orderlines.response.OrderLineResponse;
 import com.davy.restapi.orderlines.service.OrderLineService;
 import com.davy.restapi.shared.handler.ResponseHandler;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/orders")
@@ -29,6 +32,12 @@ public class OrderController {
     @GetMapping("/{userId}/user")
     public ResponseEntity<?> findOrderByUserId(@PathVariable(value = "userId") final Long userId){
         var data = orderService.findOrderByUserId(userId);
+        return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
+    }
+
+    @GetMapping("/{orderId}/orderlines")
+    public ResponseEntity<?> findOrderLinesByOrderId(@PathVariable(value = "orderId") final Long id){
+        var data = orderLineService.findOrderLinesByOrderId(id);
         return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
     }
 

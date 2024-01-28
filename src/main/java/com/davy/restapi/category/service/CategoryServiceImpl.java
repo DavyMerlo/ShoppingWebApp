@@ -65,22 +65,20 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponse updateCategoryById(Long id, CategoryUpdateRequest request) {
+    public void updateCategoryById(Long id, CategoryUpdateRequest request) {
         var category = categoryRepository.getCategoryById(id);
         if(category.isEmpty()){
             ThrowException.objectByIdException(id, "Category");
         }
         category.get().setName(request.getName());
         categoryRepository.updateCategory(category.get());
-        return this.findCategoryById(category.get().getId());
     }
 
     @Override
-    public CategoryListResponse saveCategory(CategoryCreateRequest request) {
+    public Long saveCategory(CategoryCreateRequest request) {
         var category = Category.builder()
                 .name(request.getName())
                 .build();
-        categoryRepository.saveCategory(category);
-        return this.findAllCategories();
+        return categoryRepository.saveCategory(category);
     }
 }

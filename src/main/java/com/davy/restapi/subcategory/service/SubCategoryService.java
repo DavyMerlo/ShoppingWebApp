@@ -11,9 +11,9 @@ public interface SubCategoryService {
 
     SubCategoryResponse findSubCategoryById(Long id);
 
-    SubCategoryResponse updateSubCategoryById(Long id, SubCategoryRequest request);
+    void updateSubCategoryById(Long id, SubCategoryRequest request);
 
     Boolean existsBySubCategoryId(Long id);
 
-    SubCategoryListResponse saveSubCategory(SubCategoryRequest request);
+    Long saveSubCategory(SubCategoryRequest request);
 }

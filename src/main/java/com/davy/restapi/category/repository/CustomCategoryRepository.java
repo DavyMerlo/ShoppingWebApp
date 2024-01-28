@@ -9,7 +9,7 @@ public interface CustomCategoryRepository {
 
     List<Category> getAllCategories();
     Optional<Category> getCategoryById(Long id);
-    void saveCategory(Category category);
+    Long saveCategory(Category category);
     void updateCategory(Category category);
     void removeCategory(Category category);
     Optional<Category> getCategoryBySubCategoryId(Long subCategoryId);

@@ -5,10 +5,12 @@ import com.davy.restapi.inventory.entity.Inventory;
 import com.davy.restapi.inventory.repository.InventoryRepository;
 import com.davy.restapi.product.dto.ProductDetails;
 import com.davy.restapi.product.entity.Product;
+import com.davy.restapi.product.mapper.ProductDetailMapper;
 import com.davy.restapi.product.mapper.ProductMapper;
 import com.davy.restapi.product.repository.ProductRepository;
 import com.davy.restapi.product.request.ProductRequest;
-import com.davy.restapi.product.response.ProductResponse;
+import com.davy.restapi.product.response.ProductDetailResponse;
+import com.davy.restapi.product.response.ProductListResponse;
 import com.davy.restapi.shared.exceptions.ThrowException;
 import com.davy.restapi.subcategory.dto.SubCategory;
 import com.davy.restapi.subcategory.mapper.SubCategoryMapper;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +38,7 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
     private final SubCategoryRepository subCategoryRepository;
     private final InventoryRepository inventoryRepository;
+    private final ProductDetailMapper productDetailMapper;
     private final ProductMapper productMapper;
     private final SubCategoryMapper subCategoryMapper;
 
@@ -44,6 +48,19 @@ public class ProductServiceImpl implements ProductService {
         Page<Product> productPage =
                 productRepository.findAll(pageableSorted);
         return mappedProductPage(productPage);
+    }
+
+    @Override
+    public ProductListResponse findAllProducts() {
+        var response = new ProductListResponse();
+        if(productRepository.findAll().isEmpty()){
+            ThrowException.objectException("Products");
+        }
+        response.setProducts(productRepository.findAll()
+                .stream()
+                .map(productMapper)
+                .collect(Collectors.toList()));
+        return response;
     }
 
     public Map<String, Object> filterAndSearchProductsByNamePageable(Long catId,
@@ -59,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponse findProductById(Long id) {
+    public ProductDetailResponse findProductById(Long id) {
         if(productRepository.getProductById(id).isEmpty()){
             ThrowException.objectByIdException(id, "Product");
         }
@@ -67,13 +84,13 @@ public class ProductServiceImpl implements ProductService {
         var subCategoryId = product.getSubCategory().getId();
         var subCategory = mappedSubCategoryItems(subCategoryId);
         product.getCategory().setSubCategory(subCategory);
-        return ProductResponse.builder()
+        return ProductDetailResponse.builder()
                 .product(product)
                 .build();
     }
 
     @Override
-    public ProductResponse saveProduct(ProductRequest request) {
+    public Long saveProduct(ProductRequest request) {
         checkIfCategoryIdAndSubCategoryIdExists(request);
         var inventory = Inventory.builder()
                 .quantity(request.getQuantity())
@@ -90,12 +107,11 @@ public class ProductServiceImpl implements ProductService {
                 .category(categoryRepository.getCategoryById(request.getCategoryId()).get())
                 .subCategory(subCategoryRepository.getSubCategoryById(request.getSubCategoryId()).get())
                 .build();
-        productRepository.saveProduct(product);
-        return this.findProductById(product.getId());
+        return productRepository.saveProduct(product);
     }
 
     @Override
-    public ProductResponse updateProductById(Long id, ProductRequest request) {
+    public void updateProductById(Long id, ProductRequest request) {
         Product productToUpdate = productRepository.getProductById(id).get();
         Product updatedProduct = Product.builder()
                 .id(productToUpdate.getId())
@@ -114,7 +130,6 @@ public class ProductServiceImpl implements ProductService {
                         .build())
                 .build();
         productRepository.updateProduct(updatedProduct);
-        return findProductById(updatedProduct.getId());
     }
 
     private void checkIfCategoryIdAndSubCategoryIdExists(ProductRequest request){
@@ -136,7 +151,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductDetails mappedProductDetails(Long productId){
         return  productRepository.getProductById(productId)
                 .stream()
-                .map(productMapper)
+                .map(productDetailMapper)
                 .findFirst()
                 .get();
     }
@@ -152,7 +167,7 @@ public class ProductServiceImpl implements ProductService {
 
         var productsTest = products
                 .stream()
-                .map(productMapper)
+                .map(productDetailMapper)
                 .toList();
 
         for(var item : productsTest){

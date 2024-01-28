@@ -4,16 +4,10 @@ import com.davy.restapi.address.request.AddressCreateRequest;
 import com.davy.restapi.address.service.AddressService;
 import com.davy.restapi.address.request.AddressUpdateRequest;
 import com.davy.restapi.shared.handler.ResponseHandler;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/addresses")
@@ -43,7 +37,8 @@ public class AddressController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAddressById(@PathVariable(value = "id") final Long id,
                                                @RequestBody AddressUpdateRequest request){
-        var data = addressService.updateAddressById(id, request);
+        addressService.updateAddressById(id, request);
+        var data = addressService.findAddressById(id);
         return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 }
