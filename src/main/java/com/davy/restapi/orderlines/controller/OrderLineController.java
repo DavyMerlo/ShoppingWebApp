@@ -1,8 +1,5 @@
 package com.davy.restapi.orderlines.controller;
 
-import com.davy.restapi.order.request.OrderCreateRequest;
-import com.davy.restapi.order.request.OrderUpdateRequest;
-import com.davy.restapi.orderlines.request.OrderLineCreateRequest;
 import com.davy.restapi.orderlines.request.OrderLineUpdateRequest;
 import com.davy.restapi.orderlines.service.OrderLineService;
 import com.davy.restapi.shared.handler.ResponseHandler;
@@ -11,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/orderlines")
@@ -30,12 +26,6 @@ public class OrderLineController {
     public ResponseEntity<?> findAllOrderLines(){
         var data = orderLineService.findAllOrderLines();
         return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
-    }
-
-    @PostMapping
-    public ResponseEntity<?> saveOrderOrderLine(@RequestBody List<OrderLineCreateRequest> request){
-        var data = orderLineService.saveOrderOrderLine(request);
-        return ResponseHandler.generateResponse(true, HttpStatus.CREATED, data);
     }
 
     @PutMapping("/{id}")

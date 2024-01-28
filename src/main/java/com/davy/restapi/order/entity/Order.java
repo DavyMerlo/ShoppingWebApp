@@ -29,7 +29,7 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "user_id")
     public User user;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private OrderStatus status;
 
     @OneToMany(mappedBy = "order")

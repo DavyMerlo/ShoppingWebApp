@@ -11,9 +11,6 @@ import lombok.Setter;
 public class OrderLineCreateRequest {
 
     @JsonProperty("name")
-    private Long orderId;
-
-    @JsonProperty("name")
     private Long productId;
 
     @JsonProperty("quantity")

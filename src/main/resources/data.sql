@@ -329,8 +329,20 @@ VALUES
 
 ALTER SEQUENCE product_id_seq RESTART WITH 12;
 
-
-
+-- INSERT INTO order_details(id, user_id, payment_id, status, created_at, updated_at, deleted_at, created_by, updated_by)
+-- VALUES
+--     (1, 1, null, 1, localtimestamp, localtimestamp, null, 1, null),
+--     (2, 1, null, 1, localtimestamp, localtimestamp, null, 1, null);
+--
+-- INSERT INTO order_lines(id, order_id, product_id, quantity, created_at, updated_at, deleted_at, created_by, updated_by)
+-- VALUES
+--     (1, 1, 2, 3, localtimestamp, localtimestamp, null, 1, null),
+--     (2, 1, 5, 4, localtimestamp, localtimestamp, null, 1, null),
+--     (3, 1, 8, 2, localtimestamp, localtimestamp, null, 1, null),
+--     (4, 1, 9, 2, localtimestamp, localtimestamp, null, 1, null),
+--     (5, 2, 6, 1, localtimestamp, localtimestamp, null, 1, null),
+--     (6, 2, 7, 4, localtimestamp, localtimestamp, null, 1, null),
+--     (7, 2, 11, 2, localtimestamp, localtimestamp, null, 1, null);
 
 
 

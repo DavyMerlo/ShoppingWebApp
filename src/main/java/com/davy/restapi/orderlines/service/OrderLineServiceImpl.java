@@ -7,6 +7,7 @@ import com.davy.restapi.orderlines.request.OrderLineCreateRequest;
 import com.davy.restapi.orderlines.request.OrderLineUpdateRequest;
 import com.davy.restapi.orderlines.response.OrderLineListResponse;
 import com.davy.restapi.orderlines.response.OrderLineResponse;
+import com.davy.restapi.product.entity.Product;
 import com.davy.restapi.product.repository.ProductRepository;
 import com.davy.restapi.shared.exceptions.ThrowException;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderLineServiceImpl implements OrderLineService {
 
-    private final OrderRepository orderRepository;
     private final OrderLineRepository orderLineRepository;
+    private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
 
     @Override
@@ -37,15 +38,19 @@ public class OrderLineServiceImpl implements OrderLineService {
     }
 
     @Override
-    public OrderLineResponse saveOrderOrderLine(List<OrderLineCreateRequest> requestedOrderlines) {
-        for(var requestedOrderLine: requestedOrderlines){
-            var orderLine = OrderLine.builder()
-                    .product(productRepository.getProductById(requestedOrderLine.getProductId()).get())
-                    .quantity(requestedOrderLine.getQuantity())
+    public void saveOrderOrderLines(Long userId, List<OrderLineCreateRequest> request) {
+        var order = orderRepository.getOrderByUserId(userId);
+        List<OrderLine> orderLines = new ArrayList<>();
+        for (OrderLineCreateRequest item : request) {
+            Product product = productRepository.getProductById(item.getProductId()).get();
+            OrderLine orderLine = OrderLine.builder()
+                    .order(order.get())
+                    .product(product)
+                    .quantity(item.getQuantity())
                     .build();
-            orderLineRepository.saveOrderLine(orderLine);
+            orderLines.add(orderLine);
         }
-        return null;
+        orderLineRepository.saveAll(orderLines);
     }
 
     @Override

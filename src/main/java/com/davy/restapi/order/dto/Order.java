@@ -2,8 +2,11 @@ package com.davy.restapi.order.dto;
 
 import com.davy.restapi.order.enums.OrderStatus;
 
-public record OrderItems(
+import java.time.LocalDateTime;
+
+public record Order(
         Long id,
-        OrderStatus status
+        OrderStatus status,
+        LocalDateTime date
 ) {
 }

@@ -30,6 +30,11 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
     }
 
     @Override
+    public Optional<Order> getOrderByUserId(Long userId) {
+        return Optional.ofNullable(entityManager.find(Order.class, userId));
+    }
+
+    @Override
     @Transactional
     public Optional<Order> saveOrder(Order order) {
         entityManager.persist(order);

@@ -10,9 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class OrderCreateRequest {
-    @JsonProperty("userId")
-    private Long userId;
 
-    @JsonProperty("orderDate")
-    private LocalDateTime orderDate;
+    @JsonProperty("paymentId")
+    private Long PaymentId;
 }

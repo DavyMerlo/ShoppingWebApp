@@ -11,6 +11,6 @@ public interface OrderLineService {
 
     OrderLineListResponse findAllOrderLines();
     OrderLineResponse findOrderLineById(Long id);
-    OrderLineResponse saveOrderOrderLine(List<OrderLineCreateRequest> requests);
+    void saveOrderOrderLines(Long userId, List<OrderLineCreateRequest> requests);
     OrderLineResponse updateOrderLineById(Long id, OrderLineUpdateRequest request);
 }

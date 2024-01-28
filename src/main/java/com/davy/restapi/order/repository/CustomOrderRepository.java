@@ -12,6 +12,8 @@ public interface CustomOrderRepository {
 
     Optional<Order> getOrderById(Long id);
 
+    Optional<Order> getOrderByUserId(Long userId);
+
     Optional<Order> saveOrder(Order order);
 
     void updateOrder(Order order);
