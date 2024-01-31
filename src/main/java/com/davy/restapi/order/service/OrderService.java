@@ -7,6 +7,7 @@ import com.davy.restapi.order.response.OrderResponse;
 public interface OrderService {
     OrderListResponse findAllOrders();
     OrderResponse findOrderById(Long id);
+    OrderListResponse findOrdersByUserId(Long userId);
     OrderResponse findOrderByUserId(Long userId);
     void saveOrder(Long userId);
     void updateOrderById(Long id, OrderUpdateRequest request);

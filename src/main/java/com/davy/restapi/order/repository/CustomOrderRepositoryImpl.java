@@ -30,6 +30,13 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
     }
 
     @Override
+    public List<Order> getOrdersByUserId(Long userId) {
+        Query query = entityManager.createQuery("SELECT o FROM Order o WHERE o.user.id = :userId");
+        query.setParameter("userId", userId);
+        return query.getResultList();
+    }
+
+    @Override
     public Optional<Order> getOrderByUserId(Long userId) {
         return Optional.ofNullable(entityManager.find(Order.class, userId));
     }

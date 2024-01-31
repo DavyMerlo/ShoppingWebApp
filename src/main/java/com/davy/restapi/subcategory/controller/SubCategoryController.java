@@ -1,5 +1,6 @@
 package com.davy.restapi.subcategory.controller;
 
+import com.davy.restapi.category.service.CategoryService;
 import com.davy.restapi.shared.handler.ResponseHandler;
 import com.davy.restapi.subcategory.request.SubCategoryRequest;
 import com.davy.restapi.subcategory.service.SubCategoryService;
@@ -14,17 +15,20 @@ import org.springframework.web.bind.annotation.*;
 public class SubCategoryController {
 
     private final SubCategoryService subCategoryService;
+    private final CategoryService categoryService;
 
-    @GetMapping()
-    public ResponseEntity<?> findSubCategoriesByCategoryId(@RequestParam(name = "category",
-            required = false) Long category){
-        var data = subCategoryService.findSubCategoriesByCategoryId(category);
-        return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
-    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findSubCategoryById(@PathVariable(value = "id") final Long id){
         var data = subCategoryService.findSubCategoryById(id);
+        return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
+    }
+
+    @GetMapping("/{SubCatId}/category")
+    public ResponseEntity<?> findCategoryBySubCategoryId(@PathVariable(value = "SubCatId")
+                                                         final  Long SubCatId){
+        var data = categoryService.findCategoryBySubCategoryId(SubCatId);
         return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
     }
 

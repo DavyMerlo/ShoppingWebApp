@@ -51,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderResponse findOrderByUserId(Long userId) {
         OrderResponse response = new OrderResponse();
-        if(orderRepository.getOrderByUserId(userId).isEmpty()){
+        if(orderRepository.getOrdersByUserId(userId).isEmpty()){
             ThrowException.objectByIdException(userId, "Order");
         }
         response.setOrder(orderRepository.getOrderByUserId(userId)
@@ -59,6 +59,19 @@ public class OrderServiceImpl implements OrderService {
                 .map(orderMapper)
                 .findFirst()
                 .get());
+        return response;
+    }
+
+    @Override
+    public OrderListResponse findOrdersByUserId(Long userId) {
+        OrderListResponse response = new OrderListResponse();
+        if(orderRepository.getOrdersByUserId(userId).isEmpty()){
+            ThrowException.objectByIdException(userId, "Order");
+        }
+        response.setOrders(orderRepository.getAllOrders()
+                .stream()
+                .map(orderMapper)
+                .collect(Collectors.toList()));
         return response;
     }
 

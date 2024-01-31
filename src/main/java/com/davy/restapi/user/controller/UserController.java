@@ -1,5 +1,6 @@
 package com.davy.restapi.user.controller;
 
+import com.davy.restapi.order.service.OrderService;
 import com.davy.restapi.shared.handler.ResponseHandler;
 import com.davy.restapi.user.request.ChangePasswordRequest;
 import com.davy.restapi.user.service.UserService;
@@ -16,6 +17,7 @@ import java.security.Principal;
 public class UserController {
 
     private final UserService userService;
+    private final OrderService orderService;
 
     @GetMapping()
     public ResponseEntity<?> findAllUsers(){
@@ -34,6 +36,12 @@ public class UserController {
     @GetMapping("/{id}/address")
     public ResponseEntity<?> findUserWithAddressByUserId(@PathVariable final Long id){
         var data = userService.findUserWithAddressByUserId(id);
+        return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
+    }
+
+    @GetMapping("/{userId}/orders")
+    public ResponseEntity<?> findOrdersByUserId(@PathVariable(value = "userId") final Long userId){
+        var data = orderService.findOrdersByUserId(userId);
         return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
     }
 

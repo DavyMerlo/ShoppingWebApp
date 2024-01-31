@@ -4,6 +4,7 @@ import com.davy.restapi.category.request.CategoryCreateRequest;
 import com.davy.restapi.category.request.CategoryUpdateRequest;
 import com.davy.restapi.category.service.CategoryService;
 import com.davy.restapi.shared.handler.ResponseHandler;
+import com.davy.restapi.subcategory.service.SubCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
 
     private final CategoryService categoryService;
+    private final SubCategoryService subCategoryService;
 
     @GetMapping
     public ResponseEntity<?> findAllCategories(){
@@ -29,10 +31,9 @@ public class CategoryController {
         return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
     }
 
-    @GetMapping("/subcategories/{SubCatId}")
-    public ResponseEntity<?> findCategoryBySubCategoryId(@PathVariable(value = "SubCatId")
-                                                             final  Long SubCatId){
-        var data = categoryService.findCategoryBySubCategoryId(SubCatId);
+    @GetMapping("/{catId}/subcategories")
+    public ResponseEntity<?> findSubCategoriesByCategoryId(@PathVariable(value = "catId") final  Long catId){
+        var data = subCategoryService.findSubCategoriesByCategoryId(catId);
         return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
     }
 

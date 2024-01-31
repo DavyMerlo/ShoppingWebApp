@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductV2Controller {
 
     private final ProductService productService;
-    //
 
     @GetMapping()
     public ResponseEntity<?> getAllProducts(){
