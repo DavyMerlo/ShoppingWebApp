@@ -11,7 +11,7 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class AddressCreateRequest {
+public class AddressRequest {
 
     @NotNull(message = "Street should be not be empty")
     @NotEmpty(message = "Street should be not be empty")

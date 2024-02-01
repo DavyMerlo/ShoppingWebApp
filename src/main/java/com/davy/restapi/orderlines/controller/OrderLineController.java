@@ -17,8 +17,16 @@ public class OrderLineController {
     private final OrderLineService orderLineService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findOrderLineById(@PathVariable(value = "id") final Long id){
+    public ResponseEntity<?> findOrderLineById(@PathVariable(value = "id")
+                                                   final Long id){
         var data = orderLineService.findOrderLineById(id);
+        return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
+    }
+
+    @GetMapping("/{orderLineId}/order")
+    public ResponseEntity<?> findOrderByOrderLineId(@PathVariable(value = "orderLineId")
+                                                        final Long orderLineId){
+        var data = orderLineService.findOrderByOrderLineId(orderLineId);
         return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
     }
 
@@ -29,7 +37,8 @@ public class OrderLineController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateOrderLineById(@PathVariable(value = "id") final Long id,
+    public ResponseEntity<?> updateOrderLineById(@PathVariable(value = "id")
+                                                     final Long id,
                                              @RequestBody OrderLineUpdateRequest request){
         var data = orderLineService.updateOrderLineById(id, request);
         return ResponseHandler.generateResponse(true, HttpStatus.OK, data);

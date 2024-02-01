@@ -1,6 +1,8 @@
 package com.davy.restapi.orderlines.service;
 
+import com.davy.restapi.order.mapper.OrderMapper;
 import com.davy.restapi.order.repository.OrderRepository;
+import com.davy.restapi.order.response.OrderResponse;
 import com.davy.restapi.orderlines.entity.OrderLine;
 import com.davy.restapi.orderlines.mapper.OrderLineMapper;
 import com.davy.restapi.orderlines.repository.OrderLineRepository;
@@ -26,6 +28,7 @@ public class OrderLineServiceImpl implements OrderLineService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final OrderLineMapper orderLineMapper;
+    private final OrderMapper orderMapper;
 
     @Override
     public OrderLineListResponse findAllOrderLines() {
@@ -34,10 +37,30 @@ public class OrderLineServiceImpl implements OrderLineService {
 
     @Override
     public OrderLineResponse findOrderLineById(Long id) {
+        var response = new OrderLineResponse();
         if(orderLineRepository.getOrderLineById(id).isEmpty()){
             ThrowException.objectByIdException(id, "OrderLine");
         }
-        return null;
+        response.setOrderline(orderLineRepository.getOrderLineById(id)
+                .stream()
+                .map(orderLineMapper)
+                .findFirst()
+                .get());
+        return response;
+    }
+
+    @Override
+    public OrderResponse findOrderByOrderLineId(Long orderId) {
+        var response = new OrderResponse();
+        if(orderLineRepository.getOrderByOrderLineId(orderId).isEmpty()){
+            ThrowException.objectByIdException(orderId, "Order");
+        }
+        response.setOrder(orderLineRepository.getOrderByOrderLineId(orderId)
+                .stream()
+                .map(orderMapper)
+                .findFirst()
+                .get());
+        return response;
     }
 
     @Override

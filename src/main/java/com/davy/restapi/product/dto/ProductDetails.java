@@ -1,7 +1,7 @@
 package com.davy.restapi.product.dto;
 
 import com.davy.restapi.category.dto.CategoryDetails;
-import com.davy.restapi.inventory.dto.InventoryItems;
+import com.davy.restapi.inventory.dto.Inventory;
 import com.davy.restapi.subcategory.dto.SubCategory;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -43,7 +43,7 @@ public class ProductDetails {
     private SubCategory subCategory;
 
     @JsonProperty("inventory")
-    private InventoryItems inventory;
+    private Inventory inventory;
 
     public ProductDetails(Long id,
                           String name,
@@ -54,7 +54,7 @@ public class ProductDetails {
                           int vat,
                           CategoryDetails category,
                           SubCategory subCategory,
-                          InventoryItems inventory
+                          Inventory inventory
     ) {
         this.id = id;
         this.name = name;

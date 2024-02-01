@@ -1,8 +1,7 @@
 package com.davy.restapi.address.controller;
 
-import com.davy.restapi.address.request.AddressCreateRequest;
+import com.davy.restapi.address.request.AddressRequest;
 import com.davy.restapi.address.service.AddressService;
-import com.davy.restapi.address.request.AddressUpdateRequest;
 import com.davy.restapi.shared.handler.ResponseHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,27 +17,27 @@ public class AddressController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findAddressById(@PathVariable(value = "id") final Long id){
-        var data = addressService.findAddressById(id);
+        var data = addressService.findById(id);
         return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
     }
 
     @GetMapping
     public ResponseEntity<?> findAllAddresses(){
-        var data = addressService.findAllAddresses();
+        var data = addressService.findAll();
         return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 
     @PostMapping
-    public ResponseEntity<?> saveAddress(@RequestBody AddressCreateRequest request){
-        var data = addressService.saveAddress(request);
+    public ResponseEntity<?> saveAddress(@RequestBody AddressRequest request){
+        var data = addressService.save(request);
         return ResponseHandler.generateResponse(true, HttpStatus.CREATED, data);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAddressById(@PathVariable(value = "id") final Long id,
-                                               @RequestBody AddressUpdateRequest request){
-        addressService.updateAddressById(id, request);
-        var data = addressService.findAddressById(id);
+                                               @RequestBody AddressRequest request){
+        addressService.updateById(id, request);
+        var data = addressService.findById(id);
         return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 }

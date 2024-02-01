@@ -2,7 +2,7 @@ package com.davy.restapi.address.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record Address(
+public record AddressDto(
         @JsonProperty("id") Long id,
         @JsonProperty("street") String street,
         @JsonProperty("houseNumber") String houseNumber,

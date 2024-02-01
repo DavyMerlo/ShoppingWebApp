@@ -1,81 +1,52 @@
 package com.davy.restapi.address.service;
 
-import com.davy.restapi.address.request.AddressUpdateRequest;
+import com.davy.restapi.address.dto.AddressDto;
 import com.davy.restapi.address.entity.Address;
-import com.davy.restapi.address.mapper.AddressMapper;
-import com.davy.restapi.address.repository.AddressRepository;
-import com.davy.restapi.address.request.AddressCreateRequest;
+import com.davy.restapi.address.request.AddressRequest;
 import com.davy.restapi.address.response.AddressListResponse;
 import com.davy.restapi.address.response.AddressResponse;
-import com.davy.restapi.shared.exceptions.ThrowException;
-import com.davy.restapi.shared.validators.RequestValidatorImpl;
-import lombok.RequiredArgsConstructor;
+import com.davy.restapi.shared.mapper.ObjectMapper;
+import com.davy.restapi.shared.repository.CrudRepository;
+import com.davy.restapi.shared.service.CrudService;
 import org.springframework.stereotype.Service;
 
-import java.util.stream.Collectors;
-
+import java.util.List;
 
 @Service
-@RequiredArgsConstructor
-public class AddressServiceImpl implements AddressService {
+public class AddressServiceImpl extends CrudService<Address, AddressRequest>
+        implements AddressService {
 
-    private final AddressRepository addressRepository;
-    private final AddressMapper addressMapper;
-    private final RequestValidatorImpl<AddressCreateRequest> addressCreateRequestValidatorImpl;
-    private final RequestValidatorImpl<AddressUpdateRequest> addressUpdateRequestValidatorImpl;
+    public AddressServiceImpl(CrudRepository<Address> repository,
+                              ObjectMapper<AddressRequest, Address> objectMapper) {
+        super(repository, objectMapper);
+    }
 
     @Override
-    public AddressListResponse findAllAddresses() {
-        AddressListResponse response = new AddressListResponse();
-        if(addressRepository.getAllAddresses().isEmpty()){
-            ThrowException.objectException("Addresses");
-        }
-        response.setAddresses(addressRepository.getAllAddresses()
-                .stream()
-                .map(addressMapper)
-                .collect(Collectors.toList()));
+    public AddressListResponse findAll() {
+        var response = new AddressListResponse();
+        var addresses = super.findAll();
+        response.setAddresses((List<AddressDto>) addresses);
         return response;
     }
 
     @Override
-    public AddressResponse findAddressById(Long id) {
-        AddressResponse response = new AddressResponse();
-        if(addressRepository.getAddressById(id).isEmpty()){
-            ThrowException.objectByIdException(id, "Address");
-        }
-        response.setAddress(addressRepository.getAddressById(id)
-                .stream()
-                .map(addressMapper)
-                .findFirst()
-                .get());
+    public AddressResponse findById(Long id) {
+        var response = new AddressResponse();
+        var address = super.findById(id);
+        response.setAddress((AddressDto) address);
         return response;
     }
 
     @Override
-    public Long saveAddress(AddressCreateRequest request) {
-        addressCreateRequestValidatorImpl.validate(request);
-        var address = Address.builder()
-                .street(request.getStreet())
-                .houseNumber(request.getHouseNumber())
-                .busNumber(request.getBusNumber())
-                .localAuthority(request.getLocalAuthority())
-                .postalCode(request.getPostalCode())
-                .build();
-        return addressRepository.saveAddress(address);
+    public AddressResponse save(AddressRequest createRequest) {
+        var response = new AddressResponse();
+        var address = super.save(createRequest);
+        response.setAddress((AddressDto) address);
+        return response;
     }
 
     @Override
-    public void updateAddressById(Long id, AddressUpdateRequest request) {
-        addressUpdateRequestValidatorImpl.validate(request);
-        var address = addressRepository.getAddressById(id);
-        if(address.isEmpty()){
-            ThrowException.objectByIdException(id, "Address");
-        }
-        address.get().setStreet(request.getStreet());
-        address.get().setHouseNumber(request.getHouseNumber());
-        address.get().setBusNumber(request.getBusNumber());
-        address.get().setPostalCode(request.getPostalCode());
-        address.get().setLocalAuthority(request.getLocalAuthority());
-        addressRepository.updateAddress(address.get());
+    public void updateById(Long id, AddressRequest request) {
+        super.updateById(id, request);
     }
 }

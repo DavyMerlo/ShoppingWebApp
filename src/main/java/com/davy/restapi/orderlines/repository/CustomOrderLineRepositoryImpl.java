@@ -1,5 +1,6 @@
 package com.davy.restapi.orderlines.repository;
 
+import com.davy.restapi.order.entity.Order;
 import com.davy.restapi.orderlines.entity.OrderLine;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -26,6 +27,15 @@ public class CustomOrderLineRepositoryImpl implements CustomOrderLineRepository 
     @Override
     public Optional<OrderLine> getOrderLineById(Long id) {
         return Optional.ofNullable(entityManager.find(OrderLine.class, id));
+    }
+
+    @Override
+    public Optional<Order> getOrderByOrderLineId(Long orderLineId) {
+        Query query = entityManager.createQuery(
+                "SELECT o FROM Order o JOIN o.orderItems ol WHERE ol.id = :orderLineId");
+        query.setParameter("orderLineId", orderLineId);
+        Order result = (Order) query.getSingleResult();
+        return Optional.ofNullable(result);
     }
 
     @Override

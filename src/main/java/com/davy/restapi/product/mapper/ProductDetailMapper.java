@@ -1,7 +1,7 @@
 package com.davy.restapi.product.mapper;
 
 import com.davy.restapi.category.mapper.CategoryDetailsMapper;
-import com.davy.restapi.inventory.mapper.InventoryItemsMapper;
+import com.davy.restapi.inventory.mapper.InventoryMapper;
 import com.davy.restapi.product.dto.ProductDetails;
 import com.davy.restapi.product.entity.Product;
 import com.davy.restapi.subcategory.mapper.SubCategoryMapper;
@@ -16,7 +16,7 @@ public class ProductDetailMapper implements Function<Product, ProductDetails> {
 
     private final SubCategoryMapper subCategoryMapper;
     private final CategoryDetailsMapper categoryDetailsMapper;
-    private final InventoryItemsMapper inventoryItemsMapper;
+    private final InventoryMapper inventoryMapper;
 
     @Override
     public ProductDetails apply(Product product) {
@@ -30,7 +30,7 @@ public class ProductDetailMapper implements Function<Product, ProductDetails> {
                 product.getVAT().ordinal(),
                 categoryDetailsMapper.apply(product.getCategory()),
                 subCategoryMapper.apply(product.getSubCategory()),
-                inventoryItemsMapper.apply(product.getInventory())
+                inventoryMapper.apply(product.getInventory())
         );
     }
 }
