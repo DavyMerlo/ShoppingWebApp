@@ -6,10 +6,9 @@ import com.davy.restapi.address.entity.Address;
 import com.davy.restapi.address.request.AddressRequest;
 import com.davy.restapi.address.response.AddressListResponse;
 import com.davy.restapi.address.response.AddressResponse;
-import com.davy.restapi.shared.mapper.ObjectMapper;
+import com.davy.restapi.shared.mapper.ResponseMapper;
 import com.davy.restapi.shared.repository.AbstractCrudRepository;
 import com.davy.restapi.shared.service.AbstractCrudService;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +18,8 @@ public class AddressServiceImpl extends AbstractCrudService<Address, AddressRequ
         implements AddressService {
 
     public AddressServiceImpl(AbstractCrudRepository<Address> repository,
-                              ObjectMapper<AddressRequest, Address> objectMapper) {
-        super(repository, objectMapper);
+                              ResponseMapper<AddressRequest, Address> responseMapper) {
+        super(repository, responseMapper);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.davy.restapi.shared.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
@@ -12,9 +11,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-//Base class for all the entities
-//This entity contains the id, createdAt, updatedAt, deletedAt that will be used
-//for all entities.
 @Getter
 @Setter
 @NoArgsConstructor

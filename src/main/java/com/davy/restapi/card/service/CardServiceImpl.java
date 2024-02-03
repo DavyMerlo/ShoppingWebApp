@@ -7,7 +7,7 @@ import com.davy.restapi.card.entity.CustomerCard;
 import com.davy.restapi.card.request.CardRequest;
 import com.davy.restapi.card.response.CardListResponse;
 import com.davy.restapi.card.response.CardResponse;
-import com.davy.restapi.shared.mapper.ObjectMapper;
+import com.davy.restapi.shared.mapper.ResponseMapper;
 import com.davy.restapi.shared.repository.AbstractCrudRepository;
 import com.davy.restapi.shared.service.AbstractCrudService;
 import org.springframework.stereotype.Service;
@@ -18,8 +18,8 @@ public class CardServiceImpl extends AbstractCrudService<CustomerCard, CardReque
         implements CardService {
 
     public CardServiceImpl(AbstractCrudRepository<CustomerCard> repository,
-                           ObjectMapper<CardRequest, CustomerCard> objectMapper) {
-        super(repository, objectMapper);
+                           ResponseMapper<CardRequest, CustomerCard> responseMapper) {
+        super(repository, responseMapper);
     }
 
     @Override

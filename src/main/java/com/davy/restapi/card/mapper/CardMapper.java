@@ -4,22 +4,11 @@ import com.davy.restapi.card.dto.CardDetail;
 import com.davy.restapi.card.dto.CardDto;
 import com.davy.restapi.card.entity.CustomerCard;
 import com.davy.restapi.card.request.CardRequest;
-import com.davy.restapi.shared.mapper.ObjectMapper;
+import com.davy.restapi.shared.mapper.ResponseMapper;
 import org.springframework.stereotype.Service;
 
-//@Service
-//public class CardMapper implements Function<CustomerCard, Card> {
-//
-//    @Override
-//    public Card apply(CustomerCard customerCard) {
-//        return new Card(
-//                customerCard.getId(),
-//                customerCard.getNumber());
-//    }
-//}
-
 @Service
-public class CardMapper implements ObjectMapper<CardRequest, CustomerCard> {
+public class CardMapper implements ResponseMapper<CardRequest, CustomerCard> {
 
     @Override
     public CustomerCard mapSourceToDestination(CardRequest source, CustomerCard destination) {

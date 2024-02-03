@@ -1,7 +1,7 @@
 package com.davy.restapi.shared.service;
 
 import com.davy.restapi.shared.exceptions.ThrowException;
-import com.davy.restapi.shared.mapper.ObjectMapper;
+import com.davy.restapi.shared.mapper.ResponseMapper;
 import com.davy.restapi.shared.repository.AbstractCrudRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
 public abstract class AbstractCrudService<T, C> {
 
     protected final AbstractCrudRepository<T> repository;
-    protected final ObjectMapper<C,T> objectMapper;
+    protected final ResponseMapper<C,T> responseMapper;
 
     public Object findAll() {
         List<T> entities = repository.getAll();
         return entities
                 .stream()
-                .map(objectMapper::mapToDto)
+                .map(responseMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
@@ -30,15 +30,15 @@ public abstract class AbstractCrudService<T, C> {
             ThrowException.objectByIdException(id, "Object with " + id + " not found");
         }
         T entity = entityOptional.get();
-        return objectMapper.mapToDetails(entity);
+        return responseMapper.mapToDetails(entity);
     }
 
     public Object save(C createRequest) {
-        var entity = objectMapper.mapToEntity(createRequest);
+        var entity = responseMapper.mapToEntity(createRequest);
         var savedEntity = repository.save(entity);
         return  savedEntity
                 .stream()
-                .map(objectMapper::mapToDto)
+                .map(responseMapper::mapToDto)
                 .findFirst()
                 .get();
     }
@@ -48,7 +48,7 @@ public abstract class AbstractCrudService<T, C> {
         if (existingEntity.isEmpty()) {
             ThrowException.objectByIdException(id, "Object with " + id + " not found");
         }
-        var updated = objectMapper.mapSourceToDestination(createRequest, (T) existingEntity.get());
+        var updated = responseMapper.mapSourceToDestination(createRequest, (T) existingEntity.get());
         repository.update(updated);
     }
 }
