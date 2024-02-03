@@ -1,9 +1,10 @@
 package com.davy.restapi.card.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
-public record CardDetails(
+
+public record CardDto(
         @JsonProperty("id") Long id,
-        @JsonProperty("number") String number,
-        @JsonProperty("points") byte points) {
+        @JsonProperty("number") String number) {
 }

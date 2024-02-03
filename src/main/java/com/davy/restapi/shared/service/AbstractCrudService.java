@@ -2,23 +2,19 @@ package com.davy.restapi.shared.service;
 
 import com.davy.restapi.shared.exceptions.ThrowException;
 import com.davy.restapi.shared.mapper.ObjectMapper;
-import com.davy.restapi.shared.repository.CrudRepository;
+import com.davy.restapi.shared.repository.AbstractCrudRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public abstract class CrudService<T, C> {
+@AllArgsConstructor
+public abstract class AbstractCrudService<T, C> {
 
-    protected final CrudRepository<T> repository;
+    protected final AbstractCrudRepository<T> repository;
     protected final ObjectMapper<C,T> objectMapper;
-
-    public CrudService(CrudRepository<T> repository,
-                       ObjectMapper<C, T> addressUpdateMapper) {
-        this.repository = repository;
-        this.objectMapper = addressUpdateMapper;
-    }
 
     public Object findAll() {
         List<T> entities = repository.getAll();
@@ -34,7 +30,7 @@ public abstract class CrudService<T, C> {
             ThrowException.objectByIdException(id, "Object with " + id + " not found");
         }
         T entity = entityOptional.get();
-        return objectMapper.mapToDto(entity);
+        return objectMapper.mapToDetails(entity);
     }
 
     public Object save(C createRequest) {

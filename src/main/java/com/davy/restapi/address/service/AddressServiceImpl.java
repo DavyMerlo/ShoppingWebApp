@@ -1,22 +1,24 @@
 package com.davy.restapi.address.service;
 
+import com.davy.restapi.address.dto.AddressDetail;
 import com.davy.restapi.address.dto.AddressDto;
 import com.davy.restapi.address.entity.Address;
 import com.davy.restapi.address.request.AddressRequest;
 import com.davy.restapi.address.response.AddressListResponse;
 import com.davy.restapi.address.response.AddressResponse;
 import com.davy.restapi.shared.mapper.ObjectMapper;
-import com.davy.restapi.shared.repository.CrudRepository;
-import com.davy.restapi.shared.service.CrudService;
+import com.davy.restapi.shared.repository.AbstractCrudRepository;
+import com.davy.restapi.shared.service.AbstractCrudService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class AddressServiceImpl extends CrudService<Address, AddressRequest>
+public class AddressServiceImpl extends AbstractCrudService<Address, AddressRequest>
         implements AddressService {
 
-    public AddressServiceImpl(CrudRepository<Address> repository,
+    public AddressServiceImpl(AbstractCrudRepository<Address> repository,
                               ObjectMapper<AddressRequest, Address> objectMapper) {
         super(repository, objectMapper);
     }
@@ -26,6 +28,7 @@ public class AddressServiceImpl extends CrudService<Address, AddressRequest>
         var response = new AddressListResponse();
         var addresses = super.findAll();
         response.setAddresses((List<AddressDto>) addresses);
+        System.out.println(response.getAddresses());
         return response;
     }
 
@@ -33,7 +36,7 @@ public class AddressServiceImpl extends CrudService<Address, AddressRequest>
     public AddressResponse findById(Long id) {
         var response = new AddressResponse();
         var address = super.findById(id);
-        response.setAddress((AddressDto) address);
+        response.setAddress((AddressDetail) address);
         return response;
     }
 
@@ -41,7 +44,7 @@ public class AddressServiceImpl extends CrudService<Address, AddressRequest>
     public AddressResponse save(AddressRequest createRequest) {
         var response = new AddressResponse();
         var address = super.save(createRequest);
-        response.setAddress((AddressDto) address);
+        response.setAddress((AddressDetail) address);
         return response;
     }
 

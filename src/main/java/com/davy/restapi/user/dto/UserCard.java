@@ -1,11 +1,11 @@
 package com.davy.restapi.user.dto;
 
-import com.davy.restapi.card.dto.CardDetails;
+import com.davy.restapi.card.dto.CardDetail;
 
 public record UserCard(
         Long id,
         String firstName,
         String lastName,
-        CardDetails card
+        CardDetail card
 ) {
 }

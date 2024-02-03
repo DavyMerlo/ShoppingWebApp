@@ -8,12 +8,11 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class CardUpdateRequest {
+public class CardRequest {
 
     @JsonProperty("number")
     private String number;
 
     @JsonProperty("points")
     private byte points;
-
 }

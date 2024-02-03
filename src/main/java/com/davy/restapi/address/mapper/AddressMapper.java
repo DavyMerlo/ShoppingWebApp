@@ -1,5 +1,6 @@
 package com.davy.restapi.address.mapper;
 
+import com.davy.restapi.address.dto.AddressDetail;
 import com.davy.restapi.address.dto.AddressDto;
 import com.davy.restapi.address.entity.Address;
 import com.davy.restapi.address.request.AddressRequest;
@@ -7,7 +8,7 @@ import com.davy.restapi.shared.mapper.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AddressUpdateMapper implements ObjectMapper<AddressRequest, Address> {
+public class AddressMapper implements ObjectMapper<AddressRequest, Address> {
 
     @Override
     public Address mapSourceToDestination(AddressRequest source, Address destination) {
@@ -22,6 +23,18 @@ public class AddressUpdateMapper implements ObjectMapper<AddressRequest, Address
     @Override
     public AddressDto mapToDto(Address address) {
         return new AddressDto(
+                address.getId(),
+                address.getStreet(),
+                address.getHouseNumber(),
+                address.getBusNumber(),
+                address.getPostalCode(),
+                address.getLocalAuthority()
+        );
+    }
+
+    @Override
+    public AddressDetail mapToDetails(Address address) {
+        return new AddressDetail(
                 address.getId(),
                 address.getStreet(),
                 address.getHouseNumber(),

@@ -1,13 +1,12 @@
 package com.davy.restapi.shared.repository;
 
-import com.davy.restapi.address.repository.CustomAddressRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CrudRepository<T> extends CustomAddressRepository {
+public interface AbstractCrudRepository<T> {
 
     List<T> getAll();
 
@@ -16,6 +15,4 @@ public interface CrudRepository<T> extends CustomAddressRepository {
     Optional<T> save(Object entity);
 
     void update(Object entity);
-//
-//    void delete(Long id);
 }

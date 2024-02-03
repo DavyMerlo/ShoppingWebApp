@@ -8,6 +8,8 @@ public interface ObjectMapper<S, D> {
 
     Object mapToDto(D entity);
 
+    Object mapToDetails(D entity);
+
     Object mapToEntity(S request);
 }
 

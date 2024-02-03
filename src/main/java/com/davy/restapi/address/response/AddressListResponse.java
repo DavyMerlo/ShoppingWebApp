@@ -9,7 +9,6 @@ import java.util.List;
 
 @Data
 public class AddressListResponse {
-
     @JsonProperty("addresses")
     private List<AddressDto> addresses;
     {

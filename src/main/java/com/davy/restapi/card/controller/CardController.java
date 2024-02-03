@@ -1,7 +1,6 @@
 package com.davy.restapi.card.controller;
 
-import com.davy.restapi.card.request.CardCreateRequest;
-import com.davy.restapi.card.request.CardUpdateRequest;
+import com.davy.restapi.card.request.CardRequest;
 import com.davy.restapi.card.service.CardService;
 import com.davy.restapi.shared.handler.ResponseHandler;
 import lombok.RequiredArgsConstructor;
@@ -18,26 +17,30 @@ public class CardController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable(value = "id") final Long id){
-        var data = cardService.findCardById(id);
+        var data = cardService.findById(id);
         return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 
     @GetMapping
     public ResponseEntity<?> findAllCards(){
-        var data = cardService.findAllCards();
-        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
+        var data = cardService.findAll();
+        System.out.println("Data from cardService: " + data);
+        var response = ResponseHandler.generateResponse(true, HttpStatus.OK, data);
+        System.out.println("Response to client: " + response);
+        return response;
     }
 
     @PostMapping
-    public ResponseEntity<?> saveCard(@RequestBody CardCreateRequest request){
-        var data = cardService.saveCard(request);
+    public ResponseEntity<?> saveCard(@RequestBody CardRequest request){
+        var data = cardService.save(request);
         return ResponseHandler.generateResponse(true, HttpStatus.CREATED, data);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCardById(@PathVariable(value = "id") final Long id,
-                                               @RequestBody CardUpdateRequest request){
-        var data = cardService.updateCardById(id, request);
+                                               @RequestBody CardRequest request){
+        cardService.updateById(id, request);
+        var data = cardService.findById(id);
         return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
     }
 }

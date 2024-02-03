@@ -24,7 +24,9 @@ public class AddressController {
     @GetMapping
     public ResponseEntity<?> findAllAddresses(){
         var data = addressService.findAll();
-        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
+        var response = ResponseHandler.generateResponse(true, HttpStatus.OK, data);
+        System.out.println("Response to client: " + response);
+        return response;
     }
 
     @PostMapping
