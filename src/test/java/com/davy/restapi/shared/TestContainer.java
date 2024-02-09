@@ -20,7 +20,7 @@ public class TestContainer {
     @Container
     public static final PostgreSQLContainer postgreSQLContainer =
             new PostgreSQLContainer<>("postgres")
-                    .withDatabaseName("postgres")
+                    .withDatabaseName("jwt_security")
                     .withUsername("postgres")
                     .withPassword("merlo");
 
@@ -32,8 +32,9 @@ public class TestContainer {
     }
 
     @Test
-    @Order(1)
-    void shouldBeConnectionWithTestContainer() {
+//    @Order(1)
+    @BeforeEach
+    void shouldConnectionWithTestContainer() {
         Assertions.assertTrue(postgreSQLContainer.isRunning());
     }
 }

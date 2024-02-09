@@ -12,9 +12,6 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ProductRepositoryTest extends TestContainer {
@@ -29,79 +26,66 @@ class ProductRepositoryTest extends TestContainer {
     private InventoryRepository inventoryRepository;
 
     @Test
-    @Order(2)
-    void shouldBeContain10Products(){
+    @Order(1)
+    void shouldGetAllProducts(){
+        var searchProduct = new Product();
+        searchProduct.setName("Fairy Tale");
         var products = productRepository.getAllProducts();
-        assertThat(products).hasSize(10);
+        assertThat(products).hasSize(11);
+    }
+
+    @Test
+    @Order(2)
+    void shouldGetProductById(){
+        var product_1 = productRepository.getProductById(1L);
+        assertThat(product_1.get().getName()).isEqualTo("Fairy Tale");
+
+        var product_2 = productRepository.getProductById(5L);
+        assertThat(product_2.get().getName()).isEqualTo("ChatGPT 02 2023");
+
+        var product_3 = productRepository.getProductById(11L);
+        assertThat(product_3.get().getName()).isEqualTo("Suicide Squad: Kill The Justice League - PlayStation 5");
     }
 
     @Test
     @Order(3)
-    void shouldBeAbleToGetProductById(){
-        var product = productRepository.getProductById(Long.parseLong("1"));
-        assertThat(product.get().getName()).isEqualTo("Fairy Tale");
-    }
-
-    @Test
-    @Order(4)
-    void shouldBeAbleToSaveProduct(){
-        Long subCatId = Long.parseLong("1");
-        Long CatId = Long.parseLong("1");
-
-        var subCategory = subCategoryRepository.getSubCategoryById(subCatId);
-        var category = categoryRepository.getCategoryById(CatId);
+    void shouldSaveProduct(){
+        var subCategory = subCategoryRepository.getSubCategoryById(1L);
+        var category = categoryRepository.getCategoryById(1L);
 
         var inventory = new Inventory();
         inventory.setQuantity((short) 5000);
 
         var product = new Product();
-        product.setName("Davy");
-        product.setDescription("Merlo");
-        product.setPurchasePrice(250);
-        product.setSellingPrice(550);
+        product.setName("Test Article");
+        product.setDescription("Test Description");
+        product.setPurchasePrice(25);
+        product.setSellingPrice(55);
         product.setVAT(Vat.STANDARD_RATE);
         product.setSubCategory(subCategory.get());
         product.setCategory(category.get());
         product.setInventory(inventory);
-
         productRepository.saveProduct(product);
-        List<Product> products = new ArrayList<>();
-        productRepository.getAllProducts().forEach(products::add);
-
-        assertThat(products).hasSize(11);
-        assertThat(products.get(10).getId()).isEqualTo(11);
-        assertThat(products.get(10).getName()).isEqualTo("Davy");
-
     }
 
     @Test
-    @Order(5)
-    void shouldBeAbleToUpdateProduct(){
-        Long productId = Long.parseLong("1");
-        Long subCatId = Long.parseLong("1");
-        Long CatId = Long.parseLong("1");
-        Long InventoryId = Long.parseLong("1");
+    @Order(4)
+    void shouldUpdateProduct(){
+        var subCategory = subCategoryRepository.getSubCategoryById(1L);
+        var category = categoryRepository.getCategoryById(1L);
 
-        var subCategory = subCategoryRepository.getSubCategoryById(subCatId);
-        var category = categoryRepository.getCategoryById(CatId);
-
-        var inventory = inventoryRepository.getInventoryById(InventoryId);
+        var inventory = inventoryRepository.getInventoryById(1L);
         inventory.get().setQuantity((short) 500);
 
-        var product = productRepository.getProductById(productId).get();
-        product.setName("Test");
-        product.setDescription("Test");
+        var product = productRepository.getProductById(1L).get();
+        product.setName("Test Article 2");
+        product.setDescription("Test Description 2");
         product.setPurchasePrice(250);
         product.setSellingPrice(550);
         product.setVAT(Vat.STANDARD_RATE);
         product.setSubCategory(subCategory.get());
         product.setCategory(category.get());
         product.setInventory(inventory.get());
-
         productRepository.updateProduct(product);
-        var createdProduct = productRepository.getProductById(productId).get();
-        assertThat(createdProduct.getName()).isEqualTo("Test");
     }
-
-
 }

@@ -63,6 +63,7 @@ public class ProductServiceImpl implements ProductService {
         return response;
     }
 
+    @Override
     public Map<String, Object> filterAndSearchProductsByNamePageable(Long catId,
                                                                      Long subCatId,
                                                                      String name,
@@ -72,6 +73,7 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageable = makePageable(page, sortBy, sortOrder);
         Specification<Product> spec = specification(catId, subCatId, name);
         Page<Product> productPage = productRepository.findAll(spec, pageable);
+        System.out.println(productPage);
         return mappedProductPage(productPage);
     }
 
