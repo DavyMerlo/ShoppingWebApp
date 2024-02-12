@@ -5,7 +5,6 @@ import com.davy.restapi.product.request.ProductRequest;
 import com.davy.restapi.product.response.ProductDetailResponse;
 import com.davy.restapi.shared.TestContainer;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ProductServiceTest extends TestContainer {
 
@@ -35,6 +36,10 @@ class ProductServiceTest extends TestContainer {
                 1L
         );
         productService.saveProduct(request);
+        var savedProduct = productService.findProductById(12L);
+        assertNotNull(savedProduct);
+        assertEquals("Test Article", savedProduct.getProduct().getName());
+        assertEquals("Test Description", savedProduct.getProduct().getDescription());
     }
 
     @Test
@@ -68,24 +73,26 @@ class ProductServiceTest extends TestContainer {
         assertThat(response_3.product.getName()).isEqualTo("Suicide Squad: Kill The Justice League - PlayStation 5");
     }
 
-//
-//    @Test
-//    @Order(5)
-//    void shouldBeAbleToUpdateProduct() {
-//        ProductRequest request = new ProductRequest(
-//                "Davy",
-//                "Test",
-//                250,
-//                300,
-//                Vat.STANDARD_RATE,
-//                (short) 500,
-//                Long.parseLong("1"),
-//                Long.parseLong("1"),
-//                null
-//        );
-//
-//        ProductResponse response = productService.updateProductById(Long.parseLong("1"), request);
-//        assertThat(response.getProduct().getName()).isEqualTo("Davy");
-//        assertThat(response.getProduct().getDescription()).isEqualTo("Test");
-//    }
+
+    @Test
+    @Order(5)
+    void shouldUpdateProduct() {
+        ProductRequest request = new ProductRequest(
+                "Test Article 2",
+                "Test Description 2",
+                "Test Image 2",
+                250,
+                300,
+                Vat.STANDARD_RATE,
+                (short) 500,
+                1L,
+                1L
+        );
+
+        productService.updateProductById(1L, request);
+        var updatedProduct = productService.findProductById(1L);
+        assertNotNull(updatedProduct);
+        assertEquals("Test Article 2", updatedProduct.getProduct().getName());
+        assertEquals("Test Description 2", updatedProduct.getProduct().getDescription());
+    }
 }

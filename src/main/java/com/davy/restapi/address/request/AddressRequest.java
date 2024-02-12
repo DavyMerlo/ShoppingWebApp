@@ -40,4 +40,17 @@ public class AddressRequest {
     @Pattern(regexp="^[A-Za-z]*$",message = "Localauthority should contains only letters")
     @Size(min = 1, max = 35, message = "Localauthority should be between 1 and 35 letters long")
     private String localAuthority;
+
+
+    public AddressRequest(String street,
+                          String houseNumber,
+                          String busNumber,
+                          String postalCode,
+                          String localAuthority) {
+        this.street = street;
+        this.houseNumber = houseNumber;
+        this.busNumber = busNumber;
+        this.postalCode = postalCode;
+        this.localAuthority = localAuthority;
+    }
 }

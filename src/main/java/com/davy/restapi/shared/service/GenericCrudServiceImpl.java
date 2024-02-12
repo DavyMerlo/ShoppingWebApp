@@ -2,18 +2,19 @@ package com.davy.restapi.shared.service;
 
 import com.davy.restapi.shared.exceptions.ThrowException;
 import com.davy.restapi.shared.mapper.ResponseMapper;
-import com.davy.restapi.shared.repository.AbstractCrudRepository;
+import com.davy.restapi.shared.repository.GenericCrudRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public abstract class AbstractCrudService<T, C> {
+public abstract class GenericCrudServiceImpl<T,C> {
 
-    protected final AbstractCrudRepository<T> repository;
+    protected final GenericCrudRepository<T> repository;
     protected final ResponseMapper<C,T> responseMapper;
 
     public Object findAll() {
@@ -35,10 +36,10 @@ public abstract class AbstractCrudService<T, C> {
 
     public Object save(C createRequest) {
         var entity = responseMapper.mapToEntity(createRequest);
-        var savedEntity = repository.save(entity);
+        var savedEntity = repository.save((T) entity);
         return  savedEntity
                 .stream()
-                .map(responseMapper::mapToDto)
+                .map(responseMapper::mapToDetails)
                 .findFirst()
                 .get();
     }

@@ -1,12 +1,14 @@
 package com.davy.restapi.card.service;
 
+import com.davy.restapi.card.dto.CardDetail;
+import com.davy.restapi.card.dto.CardDto;
 import com.davy.restapi.card.request.CardRequest;
-import com.davy.restapi.card.response.CardListResponse;
-import com.davy.restapi.card.response.CardResponse;
+
+import java.util.List;
 
 public interface CardService {
-    CardListResponse findAll();
-    CardResponse findById(Long id);
-    CardResponse save(CardRequest request);
+    List<CardDto> findAll();
+    CardDetail findById(Long id);
+    CardDetail save(CardRequest request);
     void updateById(Long id, CardRequest request);
 }

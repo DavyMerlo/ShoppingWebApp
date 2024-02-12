@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ProductRepositoryTest extends TestContainer {
 
@@ -28,8 +30,6 @@ class ProductRepositoryTest extends TestContainer {
     @Test
     @Order(1)
     void shouldGetAllProducts(){
-        var searchProduct = new Product();
-        searchProduct.setName("Fairy Tale");
         var products = productRepository.getAllProducts();
         assertThat(products).hasSize(11);
     }
@@ -66,6 +66,10 @@ class ProductRepositoryTest extends TestContainer {
         product.setCategory(category.get());
         product.setInventory(inventory);
         productRepository.saveProduct(product);
+        var savedProduct = productRepository.getProductById(12L);
+        assertNotNull(savedProduct);
+        assertEquals("Test Article", savedProduct.get().getName());
+        assertEquals("Test Description", savedProduct.get().getDescription());
     }
 
     @Test
@@ -87,5 +91,9 @@ class ProductRepositoryTest extends TestContainer {
         product.setCategory(category.get());
         product.setInventory(inventory.get());
         productRepository.updateProduct(product);
+        var savedProduct = productRepository.getProductById(1L);
+        assertNotNull(savedProduct);
+        assertEquals("Test Article 2", savedProduct.get().getName());
+        assertEquals("Test Description 2", savedProduct.get().getDescription());
     }
 }

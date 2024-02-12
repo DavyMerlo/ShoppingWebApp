@@ -5,6 +5,7 @@ import com.davy.restapi.address.dto.AddressDto;
 import com.davy.restapi.address.entity.Address;
 import com.davy.restapi.address.request.AddressRequest;
 import com.davy.restapi.shared.mapper.ResponseMapper;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 @Service

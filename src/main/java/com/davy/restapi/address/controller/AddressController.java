@@ -1,6 +1,8 @@
 package com.davy.restapi.address.controller;
 
 import com.davy.restapi.address.request.AddressRequest;
+import com.davy.restapi.address.response.AddressListResponse;
+import com.davy.restapi.address.response.AddressResponse;
 import com.davy.restapi.address.service.AddressService;
 import com.davy.restapi.shared.handler.ResponseHandler;
 import lombok.RequiredArgsConstructor;
@@ -17,29 +19,35 @@ public class AddressController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findAddressById(@PathVariable(value = "id") final Long id){
-        var data = addressService.findById(id);
-        return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
+        var response = new AddressResponse();
+        var address = addressService.findById(id);
+        response.setAddress(address);
+        return ResponseHandler.generateResponse(true,  HttpStatus.OK, response);
     }
 
     @GetMapping
     public ResponseEntity<?> findAllAddresses(){
-        var data = addressService.findAll();
-        var response = ResponseHandler.generateResponse(true, HttpStatus.OK, data);
-        System.out.println("Response to client: " + response);
-        return response;
+        var response = new AddressListResponse();
+        var addresses = addressService.findAll();
+        response.setAddresses(addresses);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, response);
     }
 
     @PostMapping
     public ResponseEntity<?> saveAddress(@RequestBody AddressRequest request){
-        var data = addressService.save(request);
-        return ResponseHandler.generateResponse(true, HttpStatus.CREATED, data);
+        var response = new AddressResponse();
+        var address = addressService.save(request);
+        response.setAddress(address);
+        return ResponseHandler.generateResponse(true, HttpStatus.CREATED, response);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAddressById(@PathVariable(value = "id") final Long id,
                                                @RequestBody AddressRequest request){
+        var response = new AddressResponse();
         addressService.updateById(id, request);
-        var data = addressService.findById(id);
-        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
+        var address = addressService.findById(id);
+        response.setAddress(address);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, response);
     }
 }

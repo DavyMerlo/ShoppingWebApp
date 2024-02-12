@@ -1,50 +1,37 @@
 package com.davy.restapi.card.service;
 
-
 import com.davy.restapi.card.dto.CardDetail;
 import com.davy.restapi.card.dto.CardDto;
 import com.davy.restapi.card.entity.CustomerCard;
 import com.davy.restapi.card.request.CardRequest;
-import com.davy.restapi.card.response.CardListResponse;
-import com.davy.restapi.card.response.CardResponse;
 import com.davy.restapi.shared.mapper.ResponseMapper;
-import com.davy.restapi.shared.repository.AbstractCrudRepository;
-import com.davy.restapi.shared.service.AbstractCrudService;
+import com.davy.restapi.shared.repository.GenericCrudRepository;
+import com.davy.restapi.shared.service.GenericCrudServiceImpl;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CardServiceImpl extends AbstractCrudService<CustomerCard, CardRequest>
+public class CardServiceImpl extends GenericCrudServiceImpl<CustomerCard, CardRequest>
         implements CardService {
 
-    public CardServiceImpl(AbstractCrudRepository<CustomerCard> repository,
+    public CardServiceImpl(GenericCrudRepository<CustomerCard> repository,
                            ResponseMapper<CardRequest, CustomerCard> responseMapper) {
         super(repository, responseMapper);
     }
 
     @Override
-    public CardListResponse findAll() {
-        var response = new CardListResponse();
-        var cards = super.findAll();
-        response.setCards((List<CardDto>) cards);
-        System.out.println(response.getCards());
-        return response;
+    public List<CardDto> findAll() {
+        return (List<CardDto>) super.findAll();
     }
 
     @Override
-    public CardResponse findById(Long id) {
-        var response = new CardResponse();
-        var card = super.findById(id);
-        response.setCard((CardDetail) card);
-        return response;
+    public CardDetail findById(Long id) {
+        return (CardDetail) super.findById(id);
     }
 
     @Override
-    public CardResponse save(CardRequest createRequest) {
-        var response = new CardResponse();
-        var card = super.save(createRequest);
-        response.setCard((CardDetail) card);
-        return response;
+    public CardDetail save(CardRequest createRequest) {
+        return (CardDetail) super.save(createRequest);
     }
 
     @Override

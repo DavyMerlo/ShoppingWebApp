@@ -1,6 +1,5 @@
 package com.davy.restapi.shared.repository;
 
-import com.davy.restapi.card.entity.CustomerCard;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
-public abstract class AbstractCrudRepositoryImpl<T> implements AbstractCrudRepository<T> {
+public abstract class GenericCrudRepositoryImpl<T> implements GenericCrudRepository<T>{
 
     @PersistenceContext
     private final EntityManager entityManager;
@@ -29,14 +28,10 @@ public abstract class AbstractCrudRepositoryImpl<T> implements AbstractCrudRepos
     }
 
     @Transactional
-    public Optional<T> save(Object entity) {
+    public Optional<T> save(T entity) {
         entityManager.persist(entity);
         entityManager.flush();
-        if (entity instanceof CustomerCard) {
-            return Optional.of((T) entity);
-        } else {
-            return Optional.empty();
-        }
+        return Optional.ofNullable(entity);
     }
 
     @Transactional

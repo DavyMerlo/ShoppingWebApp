@@ -7,44 +7,34 @@ import com.davy.restapi.address.request.AddressRequest;
 import com.davy.restapi.address.response.AddressListResponse;
 import com.davy.restapi.address.response.AddressResponse;
 import com.davy.restapi.shared.mapper.ResponseMapper;
-import com.davy.restapi.shared.repository.AbstractCrudRepository;
-import com.davy.restapi.shared.service.AbstractCrudService;
+import com.davy.restapi.shared.repository.GenericCrudRepository;
+import com.davy.restapi.shared.service.GenericCrudServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class AddressServiceImpl extends AbstractCrudService<Address, AddressRequest>
-        implements AddressService {
+public class AddressServiceImpl extends GenericCrudServiceImpl<Address, AddressRequest>
+    implements AddressService{
 
-    public AddressServiceImpl(AbstractCrudRepository<Address> repository,
+    public AddressServiceImpl(GenericCrudRepository<Address> repository,
                               ResponseMapper<AddressRequest, Address> responseMapper) {
         super(repository, responseMapper);
     }
 
     @Override
-    public AddressListResponse findAll() {
-        var response = new AddressListResponse();
-        var addresses = super.findAll();
-        response.setAddresses((List<AddressDto>) addresses);
-        System.out.println(response.getAddresses());
-        return response;
+    public List<AddressDto> findAll() {
+        return (List<AddressDto>) super.findAll();
     }
 
     @Override
-    public AddressResponse findById(Long id) {
-        var response = new AddressResponse();
-        var address = super.findById(id);
-        response.setAddress((AddressDetail) address);
-        return response;
+    public AddressDetail findById(Long id) {
+        return (AddressDetail) super.findById(id);
     }
 
     @Override
-    public AddressResponse save(AddressRequest createRequest) {
-        var response = new AddressResponse();
-        var address = super.save(createRequest);
-        response.setAddress((AddressDetail) address);
-        return response;
+    public AddressDetail save(AddressRequest createRequest) {
+        return (AddressDetail) super.save(createRequest);
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.davy.restapi.card.controller;
 
 import com.davy.restapi.card.request.CardRequest;
+import com.davy.restapi.card.response.CardListResponse;
+import com.davy.restapi.card.response.CardResponse;
 import com.davy.restapi.card.service.CardService;
 import com.davy.restapi.shared.handler.ResponseHandler;
 import lombok.RequiredArgsConstructor;
@@ -17,30 +19,35 @@ public class CardController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable(value = "id") final Long id){
-        var data = cardService.findById(id);
-        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
+        var response = new CardResponse();
+        var card = cardService.findById(id);
+        response.setCard(card);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, response);
     }
 
     @GetMapping
     public ResponseEntity<?> findAllCards(){
-        var data = cardService.findAll();
-        System.out.println("Data from cardService: " + data);
-        var response = ResponseHandler.generateResponse(true, HttpStatus.OK, data);
-        System.out.println("Response to client: " + response);
-        return response;
+        var response = new CardListResponse();
+        var cards = cardService.findAll();
+        response.setCards(cards);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, response);
     }
 
     @PostMapping
     public ResponseEntity<?> saveCard(@RequestBody CardRequest request){
-        var data = cardService.save(request);
-        return ResponseHandler.generateResponse(true, HttpStatus.CREATED, data);
+        var response = new CardResponse();
+        var card = cardService.save(request);
+        response.setCard(card);
+        return ResponseHandler.generateResponse(true, HttpStatus.CREATED, response);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCardById(@PathVariable(value = "id") final Long id,
-                                               @RequestBody CardRequest request){
+                                            @RequestBody CardRequest request){
+        var response = new CardResponse();
         cardService.updateById(id, request);
-        var data = cardService.findById(id);
-        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
+        var card = cardService.findById(id);
+        response.setCard(card);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, response);
     }
 }

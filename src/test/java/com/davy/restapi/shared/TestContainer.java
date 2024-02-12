@@ -32,7 +32,6 @@ public class TestContainer {
     }
 
     @Test
-//    @Order(1)
     @BeforeEach
     void shouldConnectionWithTestContainer() {
         Assertions.assertTrue(postgreSQLContainer.isRunning());

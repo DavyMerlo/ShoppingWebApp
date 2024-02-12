@@ -1,6 +1,8 @@
 package com.davy.restapi.authetication.service;
 
 import com.davy.restapi.address.entity.Address;
+import com.davy.restapi.address.request.AddressRequest;
+import com.davy.restapi.address.service.AddressService;
 import com.davy.restapi.authetication.confirmationtoken.ConfirmationToken;
 import com.davy.restapi.authetication.confirmationtoken.ConfirmationTokenRepository;
 import com.davy.restapi.authetication.confirmationtoken.ConfirmationTokenService;
@@ -10,6 +12,7 @@ import com.davy.restapi.authetication.response.*;
 import com.davy.restapi.authetication.request.RegisterRequest;
 import com.davy.restapi.authetication.request.AuthenticationRequest;
 import com.davy.restapi.card.entity.CustomerCard;
+import com.davy.restapi.card.service.CardService;
 import com.davy.restapi.shared.validators.RequestValidator;
 import com.davy.restapi.shared.validators.RequestValidatorImpl;
 import com.davy.restapi.token.entity.Token;
@@ -45,8 +48,10 @@ import java.util.UUID;
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserRepository userRepository;
-    private final AddressRepository addressRepository;
-    private final CardRepository cardRepository;
+//    private final GenericCrudRepository<Address> addressRepository;
+//    private final GenericCrudRepository<CustomerCard> cardRepository;
+    private final AddressService addressService;
+    private final CardService cardService;
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtServiceImp;
@@ -60,12 +65,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     public RegisterResponse register(RegisterRequest request) {
         requestRequestValidatorImpl.validate(request);
-        Address address = createAddress(request);
+        //Address address = createAddress(request);
         CustomerCard customerCard = createCustomerCard();
-        User user = createUser(request, address, customerCard);
-        addressRepository.save(address);
+        User user = createUser(request, null, null);
+        //addressService.save(address);
         var savedUser = userRepository.save(user);
-        cardRepository.save(customerCard);
+        //cardRepository.save(customerCard);
 
         ConfirmationToken confirmationToken = getConfirmationToken(user);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
@@ -218,7 +223,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return userRepository.save(DemoUser);
     }
 
-    private Address createAddress(RegisterRequest request){
+    private Address createAddress(AddressRequest request){
         return Address.builder()
                 .street(request.getStreet())
                 .houseNumber(request.getHouseNumber())
@@ -226,6 +231,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .localAuthority(request.getLocalAuthority())
                 .postalCode(request.getPostalCode())
                 .build();
+
+
     }
 
     private CustomerCard createCustomerCard(){

@@ -4,15 +4,16 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 @Repository
-public interface AbstractCrudRepository<T> {
+public interface GenericCrudRepository<T> {
 
     List<T> getAll();
 
     Optional<T> getById(Long id);
 
-    Optional<T> save(Object entity);
+    Optional<T> save(T entity);
 
     void update(Object entity);
 }
