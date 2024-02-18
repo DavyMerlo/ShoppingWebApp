@@ -3,9 +3,10 @@ package com.davy.restapi.address.service;
 import com.davy.restapi.address.dto.AddressDetail;
 import com.davy.restapi.address.dto.AddressDto;
 import com.davy.restapi.address.entity.Address;
-import com.davy.restapi.address.request.AddressRequest;
+import com.davy.restapi.address.dto.AddressRequest;
 import com.davy.restapi.shared.TestContainer;
-import com.davy.restapi.shared.service.GenericCrudServiceImpl;
+import com.davy.restapi.shared.service.CrudService;
+import com.davy.restapi.shared.service.CrudServiceImpl;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class AddressServiceTest extends TestContainer {
 
     @Autowired
-    private GenericCrudServiceImpl<Address, AddressRequest> addressService;
+    private CrudService<Address, AddressRequest> addressService;
 
     @Test
     @Order(1)

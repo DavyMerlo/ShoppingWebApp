@@ -26,7 +26,8 @@ public class CustomCategoryRepositoryImpl implements CustomCategoryRepository {
 
     @Override
     public Optional<Category> getCategoryById(Long id) {
-        return Optional.ofNullable(entityManager.find(Category.class, id));
+        Category category = entityManager.find(Category.class, id);
+        return Optional.ofNullable(category);
     }
 
     @Override
@@ -34,6 +35,7 @@ public class CustomCategoryRepositoryImpl implements CustomCategoryRepository {
     public Long saveCategory(Category category) {
         entityManager.persist(category);
         entityManager.flush();
+        entityManager.refresh(category);
         return category.getId();
     }
 

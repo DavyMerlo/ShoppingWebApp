@@ -3,7 +3,7 @@ package com.davy.restapi.shared.mapper;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface ResponseMapper<S, D> {
+public interface ObjectMapper<S, D> {
     Object mapSourceToDestination(S source, D destination);
 
     Object mapToDto(D entity);

@@ -1,18 +1,10 @@
 package com.davy.restapi.shared.config;
 
-import com.davy.restapi.address.entity.Address;
-import com.davy.restapi.card.entity.CustomerCard;
-import com.davy.restapi.card.repository.CustomCardRepository;
-import com.davy.restapi.card.repository.CustomCardRepositoryImpl;
 import com.davy.restapi.shared.auditing.ApplicationAuditAware;
-import com.davy.restapi.shared.repository.GenericCrudRepositoryImpl;
 import com.davy.restapi.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;

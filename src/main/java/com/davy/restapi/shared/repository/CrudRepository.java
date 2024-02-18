@@ -1,13 +1,10 @@
 package com.davy.restapi.shared.repository;
 
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 
-@Repository
-public interface GenericCrudRepository<T> {
+
+public interface CrudRepository<T> {
 
     List<T> getAll();
 

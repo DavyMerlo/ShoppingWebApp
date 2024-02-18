@@ -16,4 +16,8 @@ public class CategoryCreateRequest {
 
     @JsonIgnore
     private Product product;
+
+    public CategoryCreateRequest(String name, Product product) {
+        this.name = name;
+    }
 }

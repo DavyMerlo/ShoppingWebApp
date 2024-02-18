@@ -1,27 +1,25 @@
 package com.davy.restapi.shared.service;
 
 import com.davy.restapi.shared.exceptions.ThrowException;
-import com.davy.restapi.shared.mapper.ResponseMapper;
-import com.davy.restapi.shared.repository.GenericCrudRepository;
+import com.davy.restapi.shared.mapper.ObjectMapper;
+import com.davy.restapi.shared.repository.CrudRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Service
 @AllArgsConstructor
-public abstract class GenericCrudServiceImpl<T,C> {
+public abstract class CrudServiceImpl<T,C> implements CrudService<T,C> {
 
-    protected final GenericCrudRepository<T> repository;
-    protected final ResponseMapper<C,T> responseMapper;
+    protected final CrudRepository<T> repository;
+    protected final ObjectMapper<C,T> mapper;
 
     public Object findAll() {
         List<T> entities = repository.getAll();
         return entities
                 .stream()
-                .map(responseMapper::mapToDto)
+                .map(mapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
@@ -31,15 +29,15 @@ public abstract class GenericCrudServiceImpl<T,C> {
             ThrowException.objectByIdException(id, "Object with " + id + " not found");
         }
         T entity = entityOptional.get();
-        return responseMapper.mapToDetails(entity);
+        return mapper.mapToDetails(entity);
     }
 
     public Object save(C createRequest) {
-        var entity = responseMapper.mapToEntity(createRequest);
+        var entity = mapper.mapToEntity(createRequest);
         var savedEntity = repository.save((T) entity);
         return  savedEntity
                 .stream()
-                .map(responseMapper::mapToDetails)
+                .map(mapper::mapToDetails)
                 .findFirst()
                 .get();
     }
@@ -49,7 +47,7 @@ public abstract class GenericCrudServiceImpl<T,C> {
         if (existingEntity.isEmpty()) {
             ThrowException.objectByIdException(id, "Object with " + id + " not found");
         }
-        var updated = responseMapper.mapSourceToDestination(createRequest, (T) existingEntity.get());
+        var updated = mapper.mapSourceToDestination(createRequest, (T) existingEntity.get());
         repository.update(updated);
     }
 }

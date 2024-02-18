@@ -1,27 +1,32 @@
 package com.davy.restapi.card.controller;
 
-import com.davy.restapi.card.request.CardRequest;
+import com.davy.restapi.card.dto.CardDetail;
+import com.davy.restapi.card.dto.CardDto;
+import com.davy.restapi.card.entity.CustomerCard;
+import com.davy.restapi.card.dto.CardRequest;
 import com.davy.restapi.card.response.CardListResponse;
 import com.davy.restapi.card.response.CardResponse;
-import com.davy.restapi.card.service.CardService;
 import com.davy.restapi.shared.handler.ResponseHandler;
+import com.davy.restapi.shared.service.CrudService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/cards")
 @RequiredArgsConstructor
 public class CardController {
 
-    private final CardService cardService;
+    private final CrudService<CustomerCard, CardRequest> cardService;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable(value = "id") final Long id){
         var response = new CardResponse();
         var card = cardService.findById(id);
-        response.setCard(card);
+        response.setCard((CardDetail) card);
         return ResponseHandler.generateResponse(true, HttpStatus.OK, response);
     }
 
@@ -29,7 +34,7 @@ public class CardController {
     public ResponseEntity<?> findAllCards(){
         var response = new CardListResponse();
         var cards = cardService.findAll();
-        response.setCards(cards);
+        response.setCards((List<CardDto>) cards);
         return ResponseHandler.generateResponse(true, HttpStatus.OK, response);
     }
 
@@ -37,7 +42,7 @@ public class CardController {
     public ResponseEntity<?> saveCard(@RequestBody CardRequest request){
         var response = new CardResponse();
         var card = cardService.save(request);
-        response.setCard(card);
+        response.setCard((CardDetail) card);
         return ResponseHandler.generateResponse(true, HttpStatus.CREATED, response);
     }
 
@@ -47,7 +52,7 @@ public class CardController {
         var response = new CardResponse();
         cardService.updateById(id, request);
         var card = cardService.findById(id);
-        response.setCard(card);
+        response.setCard((CardDetail) card);
         return ResponseHandler.generateResponse(true, HttpStatus.OK, response);
     }
 }

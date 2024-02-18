@@ -3,13 +3,12 @@ package com.davy.restapi.address.mapper;
 import com.davy.restapi.address.dto.AddressDetail;
 import com.davy.restapi.address.dto.AddressDto;
 import com.davy.restapi.address.entity.Address;
-import com.davy.restapi.address.request.AddressRequest;
-import com.davy.restapi.shared.mapper.ResponseMapper;
-import org.springframework.context.annotation.Primary;
+import com.davy.restapi.address.dto.AddressRequest;
+import com.davy.restapi.shared.mapper.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AddressMapper implements ResponseMapper<AddressRequest, Address> {
+public class AddressMapper implements ObjectMapper<AddressRequest, Address> {
 
     @Override
     public Address mapSourceToDestination(AddressRequest source, Address destination) {

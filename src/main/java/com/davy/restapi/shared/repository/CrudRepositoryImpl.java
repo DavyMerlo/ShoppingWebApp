@@ -10,24 +10,27 @@ import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
-public abstract class GenericCrudRepositoryImpl<T> implements GenericCrudRepository<T>{
+public class CrudRepositoryImpl<T> implements CrudRepository<T> {
 
     @PersistenceContext
     private final EntityManager entityManager;
-    private final Class<T> entityType;
+    private final Class<T> entity;
 
+    @Override
     public List<T> getAll() {
-        System.out.println(entityType);
-        Query query = entityManager.createQuery("SELECT entity FROM " +
-                entityType.getSimpleName() + " entity");
+        System.out.println(entity);
+        Query query = entityManager
+                .createQuery("SELECT entity FROM " + entity.getSimpleName() + " entity");
         return query.getResultList();
     }
 
+    @Override
     public Optional<T> getById(Long id) {
-        return Optional.ofNullable(entityManager.find(entityType, id));
+        return Optional.ofNullable(entityManager.find(entity, id));
     }
 
     @Transactional
+    @Override
     public Optional<T> save(T entity) {
         entityManager.persist(entity);
         entityManager.flush();
@@ -35,6 +38,7 @@ public abstract class GenericCrudRepositoryImpl<T> implements GenericCrudReposit
     }
 
     @Transactional
+    @Override
     public void update(Object entity) {
         entityManager.merge(entity);
     }

@@ -1,7 +1,6 @@
 package com.davy.restapi.category.service;
 
 import com.davy.restapi.category.entity.Category;
-import com.davy.restapi.category.mapper.CategoryDetailsMapper;
 import com.davy.restapi.category.mapper.CategoryMapper;
 import com.davy.restapi.category.mapper.CategorySubCatListMapper;
 import com.davy.restapi.category.request.CategoryCreateRequest;
@@ -79,6 +78,7 @@ public class CategoryServiceImpl implements CategoryService {
         var category = Category.builder()
                 .name(request.getName())
                 .build();
-        return categoryRepository.saveCategory(category);
+        var id = categoryRepository.saveCategory(category);
+        return id;
     }
 }

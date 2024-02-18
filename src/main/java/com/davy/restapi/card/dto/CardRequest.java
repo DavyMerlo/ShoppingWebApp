@@ -1,4 +1,4 @@
-package com.davy.restapi.card.request;
+package com.davy.restapi.card.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
@@ -15,4 +15,9 @@ public class CardRequest {
 
     @JsonProperty("points")
     private byte points;
+
+    public CardRequest(String number, byte points) {
+        this.number = number;
+        this.points = points;
+    }
 }

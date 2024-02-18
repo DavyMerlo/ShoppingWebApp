@@ -3,14 +3,12 @@ package com.davy.restapi.card.mapper;
 import com.davy.restapi.card.dto.CardDetail;
 import com.davy.restapi.card.dto.CardDto;
 import com.davy.restapi.card.entity.CustomerCard;
-import com.davy.restapi.card.request.CardRequest;
-import com.davy.restapi.shared.mapper.ResponseMapper;
-import org.springframework.context.annotation.Primary;
+import com.davy.restapi.card.dto.CardRequest;
+import com.davy.restapi.shared.mapper.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-@Primary
-public class CardMapper implements ResponseMapper<CardRequest, CustomerCard> {
+public class CardMapper implements ObjectMapper<CardRequest, CustomerCard> {
 
     @Override
     public CustomerCard mapSourceToDestination(CardRequest source, CustomerCard destination) {

@@ -1,4 +1,4 @@
-package com.davy.restapi.address.request;
+package com.davy.restapi.address.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

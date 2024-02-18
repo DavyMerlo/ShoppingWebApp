@@ -1,23 +1,19 @@
 package com.davy.restapi.authetication.service;
 
 import com.davy.restapi.address.entity.Address;
-import com.davy.restapi.address.request.AddressRequest;
+import com.davy.restapi.address.dto.AddressRequest;
 import com.davy.restapi.address.service.AddressService;
 import com.davy.restapi.authetication.confirmationtoken.ConfirmationToken;
 import com.davy.restapi.authetication.confirmationtoken.ConfirmationTokenRepository;
 import com.davy.restapi.authetication.confirmationtoken.ConfirmationTokenService;
 import com.davy.restapi.authetication.email.EmailSender;
-import com.davy.restapi.authetication.email.EmailService;
 import com.davy.restapi.authetication.response.*;
 import com.davy.restapi.authetication.request.RegisterRequest;
 import com.davy.restapi.authetication.request.AuthenticationRequest;
 import com.davy.restapi.card.entity.CustomerCard;
 import com.davy.restapi.card.service.CardService;
 import com.davy.restapi.shared.validators.RequestValidator;
-import com.davy.restapi.shared.validators.RequestValidatorImpl;
 import com.davy.restapi.token.entity.Token;
-import com.davy.restapi.address.repository.AddressRepository;
-import com.davy.restapi.card.repository.CardRepository;
 import com.davy.restapi.token.repository.TokenRepository;
 import com.davy.restapi.token.enums.TokenType;
 import com.davy.restapi.user.enums.Role;
@@ -27,7 +23,6 @@ import com.davy.restapi.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -37,10 +32,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.rmi.server.UID;
-import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service

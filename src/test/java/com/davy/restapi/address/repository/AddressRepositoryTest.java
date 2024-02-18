@@ -2,7 +2,7 @@ package com.davy.restapi.address.repository;
 
 import com.davy.restapi.address.entity.Address;
 import com.davy.restapi.shared.TestContainer;
-import com.davy.restapi.shared.repository.GenericCrudRepository;
+import com.davy.restapi.shared.repository.CrudRepository;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class AddressRepositoryTest extends TestContainer {
 
     @Autowired
-    private GenericCrudRepository<Address> addressRepository;
+    private CrudRepository<Address> addressRepository;
 
     @Test
     @Order(1)
