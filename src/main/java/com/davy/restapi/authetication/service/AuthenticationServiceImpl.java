@@ -1,7 +1,7 @@
 package com.davy.restapi.authetication.service;
 
 import com.davy.restapi.address.entity.Address;
-import com.davy.restapi.address.dto.AddressRequest;
+import com.davy.restapi.address.dto.AddressRequestDTO;
 import com.davy.restapi.address.service.AddressService;
 import com.davy.restapi.authetication.confirmationtoken.ConfirmationToken;
 import com.davy.restapi.authetication.confirmationtoken.ConfirmationTokenRepository;
@@ -215,7 +215,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return userRepository.save(DemoUser);
     }
 
-    private Address createAddress(AddressRequest request){
+    private Address createAddress(AddressRequestDTO request){
         return Address.builder()
                 .street(request.getStreet())
                 .houseNumber(request.getHouseNumber())

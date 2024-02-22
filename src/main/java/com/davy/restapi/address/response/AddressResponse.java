@@ -1,7 +1,6 @@
 package com.davy.restapi.address.response;
 
-import com.davy.restapi.address.dto.AddressDetail;
-import com.davy.restapi.address.dto.AddressDto;
+import com.davy.restapi.address.dto.AddressDetailDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -9,5 +8,5 @@ import lombok.Data;
 public class AddressResponse {
 
     @JsonProperty("address")
-    public AddressDetail address;
+    public AddressDetailDTO address;
 }

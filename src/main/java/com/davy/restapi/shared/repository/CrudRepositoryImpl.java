@@ -37,7 +37,7 @@ public class CrudRepositoryImpl<T> implements CrudRepository<T> {
         return Optional.ofNullable(entity);
     }
 
-    @Transactional
+    @Transactional()
     @Override
     public void update(Object entity) {
         entityManager.merge(entity);

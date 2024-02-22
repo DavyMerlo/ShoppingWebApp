@@ -1,6 +1,6 @@
 package com.davy.restapi.user.mapper;
 
-import com.davy.restapi.card.dto.CardDetail;
+import com.davy.restapi.card.dto.CardDetailDTO;
 import com.davy.restapi.user.dto.UserCard;
 import com.davy.restapi.user.entity.User;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ public class userCardMapper implements Function<User, UserCard> {
                 user.getId(),
                 user.getFirstname(),
                 user.getLastname(),
-                new CardDetail(
+                new CardDetailDTO(
                         user.getCustomerCard().getId(),
                         user.getCustomerCard().getNumber(),
                         user.getCustomerCard().getPoints()

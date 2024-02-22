@@ -1,6 +1,6 @@
 package com.davy.restapi.card.response;
 
-import com.davy.restapi.card.dto.CardDetail;
+import com.davy.restapi.card.dto.CardDetailDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,5 +10,5 @@ import lombok.Setter;
 public class CardResponse {
 
     @JsonProperty("card")
-    public CardDetail card;
+    public CardDetailDTO card;
 }

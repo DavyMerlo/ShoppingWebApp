@@ -1,64 +1,45 @@
 package com.davy.restapi.category.repository;
 
 import com.davy.restapi.category.entity.Category;
+import com.davy.restapi.shared.repository.CrudRepositoryImpl;
+import com.davy.restapi.subcategory.entity.SubCategory;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-@RequiredArgsConstructor
-public class CustomCategoryRepositoryImpl implements CustomCategoryRepository {
+public class CustomCategoryRepositoryImpl extends CrudRepositoryImpl<Category>
+        implements CustomCategoryRepository{
 
-    @PersistenceContext
     private final EntityManager entityManager;
 
-    @Override
-    public List<Category> getAllCategories() {
-        Query query = entityManager.createQuery("SELECT c from Category c");
-        return query.getResultList();
+    public CustomCategoryRepositoryImpl(EntityManager entityManager) {
+        super(entityManager, Category.class);
+        this.entityManager = entityManager;
     }
 
     @Override
-    public Optional<Category> getCategoryById(Long id) {
-        Category category = entityManager.find(Category.class, id);
-        return Optional.ofNullable(category);
+    public List<SubCategory> subCategoriesByCategoryId(Long categoryId) {
+        return entityManager.createQuery(
+                        "SELECT sub FROM Category cat " +
+                        "JOIN cat.subcategories sub " +
+                        "WHERE cat.id = :categoryId", SubCategory.class)
+                .setParameter("categoryId", categoryId)
+                .getResultList();
     }
 
     @Override
-    @Transactional
-    public Long saveCategory(Category category) {
-        entityManager.persist(category);
-        entityManager.flush();
-        entityManager.refresh(category);
-        return category.getId();
-    }
-
-    @Override
-    @Transactional
-    public void updateCategory(Category category) {
-        entityManager.merge(category);
-    }
-
-    @Override
-    public void removeCategory(Category category) {
-
-    }
-
-    @Override
-    public Optional<Category> getCategoryBySubCategoryId(Long subCategoryId) {
-        return Optional.ofNullable((Category) entityManager.createQuery
+    public Optional<Category> categoryBySubCategoryId(Long subCategoryId){
+                return Optional.ofNullable((Category) entityManager
+                .createQuery
                         ("SELECT C " +
-                                "FROM Category C " +
-                                "WHERE C.id IN" +
-                                "(SELECT category.id " +
-                                "FROM SubCategory WHERE id =:subCatId)")
-                .setParameter("subCatId", subCategoryId)
+                         "FROM Category C " +
+                         "WHERE C.id IN" +
+                         "(SELECT category.id " +
+                         "FROM SubCategory WHERE id =:subCategoryId)")
+                .setParameter("subCategoryId", subCategoryId)
                 .getSingleResult());
     }
 }

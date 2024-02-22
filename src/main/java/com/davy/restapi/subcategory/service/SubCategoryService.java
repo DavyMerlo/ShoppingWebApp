@@ -1,19 +1,9 @@
 package com.davy.restapi.subcategory.service;
 
-import com.davy.restapi.subcategory.request.SubCategoryRequest;
-import com.davy.restapi.subcategory.response.SubCategoryListResponse;
-import com.davy.restapi.subcategory.response.SubCategoryResponse;
+import com.davy.restapi.shared.service.CrudService;
+import com.davy.restapi.subcategory.entity.SubCategory;
+import com.davy.restapi.subcategory.dto.SubCategoryRequestDTO;
 
-public interface SubCategoryService {
-    SubCategoryListResponse findAllSubCategories();
+public interface SubCategoryService extends CrudService<SubCategory, SubCategoryRequestDTO> {
 
-    SubCategoryListResponse findSubCategoriesByCategoryId(Long id);
-
-    SubCategoryResponse findSubCategoryById(Long id);
-
-    void updateSubCategoryById(Long id, SubCategoryRequest request);
-
-    Boolean existsBySubCategoryId(Long id);
-
-    Long saveSubCategory(SubCategoryRequest request);
 }

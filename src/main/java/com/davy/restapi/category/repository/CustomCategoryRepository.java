@@ -1,17 +1,15 @@
 package com.davy.restapi.category.repository;
 
 import com.davy.restapi.category.entity.Category;
+import com.davy.restapi.subcategory.entity.SubCategory;
 
 import java.util.List;
 import java.util.Optional;
 
+
 public interface CustomCategoryRepository {
 
-    List<Category> getAllCategories();
-    Optional<Category> getCategoryById(Long id);
-    Long saveCategory(Category category);
-    void updateCategory(Category category);
-    void removeCategory(Category category);
-    Optional<Category> getCategoryBySubCategoryId(Long subCategoryId);
+    List<SubCategory> subCategoriesByCategoryId(Long categoryId);
 
+    Optional<Category> categoryBySubCategoryId(Long subCategoryId);
 }

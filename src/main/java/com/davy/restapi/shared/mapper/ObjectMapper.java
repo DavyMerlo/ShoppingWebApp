@@ -1,5 +1,6 @@
 package com.davy.restapi.shared.mapper;
 
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -8,8 +9,10 @@ public interface ObjectMapper<S, D> {
 
     Object mapToDto(D entity);
 
-    Object mapToDetails(D entity);
+    Object mapToDetailsDto(D entity);
 
     Object mapToEntity(S request);
+
+    Object mapToListDto(D entity);
 }
 

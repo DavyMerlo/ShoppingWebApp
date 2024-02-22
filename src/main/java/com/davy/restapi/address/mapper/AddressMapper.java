@@ -1,17 +1,17 @@
 package com.davy.restapi.address.mapper;
 
-import com.davy.restapi.address.dto.AddressDetail;
-import com.davy.restapi.address.dto.AddressDto;
+import com.davy.restapi.address.dto.AddressDetailDTO;
+import com.davy.restapi.address.dto.AddressDTO;
 import com.davy.restapi.address.entity.Address;
-import com.davy.restapi.address.dto.AddressRequest;
+import com.davy.restapi.address.dto.AddressRequestDTO;
 import com.davy.restapi.shared.mapper.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AddressMapper implements ObjectMapper<AddressRequest, Address> {
+public class AddressMapper implements ObjectMapper<AddressRequestDTO, Address> {
 
     @Override
-    public Address mapSourceToDestination(AddressRequest source, Address destination) {
+    public Address mapSourceToDestination(AddressRequestDTO source, Address destination) {
         destination.setStreet(source.getStreet());
         destination.setHouseNumber(source.getHouseNumber());
         destination.setBusNumber(source.getBusNumber());
@@ -21,8 +21,8 @@ public class AddressMapper implements ObjectMapper<AddressRequest, Address> {
     }
 
     @Override
-    public AddressDto mapToDto(Address address) {
-        return new AddressDto(
+    public AddressDTO mapToDto(Address address) {
+        return new AddressDTO(
                 address.getId(),
                 address.getStreet(),
                 address.getHouseNumber(),
@@ -33,8 +33,8 @@ public class AddressMapper implements ObjectMapper<AddressRequest, Address> {
     }
 
     @Override
-    public AddressDetail mapToDetails(Address address) {
-        return new AddressDetail(
+    public AddressDetailDTO mapToDetailsDto(Address address) {
+        return new AddressDetailDTO(
                 address.getId(),
                 address.getStreet(),
                 address.getHouseNumber(),
@@ -45,16 +45,21 @@ public class AddressMapper implements ObjectMapper<AddressRequest, Address> {
     }
 
     @Override
-    public Address mapToEntity(AddressRequest addressRequest) {
-        if (addressRequest == null) {
+    public Address mapToEntity(AddressRequestDTO addressRequestDTO) {
+        if (addressRequestDTO == null) {
             return null;
         }
         return Address.builder()
-                .street(addressRequest.getStreet())
-                .houseNumber(addressRequest.getHouseNumber())
-                .busNumber(addressRequest.getBusNumber())
-                .localAuthority(addressRequest.getLocalAuthority())
-                .postalCode(addressRequest.getPostalCode())
+                .street(addressRequestDTO.getStreet())
+                .houseNumber(addressRequestDTO.getHouseNumber())
+                .busNumber(addressRequestDTO.getBusNumber())
+                .localAuthority(addressRequestDTO.getLocalAuthority())
+                .postalCode(addressRequestDTO.getPostalCode())
                 .build();
+    }
+
+    @Override
+    public Object mapToListDto(Address entity) {
+        return null;
     }
 }

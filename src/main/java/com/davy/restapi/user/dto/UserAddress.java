@@ -1,11 +1,11 @@
 package com.davy.restapi.user.dto;
 
-import com.davy.restapi.address.dto.AddressDto;
+import com.davy.restapi.address.dto.AddressDTO;
 
 public record UserAddress(
         Long id,
         String firstName,
         String lastName,
-        AddressDto addressDto
+        AddressDTO addressDto
 ) {
 }

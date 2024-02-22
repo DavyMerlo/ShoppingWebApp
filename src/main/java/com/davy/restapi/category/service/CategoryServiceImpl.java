@@ -1,84 +1,57 @@
 package com.davy.restapi.category.service;
 
-import com.davy.restapi.category.entity.Category;
-import com.davy.restapi.category.mapper.CategoryMapper;
-import com.davy.restapi.category.mapper.CategorySubCatListMapper;
-import com.davy.restapi.category.request.CategoryCreateRequest;
-import com.davy.restapi.category.request.CategoryUpdateRequest;
-import com.davy.restapi.category.response.CategoryListResponse;
-import com.davy.restapi.category.response.CategoryResponse;
+import com.davy.restapi.category.dto.CategoryDTO;
+import com.davy.restapi.category.dto.CategoryRequestDTO;
 import com.davy.restapi.category.repository.CategoryRepository;
 import com.davy.restapi.shared.exceptions.ThrowException;
-import lombok.RequiredArgsConstructor;
+import com.davy.restapi.shared.mapper.ObjectMapper;
+import com.davy.restapi.shared.repository.CrudRepository;
+import com.davy.restapi.shared.service.CrudServiceImpl;
+import com.davy.restapi.subcategory.entity.SubCategory;
+import com.davy.restapi.subcategory.dto.SubCategoryRequestDTO;
 import org.springframework.stereotype.Service;
 
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Service
-@RequiredArgsConstructor
-public class CategoryServiceImpl implements CategoryService {
+public class CategoryServiceImpl extends CrudServiceImpl<com.davy.restapi.category.entity.Category, CategoryRequestDTO>
+        implements CategoryService {
 
     private final CategoryRepository categoryRepository;
-    private final CategoryMapper categoryMapper;
-    private final CategorySubCatListMapper categorySubCatListMapper;
+    private final ObjectMapper<SubCategoryRequestDTO, SubCategory> subCategoryMapper;
+    private final ObjectMapper<CategoryRequestDTO, com.davy.restapi.category.entity.Category> categoryMapper;
 
-    @Override
-    public CategoryListResponse findAllCategories() {
-        var response = new CategoryListResponse();
-        if(categoryRepository.getAllCategories().isEmpty()){
-            ThrowException.objectException("Categories");
-        }
-        response.categories = categoryRepository.getAllCategories()
-                .stream()
-                .map(categoryMapper)
-                .collect(Collectors.toList());
-        return response;
+    public CategoryServiceImpl(CrudRepository<com.davy.restapi.category.entity.Category> repository,
+                               ObjectMapper<CategoryRequestDTO, com.davy.restapi.category.entity.Category> categoryMapper,
+                               ObjectMapper<SubCategoryRequestDTO, SubCategory> subCategoryMapper,
+                               CategoryRepository categoryRepository) {
+        super(repository, categoryMapper);
+        this.categoryRepository = categoryRepository;
+        this.categoryMapper = categoryMapper;
+        this.subCategoryMapper = subCategoryMapper;
     }
 
     @Override
-    public CategoryResponse findCategoryById(Long id) {
-        var response = new CategoryResponse();
-        if(categoryRepository.getCategoryById(id).isEmpty()){
-            ThrowException.objectByIdException(id, "Category");
+    public List<Object> subCategoriesByCategoryId(Long categoryId) {
+        if (categoryRepository.subCategoriesByCategoryId(categoryId).isEmpty()) {
+            ThrowException.objectByIdException(categoryId, "Subcategories");
         }
-        response.category= categoryRepository.getCategoryById(id)
+        return categoryRepository.subCategoriesByCategoryId(categoryId)
                 .stream()
-                .map(categorySubCatListMapper)
+                .map(subCategoryMapper::mapToDto)
+                .toList();
+    }
+
+    @Override
+    public CategoryDTO categoryBySubCategoryId(Long subCategoryId) {
+        if(categoryRepository.categoryBySubCategoryId(subCategoryId).isEmpty()){
+            ThrowException.objectByIdException(subCategoryId, "Category");
+        }
+        return (CategoryDTO) categoryRepository.categoryBySubCategoryId(subCategoryId)
+                .stream()
+                .map(categoryMapper::mapToDto)
                 .findFirst()
                 .get();
-        return response;
-    }
-
-    @Override
-    public CategoryResponse findCategoryBySubCategoryId(Long subCatId) {
-        var response = new CategoryResponse();
-        if(categoryRepository.getCategoryBySubCategoryId(subCatId).isEmpty()){
-            ThrowException.objectByIdException(subCatId, "SubCategory");
-        }
-        response.category = categoryRepository.getCategoryBySubCategoryId(subCatId)
-                .stream()
-                .map(categorySubCatListMapper)
-                .findFirst()
-                .get();
-        return response;
-    }
-
-    @Override
-    public void updateCategoryById(Long id, CategoryUpdateRequest request) {
-        var category = categoryRepository.getCategoryById(id);
-        if(category.isEmpty()){
-            ThrowException.objectByIdException(id, "Category");
-        }
-        category.get().setName(request.getName());
-        categoryRepository.updateCategory(category.get());
-    }
-
-    @Override
-    public Long saveCategory(CategoryCreateRequest request) {
-        var category = Category.builder()
-                .name(request.getName())
-                .build();
-        var id = categoryRepository.saveCategory(category);
-        return id;
     }
 }
+

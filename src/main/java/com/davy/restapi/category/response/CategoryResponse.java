@@ -1,10 +1,10 @@
 package com.davy.restapi.category.response;
 
-import com.davy.restapi.category.dto.Category;
-import com.davy.restapi.category.dto.CategoryDetails;
-import com.davy.restapi.category.dto.CategorySubCatList;
+import com.davy.restapi.category.dto.CategoryDTO;
+import lombok.Data;
 
+@Data
 public class CategoryResponse {
 
-    public CategorySubCatList category;
+    public CategoryDTO categoryDTO;
 }

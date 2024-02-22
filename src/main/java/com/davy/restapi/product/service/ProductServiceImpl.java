@@ -106,8 +106,8 @@ public class ProductServiceImpl implements ProductService {
                 .sellingPrice(request.getSellingPrice())
                 .VAT(request.getVAT())
                 .inventory(savedInventory)
-                .category(categoryRepository.getCategoryById(request.getCategoryId()).get())
-                .subCategory(subCategoryRepository.getSubCategoryById(request.getSubCategoryId()).get())
+                .category(categoryRepository.findById(request.getCategoryId()).get())
+                .subCategory(subCategoryRepository.findById(request.getSubCategoryId()).get())
                 .build();
         return productRepository.saveProduct(product);
     }
@@ -123,8 +123,8 @@ public class ProductServiceImpl implements ProductService {
                 .purchasePrice(request.getPurchasePrice())
                 .sellingPrice(request.getSellingPrice())
                 .VAT(request.getVAT())
-                .category(categoryRepository.getCategoryById(request.getCategoryId()).get())
-                .subCategory(subCategoryRepository.getSubCategoryById(request.getSubCategoryId()).get())
+                .category(categoryRepository.findById(request.getCategoryId()).get())
+                .subCategory(subCategoryRepository.findById(request.getSubCategoryId()).get())
                 .updatedAt(LocalDateTime.now())
                 .inventory(Inventory.builder()
                         .id(productToUpdate.getInventory().getId())
@@ -143,7 +143,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private SubCategory mappedSubCategoryItems(Long subCategoryIdd){
-        return subCategoryRepository.getSubCategoryById(subCategoryIdd)
+        return subCategoryRepository.findById(subCategoryIdd)
                 .stream()
                 .map(subCategoryMapper)
                 .findFirst()

@@ -1,6 +1,6 @@
 package com.davy.restapi.category.mapper;
 
-import com.davy.restapi.category.dto.CategorySubCatList;
+import com.davy.restapi.category.dto.CategorySubCatListDTO;
 import com.davy.restapi.category.entity.Category;
 import com.davy.restapi.subcategory.dto.SubCategory;
 import com.davy.restapi.subcategory.mapper.SubCategoryMapper;
@@ -13,15 +13,15 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CategorySubCatListMapper implements Function<Category, CategorySubCatList> {
+public class CategorySubCatListMapper implements Function<Category, CategorySubCatListDTO> {
 
     private final SubCategoryMapper subCategoryMapper;
 
     @Override
-    public CategorySubCatList apply(Category category) {
+    public CategorySubCatListDTO apply(Category category) {
         List<SubCategory> subCategoryList = convertSubCategories(category.getSubcategories());
 
-        return new CategorySubCatList(
+        return new CategorySubCatListDTO(
                 category.getId(),
                 category.getName(),
                 subCategoryList

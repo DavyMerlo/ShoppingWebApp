@@ -15,6 +15,7 @@ public abstract class CrudServiceImpl<T,C> implements CrudService<T,C> {
     protected final CrudRepository<T> repository;
     protected final ObjectMapper<C,T> mapper;
 
+    @Override
     public Object findAll() {
         List<T> entities = repository.getAll();
         return entities
@@ -23,31 +24,34 @@ public abstract class CrudServiceImpl<T,C> implements CrudService<T,C> {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public Object findById(Long id) {
         Optional<T> entityOptional = repository.getById(id);
         if (entityOptional.isEmpty()) {
             ThrowException.objectByIdException(id, "Object with " + id + " not found");
         }
         T entity = entityOptional.get();
-        return mapper.mapToDetails(entity);
+        return mapper.mapToDetailsDto(entity);
     }
 
+    @Override
     public Object save(C createRequest) {
         var entity = mapper.mapToEntity(createRequest);
         var savedEntity = repository.save((T) entity);
         return  savedEntity
                 .stream()
-                .map(mapper::mapToDetails)
+                .map(mapper::mapToDetailsDto)
                 .findFirst()
                 .get();
     }
 
+    @Override
     public void updateById(Long id, C createRequest){
-        var existingEntity = repository.getById(id);
-        if (existingEntity.isEmpty()) {
+        Optional<T> entityOptional = repository.getById(id);
+        if (entityOptional.isEmpty()) {
             ThrowException.objectByIdException(id, "Object with " + id + " not found");
         }
-        var updated = mapper.mapSourceToDestination(createRequest, (T) existingEntity.get());
+        var updated = mapper.mapSourceToDestination(createRequest, (T) entityOptional.get());
         repository.update(updated);
     }
 }

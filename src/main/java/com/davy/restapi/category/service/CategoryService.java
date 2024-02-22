@@ -1,19 +1,14 @@
 package com.davy.restapi.category.service;
 
-import com.davy.restapi.category.request.CategoryCreateRequest;
-import com.davy.restapi.category.request.CategoryUpdateRequest;
-import com.davy.restapi.category.response.CategoryListResponse;
-import com.davy.restapi.category.response.CategoryResponse;
+import com.davy.restapi.category.dto.CategoryDTO;
+import com.davy.restapi.category.dto.CategoryRequestDTO;
+import com.davy.restapi.shared.service.CrudService;
 
-public interface CategoryService {
+import java.util.List;
 
-    CategoryListResponse findAllCategories();
+public interface CategoryService extends CrudService<com.davy.restapi.category.entity.Category, CategoryRequestDTO> {
 
-    CategoryResponse findCategoryById(Long id);
+    List<Object> subCategoriesByCategoryId(Long categoryId);
 
-    CategoryResponse findCategoryBySubCategoryId(Long subCatId);
-
-    void updateCategoryById(Long id, CategoryUpdateRequest request);
-
-    Long saveCategory(CategoryCreateRequest request);
+    CategoryDTO categoryBySubCategoryId(Long subCatId);
 }
