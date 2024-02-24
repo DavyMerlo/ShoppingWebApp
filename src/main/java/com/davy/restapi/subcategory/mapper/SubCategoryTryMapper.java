@@ -19,7 +19,12 @@ public class SubCategoryTryMapper implements ObjectMapper<SubCategoryRequestDTO,
     @Override
     public SubCategory mapSourceToDestination(SubCategoryRequestDTO source,
                                               SubCategory destination) {
+        var category = categoryRepository
+                .getById(source.getCategoryId())
+                .get();
+
         destination.setName(source.getName());
+        destination.setCategory(category);
         return destination;
     }
 

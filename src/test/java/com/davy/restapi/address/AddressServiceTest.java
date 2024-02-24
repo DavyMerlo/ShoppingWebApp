@@ -7,6 +7,7 @@ import com.davy.restapi.address.dto.AddressRequestDTO;
 import com.davy.restapi.shared.TestContainer;
 import com.davy.restapi.shared.service.CrudService;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class AddressServiceTest extends TestContainer {
     @Autowired
     private CrudService<Address, AddressRequestDTO> addressService;
 
+    @DisplayName("Get all addresses")
     @Test
     @Order(1)
     void shouldGetAllAddresses(){
@@ -31,6 +33,7 @@ public class AddressServiceTest extends TestContainer {
         assertThat(addresses).hasSize(1);
     }
 
+    @DisplayName("Get address by id")
     @Test
     @Order(2)
     void shouldGetAddressById(){
@@ -42,6 +45,7 @@ public class AddressServiceTest extends TestContainer {
         assertThat(address.postalCode().equals("3630"));
     }
 
+    @DisplayName("Save address")
     @Test
     @Order(3)
     @Transactional
@@ -63,6 +67,7 @@ public class AddressServiceTest extends TestContainer {
         assertEquals("3600", savedAddress.postalCode());
     }
 
+    @DisplayName("Update address")
     @Test
     @Order(4)
     void shouldUpdateAddress(){

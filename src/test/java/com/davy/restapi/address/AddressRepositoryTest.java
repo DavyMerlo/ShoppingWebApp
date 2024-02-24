@@ -3,6 +3,7 @@ package com.davy.restapi.address;
 import com.davy.restapi.address.entity.Address;
 import com.davy.restapi.shared.TestContainer;
 import com.davy.restapi.shared.repository.CrudRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ public class AddressRepositoryTest extends TestContainer {
     @Autowired
     private CrudRepository<Address> addressRepository;
 
+    @DisplayName("Get all addresses")
     @Test
     @Order(1)
     void shouldGetAllAddresses(){
@@ -23,7 +25,7 @@ public class AddressRepositoryTest extends TestContainer {
         assertThat(addresses).hasSize(1);
     }
 
-
+    @DisplayName("Get address by id")
     @Test
     @Order(2)
     void shouldGetAddressById(){
@@ -35,6 +37,7 @@ public class AddressRepositoryTest extends TestContainer {
         assertThat(address_1.get().getPostalCode()).isEqualTo("3630");
     }
 
+    @DisplayName("Save new address")
     @Test
     @Order(3)
     void shouldSaveAddress(){
@@ -56,6 +59,7 @@ public class AddressRepositoryTest extends TestContainer {
         assertEquals("3600", savedAddress.get().getPostalCode());
     }
 
+    @DisplayName("Update address")
     @Test
     @Order(4)
     void shouldUpdateAddress(){

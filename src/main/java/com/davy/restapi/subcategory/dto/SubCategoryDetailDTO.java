@@ -18,13 +18,13 @@ public class SubCategoryDetailDTO {
     private String name;
 
     @JsonProperty("category")
-    private CategoryDTO categoryDto;
+    private CategoryDTO category;
 
     public SubCategoryDetailDTO(Long id,
                                 String name,
-                                CategoryDTO categoryDto) {
+                                CategoryDTO category) {
         this.id = id;
         this.name = name;
-        this.categoryDto = categoryDto;
+        this.category = category;
     }
 }

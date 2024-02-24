@@ -1,9 +1,13 @@
 package com.davy.restapi.address;
 
+import com.davy.restapi.address.dto.AddressDetailDTO;
 import com.davy.restapi.shared.TestContainer;
+import com.davy.restapi.shared.utils.ExpectedDataProvider;
+import com.davy.restapi.shared.utils.JSONResponseToObject;
 import com.davy.restapi.shared.utils.TestAssertionUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +19,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
-import java.util.List;
+import static com.davy.restapi.address.data.AddressFieldProvider.getAddressFields;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AddressControllerTest extends TestContainer {
@@ -27,9 +31,16 @@ public class AddressControllerTest extends TestContainer {
     @Autowired
     private TestRestTemplate address;
 
+    @Autowired
+    private JSONResponseToObject<AddressDetailDTO> mapper;
+
+    @Autowired
+    private ExpectedDataProvider<AddressDetailDTO> expectedDataProvider;
+
     @LocalServerPort
     private int port;
 
+    @DisplayName("Fetch all addresses")
     @Test
     @Order(1)
     public void shouldFetchAllAddresses() throws JSONException {
@@ -37,10 +48,11 @@ public class AddressControllerTest extends TestContainer {
                 .getForObject("http://localhost:" + port + "/api/v1/addresses", String.class);
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response, 200);
-        TestAssertionUtils.assertListResponseHasExpectedFields(response, "addresses", expAddressFields());
+        TestAssertionUtils.assertListResponseHasExpectedFields(response, "addresses", getAddressFields());
         TestAssertionUtils.assertListResponseHasExpectedSize(response, "addresses", 1);
     }
 
+    @DisplayName("Fetch address by id")
     @Test
     @Order(2)
     public void shouldFetchAddressById() throws JSONException {
@@ -49,14 +61,12 @@ public class AddressControllerTest extends TestContainer {
                 .getForObject("http://localhost:" + port + "/api/v1/addresses/" + id, String.class);
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response, 200);
-        TestAssertionUtils.assertResponseHasExpectedFields(response, "address", expAddressFields());
-        TestAssertionUtils.assertResponseHasExpectedValues(response,
-                "address",
-                expAddressFields(),
-                expAddressFieldValues()
-        );
+        assertThat(mapper.mapJSONResponseToObject(response))
+                .usingRecursiveComparison()
+                .isEqualTo(expectedDataProvider.getObject());
     }
 
+    @DisplayName("Save new address")
     @Test
     @Order(3)
     public void shouldSaveAddress() throws JSONException {
@@ -68,7 +78,7 @@ public class AddressControllerTest extends TestContainer {
         requestBody.put("street", "Teststreet Saved");
         requestBody.put("houseNumber", "50");
         requestBody.put("busNumber", "1");
-        requestBody.put("postalCode", "3630");
+        requestBody.put("postalCode", "3530");
         requestBody.put("localAuthority", "TestCity");
 
         String url = "http://localhost:" + port + "/api/v1/addresses";
@@ -77,11 +87,14 @@ public class AddressControllerTest extends TestContainer {
 
         String responseBody = responseEntity.getBody();
         JSONObject response = new JSONObject(responseBody);
-
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response, 201);
-        TestAssertionUtils.assertResponseHasExpectedFields(response, "address", expAddressFields());
+        TestAssertionUtils.assertResponseHasExpectedFields(response, "address", getAddressFields());
+        assertThat(mapper.mapJSONResponseToObject(response))
+                .usingRecursiveComparison()
+                .isEqualTo(expectedDataProvider.getSavedObject());
     }
 
+    @DisplayName("Fetch the saved address")
     @Test
     @Order(4)
     public void shouldFetchSavedAddressById() throws JSONException {
@@ -90,14 +103,13 @@ public class AddressControllerTest extends TestContainer {
                 .getForObject("http://localhost:" + port + "/api/v1/addresses/" + id, String.class);
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response, 200);
-        TestAssertionUtils.assertResponseHasExpectedFields(response, "address", expAddressFields());
-        TestAssertionUtils.assertResponseHasExpectedValues(response,
-                "address",
-                expAddressFields(),
-                expSavedAddressFieldValues()
-        );
+        TestAssertionUtils.assertResponseHasExpectedFields(response, "address", getAddressFields());
+        assertThat(mapper.mapJSONResponseToObject(response))
+                .usingRecursiveComparison()
+                .isEqualTo(expectedDataProvider.getSavedObject());
     }
 
+    @DisplayName("Update address")
     @Test
     @Order(5)
     public void shouldUpdateAddress() throws JSONException {
@@ -108,7 +120,7 @@ public class AddressControllerTest extends TestContainer {
         requestBody.put("street", "Teststreet Updated");
         requestBody.put("houseNumber", "50");
         requestBody.put("busNumber", "1");
-        requestBody.put("postalCode", "3630");
+        requestBody.put("postalCode", "3530");
         requestBody.put("localAuthority", "TestCity");
 
         long addressId = 1L;
@@ -124,9 +136,13 @@ public class AddressControllerTest extends TestContainer {
         JSONObject response = new JSONObject(responseBody);
 
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response, 200);
-        TestAssertionUtils.assertResponseHasExpectedFields(response, "address", expAddressFields());
+        TestAssertionUtils.assertResponseHasExpectedFields(response, "address", getAddressFields());
+        assertThat(mapper.mapJSONResponseToObject(response))
+                .usingRecursiveComparison()
+                .isEqualTo(expectedDataProvider.getUpdatedObject());
     }
 
+    @DisplayName("Fetch the updated address")
     @Test
     @Order(6)
     public void shouldFetchUpdatedAddressById() throws JSONException {
@@ -135,14 +151,13 @@ public class AddressControllerTest extends TestContainer {
                 .getForObject("http://localhost:" + port + "/api/v1/addresses/" + id, String.class);
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response, 200);
-        TestAssertionUtils.assertResponseHasExpectedFields(response, "address", expAddressFields());
-        TestAssertionUtils.assertResponseHasExpectedValues(response,
-                "address",
-                expAddressFields(),
-                expUpdatedAddressFieldValues()
-        );
+        TestAssertionUtils.assertResponseHasExpectedFields(response, "address", getAddressFields());
+        assertThat(mapper.mapJSONResponseToObject(response))
+                .usingRecursiveComparison()
+                .isEqualTo(expectedDataProvider.getUpdatedObject());
     }
 
+    @DisplayName("Return 404 for non-existing address")
     @Test
     @Order(7)
     public void shouldReturn404NonExistingProduct() throws JSONException {
@@ -151,49 +166,5 @@ public class AddressControllerTest extends TestContainer {
                 .getForObject("http://localhost:" + port + "/api/v1/addresses/" + nonExistingId, String.class);
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response,404);
-    }
-
-    private List<String> expAddressFields() {
-        List<String> fields = new ArrayList<>();
-        fields.add("id");
-        fields.add("street");
-        fields.add("houseNumber");
-        fields.add("busNumber");
-        fields.add("postalCode");
-        fields.add("localAuthority");
-        return fields;
-    }
-
-    private List<Object> expAddressFieldValues() {
-        List<Object> fields = new ArrayList<>();
-        fields.add(1);
-        fields.add("Rootstraat");
-        fields.add("30");
-        fields.add("1");
-        fields.add("3630");
-        fields.add("Maasmechelen");
-        return fields;
-    }
-
-    private List<Object> expSavedAddressFieldValues() {
-        List<Object> fields = new ArrayList<>();
-        fields.add(2);
-        fields.add("Teststreet Saved");
-        fields.add("50");
-        fields.add("1");
-        fields.add("3630");
-        fields.add("TestCity");
-        return fields;
-    }
-
-    private List<Object> expUpdatedAddressFieldValues() {
-        List<Object> fields = new ArrayList<>();
-        fields.add(1);
-        fields.add("Teststreet Updated");
-        fields.add("50");
-        fields.add("1");
-        fields.add("3630");
-        fields.add("TestCity");
-        return fields;
     }
 }

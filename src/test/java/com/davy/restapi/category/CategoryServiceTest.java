@@ -8,6 +8,7 @@ import com.davy.restapi.shared.TestContainer;
 import com.davy.restapi.shared.service.CrudService;
 import com.davy.restapi.subcategory.dto.SubCategoryDto;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class CategoryServiceTest extends TestContainer {
     @Autowired
     private CrudService<Category, CategoryRequestDTO> categoryService;
 
+    @DisplayName("Get all categories")
     @Test
     @Order(1)
     void shouldGetAllCategories(){
@@ -33,6 +35,7 @@ public class CategoryServiceTest extends TestContainer {
         assertThat(categories).hasSize(10);
     }
 
+    @DisplayName("Get category by id")
     @Test
     @Order(2)
     void shouldGetCategoryById(){
@@ -51,6 +54,7 @@ public class CategoryServiceTest extends TestContainer {
         }
     }
 
+    @DisplayName("Save category")
     @Test
     @Order(3)
     @Transactional
@@ -66,6 +70,7 @@ public class CategoryServiceTest extends TestContainer {
         assertEquals("TestCategory Saved", savedCategory.getName());
     }
 
+    @DisplayName("Update category")
     @Test
     @Order(4)
     void shouldUpdateCategory(){

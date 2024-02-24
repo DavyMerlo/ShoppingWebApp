@@ -3,6 +3,7 @@ package com.davy.restapi.customercard;
 import com.davy.restapi.card.entity.CustomerCard;
 import com.davy.restapi.shared.TestContainer;
 import com.davy.restapi.shared.repository.CrudRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-
 public class CustomerCardRepositoryTest extends TestContainer {
 
     @Autowired
     private CrudRepository<CustomerCard> cardRepository;
 
+    @DisplayName("Get all customer cards")
     @Test
     @Order(1)
     void shouldGetAllCards(){
@@ -24,6 +25,7 @@ public class CustomerCardRepositoryTest extends TestContainer {
         assertThat(cards).hasSize(1);
     }
 
+    @DisplayName("Get customer card by id")
     @Test
     @Order(2)
     void shouldGetCustomerCardById(){
@@ -32,6 +34,7 @@ public class CustomerCardRepositoryTest extends TestContainer {
         assertThat(customerCard.get().getNumber()).isEqualTo("15151515151515");
     }
 
+    @DisplayName("Save customer card")
     @Test
     @Order(3)
     void shouldSaveCustomerCard(){
@@ -47,6 +50,7 @@ public class CustomerCardRepositoryTest extends TestContainer {
         assertEquals((byte) 15, savedCard.get().getPoints());
     }
 
+    @DisplayName("Update customer card")
     @Test
     @Order(4)
     void shouldUpdateCustomerCard(){

@@ -15,4 +15,9 @@ public class SubCategoryRequestDTO {
 
     @JsonProperty("categoryId")
     private Long categoryId ;
+
+    public SubCategoryRequestDTO(String name, Long categoryId) {
+        this.name = name;
+        this.categoryId = categoryId;
+    }
 }

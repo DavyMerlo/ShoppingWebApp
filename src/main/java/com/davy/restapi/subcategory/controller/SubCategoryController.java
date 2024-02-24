@@ -20,19 +20,19 @@ public class SubCategoryController {
 
     private final SubCategoryService subCategoryService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> findSubCategoryById(@PathVariable(value = "id") final Long id){
-        var response = new SubCategoryResponse();
-        var subCategory = subCategoryService.findById(id);
-        response.setSubCategory((SubCategoryDetailDTO) subCategory);
-        return ResponseHandler.generateResponse(true,  HttpStatus.OK, response);
-    }
-
     @GetMapping
     public ResponseEntity<?> findAllSubCategories(){
         var response = new SubCategoryListResponse();
         var subCategories = subCategoryService.findAll();
         response.setSubCategories((List<Object>) subCategories);
+        return ResponseHandler.generateResponse(true,  HttpStatus.OK, response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findSubCategoryById(@PathVariable(value = "id") final Long id){
+        var response = new SubCategoryResponse();
+        var subCategory = subCategoryService.findById(id);
+        response.setSubCategory((SubCategoryDetailDTO) subCategory);
         return ResponseHandler.generateResponse(true,  HttpStatus.OK, response);
     }
 

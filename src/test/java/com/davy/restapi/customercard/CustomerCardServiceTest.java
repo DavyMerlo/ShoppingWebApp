@@ -6,6 +6,7 @@ import com.davy.restapi.card.dto.CardRequestDTO;
 import com.davy.restapi.card.entity.CustomerCard;
 import com.davy.restapi.shared.TestContainer;
 import com.davy.restapi.shared.service.CrudService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class CustomerCardServiceTest extends TestContainer {
     @Autowired
     private CrudService<CustomerCard, CardRequestDTO> cardService;
 
+    @DisplayName("Get all customer cards")
     @Test
     @Order(1)
     void shouldGetAllCustomerCards(){
@@ -31,6 +33,7 @@ public class CustomerCardServiceTest extends TestContainer {
         assertThat(cards).hasSize(1);
     }
 
+    @DisplayName("Get customer card by id")
     @Test
     @Order(2)
     void shouldGetCustomerCardById(){
@@ -39,6 +42,7 @@ public class CustomerCardServiceTest extends TestContainer {
         assertThat(card.number()).isEqualTo("15151515151515");
     }
 
+    @DisplayName("Save customer card")
     @Test
     @Order(3)
     @Transactional
@@ -56,6 +60,7 @@ public class CustomerCardServiceTest extends TestContainer {
         assertEquals((byte) 20, savedCard.points());
     }
 
+    @DisplayName("Update customer card")
     @Test
     @Order(4)
     void shouldUpdateCustomerCard() {

@@ -4,6 +4,7 @@ import com.davy.restapi.shared.TestContainer;
 import com.davy.restapi.shared.utils.TestAssertionUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class CategoryControllerTest extends TestContainer {
     @LocalServerPort
     private int port;
 
+    @DisplayName("Fetch all categories")
     @Test
     @Order(1)
     public void shouldFetchAllCategories() throws JSONException {
@@ -41,6 +43,7 @@ public class CategoryControllerTest extends TestContainer {
         TestAssertionUtils.assertListResponseHasExpectedSize(response, "categories", 10);
     }
 
+    @DisplayName("Fetch category by id")
     @Test
     @Order(2)
     public void shouldFetchCategoryById() throws JSONException {
@@ -57,6 +60,7 @@ public class CategoryControllerTest extends TestContainer {
         );
     }
 
+    @DisplayName("Save new category")
     @Test
     @Order(3)
     public void shouldSaveCategory() throws JSONException {
@@ -85,9 +89,10 @@ public class CategoryControllerTest extends TestContainer {
         );
     }
 
+    @DisplayName("Fetch the saved category")
     @Test
     @Order(4)
-    public void shouldFetchSavedCategoryById() throws JSONException {
+    public void shouldFetchSavedCategory() throws JSONException {
         long id = 11L;
         String responseBody = category
                 .getForObject("http://localhost:" + port + "/api/v1/categories/" + id, String.class);
@@ -101,6 +106,7 @@ public class CategoryControllerTest extends TestContainer {
         );
     }
 
+    @DisplayName("Update category")
     @Test
     @Order(5)
     public void shouldUpdateCategory() throws JSONException {
@@ -130,9 +136,10 @@ public class CategoryControllerTest extends TestContainer {
         );
     }
 
+    @DisplayName("Fetch the updated category")
     @Test
     @Order(6)
-    public void shouldFetchUpdatedCategoryById() throws JSONException {
+    public void shouldFetchUpdatedCategory() throws JSONException {
         long id = 3L;
         String responseBody = category
                 .getForObject("http://localhost:" + port + "/api/v1/categories/" + id, String.class);
@@ -146,6 +153,7 @@ public class CategoryControllerTest extends TestContainer {
         );
     }
 
+    @DisplayName("Return 404 for non-existing category")
     @Test
     @Order(7)
     public void shouldReturn404NonExistingProduct() throws JSONException {
