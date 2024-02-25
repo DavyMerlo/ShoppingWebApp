@@ -1,6 +1,9 @@
 package com.davy.restapi.category;
 
+import com.davy.restapi.category.dto.CategoryTryDetailsDTO;
 import com.davy.restapi.shared.TestContainer;
+import com.davy.restapi.shared.utils.ExpectedDataProvider;
+import com.davy.restapi.shared.utils.JSONResponseToObject;
 import com.davy.restapi.shared.utils.TestAssertionUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,8 +19,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
-import java.util.List;
+import static com.davy.restapi.category.data.CategoryFieldProvider.getCategoryDetailFields;
+import static com.davy.restapi.category.data.CategoryFieldProvider.getCategoryFields;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CategoryControllerTest extends TestContainer {
@@ -27,6 +31,12 @@ public class CategoryControllerTest extends TestContainer {
 
     @Autowired
     private TestRestTemplate category;
+
+    @Autowired
+    private JSONResponseToObject<CategoryTryDetailsDTO> mapper;
+
+    @Autowired
+    private ExpectedDataProvider<CategoryTryDetailsDTO> expectedDataProvider;
 
     @LocalServerPort
     private int port;
@@ -39,7 +49,7 @@ public class CategoryControllerTest extends TestContainer {
                 .getForObject("http://localhost:" + port + "/api/v1/categories", String.class);
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response, 200);
-        TestAssertionUtils.assertListResponseHasExpectedFields(response, "categories", expCategoryFields());
+        TestAssertionUtils.assertListResponseHasExpectedFields(response, "categories", getCategoryFields());
         TestAssertionUtils.assertListResponseHasExpectedSize(response, "categories", 10);
     }
 
@@ -52,12 +62,9 @@ public class CategoryControllerTest extends TestContainer {
                 .getForObject("http://localhost:" + port + "/api/v1/categories/" + id, String.class);
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response, 200);
-        TestAssertionUtils.assertResponseHasExpectedFields(response, "category", expCategoryDetailFields());
-        TestAssertionUtils.assertResponseHasExpectedValues(response,
-                "category",
-                expCategoryFields(),
-                expCategoryFieldValues()
-        );
+        assertThat(mapper.mapJSONResponseToObject(response))
+                .usingRecursiveComparison()
+                .isEqualTo(expectedDataProvider.getObject());
     }
 
     @DisplayName("Save new category")
@@ -68,7 +75,7 @@ public class CategoryControllerTest extends TestContainer {
         headers.set("Content-Type", "application/json");
 
         JSONObject requestBody = new JSONObject();
-        requestBody.put("name", "TestCategory Saved");
+        requestBody.put("name", "Test Category Saved");
 
         String url = "http://localhost:" + port + "/api/v1/categories";
         ResponseEntity<String> responseEntity = category
@@ -80,13 +87,10 @@ public class CategoryControllerTest extends TestContainer {
         String responseBody = responseEntity.getBody();
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response, 201);
-        TestAssertionUtils.assertResponseHasExpectedFields(response, "category", expCategoryDetailFields());
-        TestAssertionUtils.assertResponseHasExpectedValues(
-                response,
-                "category",
-                expCategoryFields(),
-                expSavedCategoryFieldValues()
-        );
+        TestAssertionUtils.assertResponseHasExpectedFields(response, "category", getCategoryDetailFields());
+        assertThat(mapper.mapJSONResponseToObject(response))
+                .usingRecursiveComparison()
+                .isEqualTo(expectedDataProvider.getSavedObject());
     }
 
     @DisplayName("Fetch the saved category")
@@ -98,12 +102,10 @@ public class CategoryControllerTest extends TestContainer {
                 .getForObject("http://localhost:" + port + "/api/v1/categories/" + id, String.class);
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response, 200);
-        TestAssertionUtils.assertResponseHasExpectedFields(response, "category", expCategoryDetailFields());
-        TestAssertionUtils.assertResponseHasExpectedValues(response,
-                "category",
-                expCategoryFields(),
-                expSavedCategoryFieldValues()
-        );
+        TestAssertionUtils.assertResponseHasExpectedFields(response, "category", getCategoryDetailFields());
+        assertThat(mapper.mapJSONResponseToObject(response))
+                .usingRecursiveComparison()
+                .isEqualTo(expectedDataProvider.getSavedObject());
     }
 
     @DisplayName("Update category")
@@ -113,7 +115,7 @@ public class CategoryControllerTest extends TestContainer {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         JSONObject requestBody = new JSONObject();
-        requestBody.put("name", "TestCategory Updated");
+        requestBody.put("name", "Test Category Updated");
 
         long categoryId = 3L;
         String url = "http://localhost:" + port + "/api/v1/categories/" + categoryId;
@@ -127,13 +129,10 @@ public class CategoryControllerTest extends TestContainer {
         String responseBody = responseEntity.getBody();
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response, 200);
-        TestAssertionUtils.assertResponseHasExpectedFields(response, "category", expCategoryDetailFields());
-        TestAssertionUtils.assertResponseHasExpectedValues(
-                response,
-                "category",
-                expCategoryFields(),
-                expUpdatedCategoryFieldValues()
-        );
+        TestAssertionUtils.assertResponseHasExpectedFields(response, "category", getCategoryDetailFields());
+        assertThat(mapper.mapJSONResponseToObject(response))
+                .usingRecursiveComparison()
+                .isEqualTo(expectedDataProvider.getUpdatedObject());
     }
 
     @DisplayName("Fetch the updated category")
@@ -145,12 +144,10 @@ public class CategoryControllerTest extends TestContainer {
                 .getForObject("http://localhost:" + port + "/api/v1/categories/" + id, String.class);
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response, 200);
-        TestAssertionUtils.assertResponseHasExpectedFields(response, "category", expCategoryDetailFields());
-        TestAssertionUtils.assertResponseHasExpectedValues(response,
-                "category",
-                expCategoryFields(),
-                expUpdatedCategoryFieldValues()
-        );
+        TestAssertionUtils.assertResponseHasExpectedFields(response, "category", getCategoryDetailFields());
+        assertThat(mapper.mapJSONResponseToObject(response))
+                .usingRecursiveComparison()
+                .isEqualTo(expectedDataProvider.getUpdatedObject());
     }
 
     @DisplayName("Return 404 for non-existing category")
@@ -162,41 +159,5 @@ public class CategoryControllerTest extends TestContainer {
                 .getForObject("http://localhost:" + port + "/api/v1/categories/" + nonExistingId, String.class);
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response,404);
-    }
-
-    private List<String> expCategoryFields() {
-        List<String> fields = new ArrayList<>();
-        fields.add("id");
-        fields.add("name");
-        return fields;
-    }
-
-    private List<String> expCategoryDetailFields() {
-        List<String> fields = new ArrayList<>();
-        fields.add("id");
-        fields.add("name");
-        fields.add("subCategories");
-        return fields;
-    }
-
-    private List<Object> expCategoryFieldValues() {
-        List<Object> fields = new ArrayList<>();
-        fields.add(3);
-        fields.add("Computer & Electronics");
-        return fields;
-    }
-
-    private List<Object> expSavedCategoryFieldValues() {
-        List<Object> fields = new ArrayList<>();
-        fields.add(11);
-        fields.add("TestCategory Saved");
-        return fields;
-    }
-
-    private List<Object> expUpdatedCategoryFieldValues() {
-        List<Object> fields = new ArrayList<>();
-        fields.add(3);
-        fields.add("TestCategory Updated");
-        return fields;
     }
 }

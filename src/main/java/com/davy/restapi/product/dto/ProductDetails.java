@@ -1,6 +1,6 @@
 package com.davy.restapi.product.dto;
 
-import com.davy.restapi.category.dto.CategoryDetailsDTO;
+import com.davy.restapi.category.dto.CategoryDetailDTO;
 import com.davy.restapi.inventory.dto.Inventory;
 import com.davy.restapi.subcategory.dto.SubCategory;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -36,7 +36,7 @@ public class ProductDetails {
     private int vat;
 
     @JsonProperty("category")
-    private CategoryDetailsDTO category;
+    private CategoryDetailDTO category;
 
     @JsonIgnore
     @JsonProperty("subCategory")
@@ -52,7 +52,7 @@ public class ProductDetails {
                           float purchasePrice,
                           float sellingPrice,
                           int vat,
-                          CategoryDetailsDTO category,
+                          CategoryDetailDTO category,
                           SubCategory subCategory,
                           Inventory inventory
     ) {

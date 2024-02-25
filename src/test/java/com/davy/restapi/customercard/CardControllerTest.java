@@ -1,6 +1,9 @@
 package com.davy.restapi.customercard;
 
+import com.davy.restapi.card.dto.CardDetailDTO;
 import com.davy.restapi.shared.TestContainer;
+import com.davy.restapi.shared.utils.ExpectedDataProvider;
+import com.davy.restapi.shared.utils.JSONResponseToObject;
 import com.davy.restapi.shared.utils.TestAssertionUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,8 +19,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
-import java.util.List;
+import static com.davy.restapi.customercard.data.CustomerCardFieldProvider.getCustomerCardDetailFields;
+import static com.davy.restapi.customercard.data.CustomerCardFieldProvider.getCustomerCardFields;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CardControllerTest extends TestContainer {
@@ -27,6 +31,12 @@ public class CardControllerTest extends TestContainer {
 
     @Autowired
     private TestRestTemplate card;
+
+    @Autowired
+    private JSONResponseToObject<CardDetailDTO> mapper;
+
+    @Autowired
+    private ExpectedDataProvider<CardDetailDTO> expectedDataProvider;
 
     @LocalServerPort
     private int port;
@@ -39,7 +49,7 @@ public class CardControllerTest extends TestContainer {
                 .getForObject("http://localhost:" + port + "/api/v1/cards", String.class);
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response, 200);
-        TestAssertionUtils.assertListResponseHasExpectedFields(response, "cards", expectedCardFields());
+        TestAssertionUtils.assertListResponseHasExpectedFields(response, "cards", getCustomerCardFields());
         TestAssertionUtils.assertListResponseHasExpectedSize(response, "cards", 1);
     }
 
@@ -52,12 +62,9 @@ public class CardControllerTest extends TestContainer {
                 .getForObject("http://localhost:" + port + "/api/v1/cards/" + id, String.class);
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response, 200);
-        TestAssertionUtils.assertResponseHasExpectedFields(response, "card", expectedCardFields());
-        TestAssertionUtils.assertResponseHasExpectedValues(response,
-                "card",
-                expCardDetailFields(),
-                expCardDetailFieldValues()
-        );
+        assertThat(mapper.mapJSONResponseToObject(response))
+                .usingRecursiveComparison()
+                .isEqualTo(expectedDataProvider.getObject());
     }
 
     @DisplayName("Save new customer card")
@@ -81,13 +88,10 @@ public class CardControllerTest extends TestContainer {
         String responseBody = responseEntity.getBody();
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response, 201);
-        TestAssertionUtils.assertResponseHasExpectedFields(response, "card", expectedCardFields());
-        TestAssertionUtils.assertResponseHasExpectedValues(
-                response,
-                "card",
-                expectedCardFields(),
-                expSavedCardFieldValues()
-        );
+        TestAssertionUtils.assertResponseHasExpectedFields(response, "card", getCustomerCardDetailFields());
+        assertThat(mapper.mapJSONResponseToObject(response))
+                .usingRecursiveComparison()
+                .isEqualTo(expectedDataProvider.getSavedObject());
     }
 
     @DisplayName("Fetch the saved customer card")
@@ -99,12 +103,10 @@ public class CardControllerTest extends TestContainer {
                 .getForObject("http://localhost:" + port + "/api/v1/cards/" + id, String.class);
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response, 200);
-        TestAssertionUtils.assertResponseHasExpectedFields(response, "card", expectedCardFields());
-        TestAssertionUtils.assertResponseHasExpectedValues(response,
-                "card",
-                expCardDetailFields(),
-                expSavedCardFieldValues()
-        );
+        TestAssertionUtils.assertResponseHasExpectedFields(response, "card", getCustomerCardDetailFields());
+        assertThat(mapper.mapJSONResponseToObject(response))
+                .usingRecursiveComparison()
+                .isEqualTo(expectedDataProvider.getSavedObject());
     }
 
 
@@ -129,13 +131,10 @@ public class CardControllerTest extends TestContainer {
         String responseBody = responseEntity.getBody();
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response, 200);
-        TestAssertionUtils.assertResponseHasExpectedFields(response, "card", expectedCardFields());
-        TestAssertionUtils.assertResponseHasExpectedValues(
-                response,
-                "card",
-                expectedCardFields(),
-                expUpdatedCardFieldValues()
-        );
+        TestAssertionUtils.assertResponseHasExpectedFields(response, "card", getCustomerCardDetailFields());
+        assertThat(mapper.mapJSONResponseToObject(response))
+                .usingRecursiveComparison()
+                .isEqualTo(expectedDataProvider.getUpdatedObject());
     }
 
     @DisplayName("Fetch the updated customer card")
@@ -147,12 +146,10 @@ public class CardControllerTest extends TestContainer {
                 .getForObject("http://localhost:" + port + "/api/v1/cards/" + id, String.class);
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response, 200);
-        TestAssertionUtils.assertResponseHasExpectedFields(response, "card", expectedCardFields());
-        TestAssertionUtils.assertResponseHasExpectedValues(response,
-                "card",
-                expCardDetailFields(),
-                expUpdatedCardFieldValues()
-        );
+        TestAssertionUtils.assertResponseHasExpectedFields(response, "card", getCustomerCardDetailFields());
+        assertThat(mapper.mapJSONResponseToObject(response))
+                .usingRecursiveComparison()
+                .isEqualTo(expectedDataProvider.getUpdatedObject());
     }
 
     @DisplayName("Return 404 for non-existing customer card")
@@ -164,45 +161,5 @@ public class CardControllerTest extends TestContainer {
                 .getForObject("http://localhost:" + port + "/api/v1/cards/" + nonExistingId, String.class);
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response,404);
-    }
-
-
-    private List<String> expectedCardFields() {
-        List<String> fields = new ArrayList<>();
-        fields.add("id");
-        fields.add("number");
-        return fields;
-    }
-
-    private List<String> expCardDetailFields() {
-        List<String> fields = new ArrayList<>();
-        fields.add("id");
-        fields.add("number");
-        fields.add("points");
-        return fields;
-    }
-
-    private List<Object> expCardDetailFieldValues() {
-        List<Object> fields = new ArrayList<>();
-        fields.add(1);
-        fields.add("15151515151515");
-        fields.add(10);
-        return fields;
-    }
-
-    private List<Object> expSavedCardFieldValues() {
-        List<Object> fields = new ArrayList<>();
-        fields.add(2);
-        fields.add("111111111111");
-        fields.add(20);
-        return fields;
-    }
-
-    private List<Object> expUpdatedCardFieldValues() {
-        List<Object> fields = new ArrayList<>();
-        fields.add(1);
-        fields.add("222222222222");
-        fields.add(25);
-        return fields;
     }
 }
