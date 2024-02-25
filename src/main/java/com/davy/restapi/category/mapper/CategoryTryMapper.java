@@ -4,7 +4,7 @@ import com.davy.restapi.category.dto.CategoryDTO;
 import com.davy.restapi.category.dto.CategoryTryDetailsDTO;
 import com.davy.restapi.category.dto.CategoryRequestDTO;
 import com.davy.restapi.shared.mapper.ObjectMapper;
-import com.davy.restapi.subcategory.dto.SubCategoryDto;
+import com.davy.restapi.subcategory.dto.SubCategoryDTO;
 import com.davy.restapi.subcategory.entity.SubCategory;
 import com.davy.restapi.subcategory.dto.SubCategoryRequestDTO;
 import lombok.AllArgsConstructor;
@@ -38,9 +38,9 @@ public class CategoryTryMapper implements ObjectMapper<CategoryRequestDTO, com.d
     @Override
     public CategoryTryDetailsDTO mapToDetailsDto(com.davy.restapi.category.entity.Category category) {
 
-        List<SubCategoryDto>subCategories = category.getSubcategories()
+        List<SubCategoryDTO>subCategories = category.getSubcategories()
                 .stream()
-                .map(entity -> (SubCategoryDto) subCategoryMapper.mapToDto(entity))
+                .map(entity -> (SubCategoryDTO) subCategoryMapper.mapToDto(entity))
                 .collect(Collectors.toList());
 
         return new CategoryTryDetailsDTO(

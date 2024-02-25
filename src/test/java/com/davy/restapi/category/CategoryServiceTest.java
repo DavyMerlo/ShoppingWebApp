@@ -6,7 +6,7 @@ import com.davy.restapi.category.dto.CategoryTryDetailsDTO;
 import com.davy.restapi.category.entity.Category;
 import com.davy.restapi.shared.TestContainer;
 import com.davy.restapi.shared.service.CrudService;
-import com.davy.restapi.subcategory.dto.SubCategoryDto;
+import com.davy.restapi.subcategory.dto.SubCategoryDTO;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
@@ -43,8 +43,8 @@ public class CategoryServiceTest extends TestContainer {
         assertThat(category.getId()).isEqualTo(3L);
         assertThat(category.getName()).isEqualTo("Computer & Electronics");
 
-        List<SubCategoryDto> expectedSubCategories = subCategoryList();
-        List<SubCategoryDto> actualSubCategories = category.getSubCategories();
+        List<SubCategoryDTO> expectedSubCategories = subCategoryList();
+        List<SubCategoryDTO> actualSubCategories = category.getSubCategories();
 
         assertThat(actualSubCategories).hasSize(expectedSubCategories.size());
 
@@ -84,8 +84,8 @@ public class CategoryServiceTest extends TestContainer {
         assertThat(updatedCategory.getId()).isEqualTo(3L);
         assertThat(updatedCategory.getName()).isEqualTo("TestCategory Updated");
 
-        List<SubCategoryDto> expectedSubCategories = subCategoryList();
-        List<SubCategoryDto> actualSubCategories = updatedCategory.getSubCategories();
+        List<SubCategoryDTO> expectedSubCategories = subCategoryList();
+        List<SubCategoryDTO> actualSubCategories = updatedCategory.getSubCategories();
 
         assertThat(actualSubCategories).hasSize(expectedSubCategories.size());
 
@@ -96,16 +96,16 @@ public class CategoryServiceTest extends TestContainer {
     }
 
 
-    private List<SubCategoryDto> subCategoryList(){
-        var subCategories = new ArrayList<SubCategoryDto>();
-        subCategories.add(new SubCategoryDto(12L, "Computer & Accessories"));
-        subCategories.add(new SubCategoryDto(13L, "Sound and Vision"));
-        subCategories.add(new SubCategoryDto(14L, "Photo & Videocameras"));
-        subCategories.add(new SubCategoryDto(15L, "Telephony & Tables"));
-        subCategories.add(new SubCategoryDto(16L, "Smartwatches & Accessories"));
-        subCategories.add(new SubCategoryDto(17L, "Appliances"));
-        subCategories.add(new SubCategoryDto(18L, "Kitchen appliances"));
-        subCategories.add(new SubCategoryDto(19L, "Personal care devices"));
+    private List<SubCategoryDTO> subCategoryList(){
+        var subCategories = new ArrayList<SubCategoryDTO>();
+        subCategories.add(new SubCategoryDTO(12L, "Computer & Accessories"));
+        subCategories.add(new SubCategoryDTO(13L, "Sound and Vision"));
+        subCategories.add(new SubCategoryDTO(14L, "Photo & Videocameras"));
+        subCategories.add(new SubCategoryDTO(15L, "Telephony & Tables"));
+        subCategories.add(new SubCategoryDTO(16L, "Smartwatches & Accessories"));
+        subCategories.add(new SubCategoryDTO(17L, "Appliances"));
+        subCategories.add(new SubCategoryDTO(18L, "Kitchen appliances"));
+        subCategories.add(new SubCategoryDTO(19L, "Personal care devices"));
         return subCategories;
     }
 }

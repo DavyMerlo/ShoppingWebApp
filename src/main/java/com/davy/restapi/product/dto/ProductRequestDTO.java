@@ -1,4 +1,4 @@
-package com.davy.restapi.product.request;
+package com.davy.restapi.product.dto;
 
 import com.davy.restapi.product.enums.Vat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,12 +6,11 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
 @Builder
 @Getter
 @Setter
-public class ProductRequest {
+public class ProductRequestDTO {
 
     @JsonProperty("name")
     private String name;
@@ -41,18 +40,18 @@ public class ProductRequest {
     @JsonProperty("subCategoryId")
     private Long subCategoryId;
 
-    public ProductRequest() {
+    public ProductRequestDTO() {
     }
 
-    public ProductRequest(String name,
-                          String description,
-                          String imageUrl,
-                          float purchasePrice,
-                          float sellingPrice,
-                          Vat VAT,
-                          short quantity,
-                          Long categoryId,
-                          Long subCategoryId) {
+    public ProductRequestDTO(String name,
+                             String description,
+                             String imageUrl,
+                             float purchasePrice,
+                             float sellingPrice,
+                             Vat VAT,
+                             short quantity,
+                             Long categoryId,
+                             Long subCategoryId) {
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;

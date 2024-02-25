@@ -4,7 +4,7 @@ import com.davy.restapi.category.dto.CategoryDTO;
 import com.davy.restapi.shared.mapper.ObjectMapper;
 import com.davy.restapi.shared.repository.CrudRepository;
 import com.davy.restapi.subcategory.dto.SubCategoryDetailDTO;
-import com.davy.restapi.subcategory.dto.SubCategoryDto;
+import com.davy.restapi.subcategory.dto.SubCategoryDTO;
 import com.davy.restapi.subcategory.entity.SubCategory;
 import com.davy.restapi.subcategory.dto.SubCategoryRequestDTO;
 import lombok.AllArgsConstructor;
@@ -29,8 +29,8 @@ public class SubCategoryTryMapper implements ObjectMapper<SubCategoryRequestDTO,
     }
 
     @Override
-    public SubCategoryDto mapToDto(SubCategory subCategory) {
-        return new SubCategoryDto(
+    public SubCategoryDTO mapToDto(SubCategory subCategory) {
+        return new SubCategoryDTO(
                 subCategory.getId(),
                 subCategory.getName()
         );

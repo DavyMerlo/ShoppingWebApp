@@ -1,8 +1,8 @@
 package com.davy.restapi.product.dto;
 
-import com.davy.restapi.category.dto.CategoryDetailsDTO;
+import com.davy.restapi.category.dto.CategoryDTO;
 import com.davy.restapi.inventory.dto.Inventory;
-import com.davy.restapi.subcategory.dto.SubCategory;
+import com.davy.restapi.subcategory.dto.SubCategoryDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class ProductDetails {
+public class ProductDetailsDTO {
 
     @JsonProperty("id")
     private  Long id;
@@ -36,25 +36,24 @@ public class ProductDetails {
     private int vat;
 
     @JsonProperty("category")
-    private CategoryDetailsDTO category;
+    private CategoryDTO category;
 
-    @JsonIgnore
     @JsonProperty("subCategory")
-    private SubCategory subCategory;
+    private SubCategoryDTO subCategory;
 
     @JsonProperty("inventory")
     private Inventory inventory;
 
-    public ProductDetails(Long id,
-                          String name,
-                          String description,
-                          String imageUrl,
-                          float purchasePrice,
-                          float sellingPrice,
-                          int vat,
-                          CategoryDetailsDTO category,
-                          SubCategory subCategory,
-                          Inventory inventory
+    public ProductDetailsDTO(Long id,
+                             String name,
+                             String description,
+                             String imageUrl,
+                             float purchasePrice,
+                             float sellingPrice,
+                             int vat,
+                             CategoryDTO category,
+                             SubCategoryDTO subCategory,
+                             Inventory inventory
     ) {
         this.id = id;
         this.name = name;

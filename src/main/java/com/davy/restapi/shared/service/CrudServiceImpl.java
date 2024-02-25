@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-public abstract class CrudServiceImpl<T,C> implements CrudService<T,C> {
+public class CrudServiceImpl<T,C> implements CrudService<T,C> {
 
     protected final CrudRepository<T> repository;
     protected final ObjectMapper<C,T> mapper;

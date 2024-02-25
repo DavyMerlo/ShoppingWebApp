@@ -8,7 +8,7 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class SubCategoryDto {
+public class SubCategoryDTO {
 
     @JsonProperty("id")
     private Long id;
@@ -16,8 +16,8 @@ public class SubCategoryDto {
     @JsonProperty("name")
     private String name;
 
-    public SubCategoryDto(Long id,
-                       String name) {
+    public SubCategoryDTO(Long id,
+                          String name) {
         this.id = id;
         this.name = name;
     }

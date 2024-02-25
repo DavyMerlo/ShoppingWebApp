@@ -8,12 +8,12 @@ import com.davy.restapi.orderlines.response.OrderLineResponse;
 
 import java.util.List;
 
-public interface OrderLineService {
-
-    OrderLineListResponse findAllOrderLines();
-    OrderLineResponse findOrderLineById(Long id);
-    OrderResponse findOrderByOrderLineId(Long orderId);
-    OrderLineListResponse findOrderLinesByOrderId(Long id);
-    void saveOrderOrderLines(Long userId, List<OrderLineCreateRequest> requests);
-    OrderLineResponse updateOrderLineById(Long id, OrderLineUpdateRequest request);
-}
+//public interface OrderLineService {
+//
+//    OrderLineListResponse findAllOrderLines();
+//    OrderLineResponse findOrderLineById(Long id);
+//    OrderResponse findOrderByOrderLineId(Long orderId);
+//    OrderLineListResponse findOrderLinesByOrderId(Long id);
+//    void saveOrderOrderLines(Long userId, List<OrderLineCreateRequest> requests);
+//    OrderLineResponse updateOrderLineById(Long id, OrderLineUpdateRequest request);
+//}

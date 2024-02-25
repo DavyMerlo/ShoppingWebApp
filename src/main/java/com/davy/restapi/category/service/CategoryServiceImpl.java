@@ -2,6 +2,7 @@ package com.davy.restapi.category.service;
 
 import com.davy.restapi.category.dto.CategoryDTO;
 import com.davy.restapi.category.dto.CategoryRequestDTO;
+import com.davy.restapi.category.entity.Category;
 import com.davy.restapi.category.repository.CategoryRepository;
 import com.davy.restapi.shared.exceptions.ThrowException;
 import com.davy.restapi.shared.mapper.ObjectMapper;
@@ -14,15 +15,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CategoryServiceImpl extends CrudServiceImpl<com.davy.restapi.category.entity.Category, CategoryRequestDTO>
+public class CategoryServiceImpl extends CrudServiceImpl<Category, CategoryRequestDTO>
         implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final ObjectMapper<SubCategoryRequestDTO, SubCategory> subCategoryMapper;
-    private final ObjectMapper<CategoryRequestDTO, com.davy.restapi.category.entity.Category> categoryMapper;
+    private final ObjectMapper<CategoryRequestDTO, Category> categoryMapper;
 
-    public CategoryServiceImpl(CrudRepository<com.davy.restapi.category.entity.Category> repository,
-                               ObjectMapper<CategoryRequestDTO, com.davy.restapi.category.entity.Category> categoryMapper,
+    public CategoryServiceImpl(CrudRepository<Category> repository,
+                               ObjectMapper<CategoryRequestDTO, Category> categoryMapper,
                                ObjectMapper<SubCategoryRequestDTO, SubCategory> subCategoryMapper,
                                CategoryRepository categoryRepository) {
         super(repository, categoryMapper);

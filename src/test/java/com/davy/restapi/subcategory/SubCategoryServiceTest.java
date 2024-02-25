@@ -1,12 +1,9 @@
 package com.davy.restapi.subcategory;
 
-import com.davy.restapi.category.dto.CategoryDTO;
-import com.davy.restapi.category.dto.CategoryRequestDTO;
-import com.davy.restapi.category.entity.Category;
 import com.davy.restapi.shared.TestContainer;
 import com.davy.restapi.shared.service.CrudService;
 import com.davy.restapi.subcategory.dto.SubCategoryDetailDTO;
-import com.davy.restapi.subcategory.dto.SubCategoryDto;
+import com.davy.restapi.subcategory.dto.SubCategoryDTO;
 import com.davy.restapi.subcategory.dto.SubCategoryRequestDTO;
 import com.davy.restapi.subcategory.entity.SubCategory;
 import org.junit.jupiter.api.DisplayName;
@@ -30,7 +27,7 @@ public class SubCategoryServiceTest extends TestContainer {
     @Test
     @Order(1)
     void shouldGetAllSubCategories(){
-        List<SubCategoryDto> subCategories = (List<SubCategoryDto>) subCategoryService.findAll();
+        List<SubCategoryDTO> subCategories = (List<SubCategoryDTO>) subCategoryService.findAll();
         assertThat(subCategories).hasSize(56);
     }
 

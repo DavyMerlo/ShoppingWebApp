@@ -4,7 +4,6 @@ import com.davy.restapi.category.entity.Category;
 import com.davy.restapi.discount.entity.Discount;
 import com.davy.restapi.inventory.entity.Inventory;
 import com.davy.restapi.subcategory.entity.SubCategory;
-import com.davy.restapi.orderlines.entity.OrderLine;
 import com.davy.restapi.shared.entity.BaseEntity;
 import com.davy.restapi.product.enums.Vat;
 import jakarta.persistence.*;
