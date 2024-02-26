@@ -48,13 +48,14 @@ public class ProductServiceImpl extends CrudServiceImpl<Product, ProductRequestD
     }
 
     @Override
-    public Map<String, Object> filterAndSearchProductsByNamePageable(Long catId,
-                                                                     Long subCatId,
-                                                                     String name,
-                                                                     int page,
-                                                                     String sortBy,
-                                                                     String sortOrder) {
-        Pageable pageable = makePageable(page, sortBy, sortOrder);
+    public Map<String, Object> filterProductsPageable(Long catId,
+                                                      Long subCatId,
+                                                      String name,
+                                                      int page,
+                                                      int pageSize,
+                                                      String sortBy,
+                                                      String sortOrder) {
+        Pageable pageable = makePageable(page, pageSize, sortBy, sortOrder);
         Specification<Product> spec = specification(catId, subCatId, name);
         Page<Product> productPage = productRepository.findAll(spec, pageable);
         return mappedProductPage(productPage);
@@ -106,12 +107,12 @@ public class ProductServiceImpl extends CrudServiceImpl<Product, ProductRequestD
                 .get();
     }
 
-    private Pageable makePageable(int page, String sortBy, String sortOrder) {
+    private Pageable makePageable(int page, int pageSize, String sortBy, String sortOrder) {
         if (sortBy != null && sortOrder != null) {
             Sort sort = Sort.by(Sort.Direction.fromString(sortOrder), sortBy);
-            return PageRequest.of(page, 8, sort);
+            return PageRequest.of(page, pageSize, sort);
         } else {
-            return PageRequest.of(page, 8);
+            return PageRequest.of(page, pageSize);
         }
     }
 

@@ -31,9 +31,15 @@ public class TestContainer {
         registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
     }
 
-
     @BeforeEach
     void shouldConnectionWithTestContainer() {
         Assertions.assertTrue(postgreSQLContainer.isRunning());
+    }
+
+    @AfterAll
+    static void tearDown() {
+        if (postgreSQLContainer != null && postgreSQLContainer.isRunning()) {
+            postgreSQLContainer.stop();
+        }
     }
 }

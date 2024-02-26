@@ -5,9 +5,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static com.davy.restapi.product.data.ProductFieldProvider.getObjectMetaDataFields;
+import static com.davy.restapi.product.data.ProductFieldProvider.getResponseFields;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestAssertionUtils {
@@ -22,17 +25,24 @@ public class TestAssertionUtils {
                                                             String objectName,
                                                             List<String> expectedFields)
             throws JSONException {
-        assertTrue(response.has("result"));
-        assertTrue(response.has("successful"));
-        assertTrue(response.has("statusCode"));
+        for(var field: getResponseFields()){
+            assertTrue(response.has(field));
+        }
 
         JSONObject result = response.getJSONObject("result");
         assertTrue(result.has(objectName));
         JSONArray array = result.getJSONArray(objectName);
-
         for (int i = 0; i < array.length(); i++) {
             JSONObject object = array.getJSONObject(i);
             assertArrayHasExpectedFields(object, expectedFields);
+        }
+    }
+
+    public static void assertResultHasExpectedMetaDataFields(JSONObject response)
+            throws JSONException {
+        JSONObject result = response.getJSONObject("result");
+        for(var field: getObjectMetaDataFields()){
+            assertTrue(result.has(field));
         }
     }
 
@@ -50,10 +60,9 @@ public class TestAssertionUtils {
                                                        String objectName,
                                                        List<String> expectedFields)
             throws JSONException {
-        assertTrue(response.has("result"));
-        assertTrue(response.has("successful"));
-        assertTrue(response.has("statusCode"));
-
+        for(var field: getResponseFields()){
+            assertTrue(response.has(field));
+        }
         JSONObject result = response.getJSONObject("result");
         assertTrue(result.has(objectName));
         JSONObject object = result.getJSONObject(objectName);
@@ -64,26 +73,6 @@ public class TestAssertionUtils {
             throws JSONException{
         for (String field : expectedFields) {
             assertTrue(object.has(field));
-        }
-    }
-
-    public static void assertResponseHasExpectedValues(JSONObject response,
-                                                          String objName,
-                                                          List<String> expectedFields,
-                                                          List<Object> expectedValues)
-            throws JSONException{
-
-        JSONObject obj = response.getJSONObject("result");
-        JSONObject object = obj.getJSONObject(objName);
-
-        for (int i = 0; i < expectedFields.size(); i++) {
-            String field = expectedFields.get(i);
-            Object expectedValue = expectedValues.get(i);
-            Object actualValue = object.get(field);
-//            if (expectedValue instanceof Long) {
-//                expectedValue = ((Long) expectedValue).intValue();
-//            }
-            assertEquals(expectedValue, actualValue);
         }
     }
 

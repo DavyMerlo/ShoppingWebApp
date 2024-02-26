@@ -25,13 +25,15 @@ public class ProductV1Controller {
             @RequestParam(name = "category", required = false) Long categoryId,
             @RequestParam(name = "subcategory", required = false) Long subCategoryId,
             @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "pagesize", defaultValue = "8") int pageSize,
             @RequestParam(name = "sort", required = false) String sortBy,
             @RequestParam(name = "order", required = false, defaultValue = "asc") String sortOrder) {
-        var filteredProduct = productService.filterAndSearchProductsByNamePageable(
+        var filteredProduct = productService.filterProductsPageable(
                 categoryId,
                 subCategoryId,
                 search,
                 page,
+                pageSize,
                 sortBy,
                 sortOrder);
         return ResponseHandler.generateResponse(true, HttpStatus.OK, filteredProduct);

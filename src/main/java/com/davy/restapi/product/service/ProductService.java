@@ -8,10 +8,11 @@ import java.util.Map;
 
 public interface ProductService extends CrudService<Product, ProductRequestDTO> {
 
-    Map<String, Object> filterAndSearchProductsByNamePageable(Long categoryId,
+    Map<String, Object> filterProductsPageable(Long categoryId,
                                                               Long subCategoryId,
                                                               String name,
                                                               int page,
+                                                              int pageSize,
                                                               String sortBy,
                                                               String sortOrder);
 }
