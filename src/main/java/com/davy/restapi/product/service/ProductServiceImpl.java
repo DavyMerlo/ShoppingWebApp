@@ -1,9 +1,7 @@
 package com.davy.restapi.product.service;
 
-import com.davy.restapi.category.dto.CategoryRequestDTO;
-import com.davy.restapi.category.entity.Category;
 import com.davy.restapi.product.dto.ProductDetailsDTO;
-import com.davy.restapi.product.entity.Product;
+import com.davy.restapi.product.entity.ProductEntity;
 import com.davy.restapi.product.dto.ProductRequestDTO;
 import com.davy.restapi.product.repository.ProductRepository;
 import com.davy.restapi.shared.exceptions.ThrowException;
@@ -12,7 +10,7 @@ import com.davy.restapi.shared.repository.CrudRepository;
 import com.davy.restapi.shared.service.CrudServiceImpl;
 import com.davy.restapi.subcategory.dto.SubCategoryDTO;
 import com.davy.restapi.subcategory.dto.SubCategoryRequestDTO;
-import com.davy.restapi.subcategory.entity.SubCategory;
+import com.davy.restapi.subcategory.entity.SubCategoryEntity;
 import com.davy.restapi.subcategory.repository.SubCategoryRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,19 +25,19 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class ProductServiceImpl extends CrudServiceImpl<Product, ProductRequestDTO>
+public class ProductServiceImpl extends CrudServiceImpl<ProductEntity, ProductRequestDTO>
         implements ProductService {
 
     private final ProductRepository productRepository;
     private final SubCategoryRepository subCategoryRepository;
-    private final ObjectMapper<SubCategoryRequestDTO, com.davy.restapi.subcategory.entity.SubCategory> subCategoryMapper;
-    private final ObjectMapper<ProductRequestDTO, Product> productMapper;
+    private final ObjectMapper<SubCategoryRequestDTO, SubCategoryEntity> subCategoryMapper;
+    private final ObjectMapper<ProductRequestDTO, ProductEntity> productMapper;
 
-    public ProductServiceImpl(CrudRepository<Product> repository,
+    public ProductServiceImpl(CrudRepository<ProductEntity> repository,
                               SubCategoryRepository subCategoryRepository,
                               ProductRepository productRepository,
-                              ObjectMapper<SubCategoryRequestDTO, SubCategory> subCategoryMapper,
-                              ObjectMapper<ProductRequestDTO, Product> productMapper) {
+                              ObjectMapper<SubCategoryRequestDTO, SubCategoryEntity> subCategoryMapper,
+                              ObjectMapper<ProductRequestDTO, ProductEntity> productMapper) {
         super(repository, productMapper);
         this.subCategoryRepository = subCategoryRepository;
         this.productRepository = productRepository;
@@ -56,8 +54,8 @@ public class ProductServiceImpl extends CrudServiceImpl<Product, ProductRequestD
                                                       String sortBy,
                                                       String sortOrder) {
         Pageable pageable = makePageable(page, pageSize, sortBy, sortOrder);
-        Specification<Product> spec = specification(catId, subCatId, name);
-        Page<Product> productPage = productRepository.findAll(spec, pageable);
+        Specification<ProductEntity> spec = specification(catId, subCatId, name);
+        Page<ProductEntity> productPage = productRepository.findAll(spec, pageable);
         return mappedProductPage(productPage);
     }
 
@@ -70,7 +68,7 @@ public class ProductServiceImpl extends CrudServiceImpl<Product, ProductRequestD
 //    }
 
     private Map<String, Object> mappedProductPage(Page productPage){
-        List<Product> productEntities = productPage.getContent();
+        List<ProductEntity> productEntities = productPage.getContent();
         Map<String, Object> mappedProducts = new HashMap<>();
         List<ProductDetailsDTO> productDetails = new ArrayList<>();
 
@@ -116,8 +114,8 @@ public class ProductServiceImpl extends CrudServiceImpl<Product, ProductRequestD
         }
     }
 
-    private Specification<Product> specification(Long catId, Long subCatId, String name) {
-        Specification<Product> spec = Specification.where(null);
+    private Specification<ProductEntity> specification(Long catId, Long subCatId, String name) {
+        Specification<ProductEntity> spec = Specification.where(null);
 
         if (name != null) {
             spec = spec.and(ProductSpecification.nameLike(name));

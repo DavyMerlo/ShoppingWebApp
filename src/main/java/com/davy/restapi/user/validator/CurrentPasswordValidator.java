@@ -1,7 +1,7 @@
 package com.davy.restapi.user.validator;
 
 import com.davy.restapi.shared.validators.ContextProvider;
-import com.davy.restapi.user.entity.User;
+import com.davy.restapi.user.entity.UserEntity;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.security.core.Authentication;
@@ -23,7 +23,7 @@ public class CurrentPasswordValidator implements ConstraintValidator<CheckCurren
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        var user = (User) authentication.getPrincipal();
+        var user = (UserEntity) authentication.getPrincipal();
         return passwordEncoder.matches(s, user.getPassword());
     }
 }

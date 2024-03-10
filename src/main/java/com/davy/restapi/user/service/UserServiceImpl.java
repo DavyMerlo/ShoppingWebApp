@@ -1,7 +1,7 @@
 package com.davy.restapi.user.service;
 
 import com.davy.restapi.shared.validators.RequestValidator;
-import com.davy.restapi.user.entity.User;
+import com.davy.restapi.user.entity.UserEntity;
 import com.davy.restapi.user.request.ChangePasswordRequest;
 import com.davy.restapi.shared.exceptions.ThrowException;
 import com.davy.restapi.user.mapper.UserAddressMapper;
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserPassWordResponse changePassword(ChangePasswordRequest request, Principal connectedUser) {
         changePasswordRequestValidatorImpl.validate(request);
-        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        var user = (UserEntity) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
         return UserPassWordResponse.builder()

@@ -1,6 +1,6 @@
 package com.davy.restapi.shared.auditing;
 
-import com.davy.restapi.user.entity.User;
+import com.davy.restapi.user.entity.UserEntity;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,7 +20,7 @@ public class ApplicationAuditAware implements AuditorAware<Long> {
                 authentication instanceof AnonymousAuthenticationToken){
             return Optional.empty();
         }
-        User userPrincipal = (User) authentication.getPrincipal();
+        UserEntity userPrincipal = (UserEntity) authentication.getPrincipal();
         return Optional.ofNullable(userPrincipal.getId());
     }
 }

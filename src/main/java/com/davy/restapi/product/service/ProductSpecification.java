@@ -1,8 +1,8 @@
 package com.davy.restapi.product.service;
 
-import com.davy.restapi.category.entity.Category;
-import com.davy.restapi.product.entity.Product;
-import com.davy.restapi.subcategory.entity.SubCategory;
+import com.davy.restapi.category.entity.CategoryEntity;
+import com.davy.restapi.product.entity.ProductEntity;
+import com.davy.restapi.subcategory.entity.SubCategoryEntity;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
@@ -13,15 +13,15 @@ public class ProductSpecification {
 
     private ProductSpecification(){}
 
-    public static Specification<Product> nameLike(String nameLike) {
+    public static Specification<ProductEntity> nameLike(String nameLike) {
         return (root, query, builder) ->
                 builder.like(builder.upper(root.get("name")), "%" + nameLike.toUpperCase() + "%");
     }
 
-    public static Specification<Product> byCategoryAndSubCategory(Long catId, Long subCatId) {
+    public static Specification<ProductEntity> byCategoryAndSubCategory(Long catId, Long subCatId) {
         return (root, query, builder) -> {
-            Join<Product, Category> categoryJoin = root.join("category");
-            Join<Product, SubCategory> subCategoryJoin = root.join("subCategory");
+            Join<ProductEntity, CategoryEntity> categoryJoin = root.join("category");
+            Join<ProductEntity, SubCategoryEntity> subCategoryJoin = root.join("subCategory");
 
             Predicate catPredicate = builder.equal(categoryJoin.get("id"), catId);
             Predicate subCatPredicate = builder.equal(subCategoryJoin.get("id"), subCatId);
@@ -30,16 +30,16 @@ public class ProductSpecification {
         };
     }
 
-    public static Specification<Product> byCategory(Long catId) {
+    public static Specification<ProductEntity> byCategory(Long catId) {
         return (root, query, builder) -> {
-            Join<Product, Category> categoryJoin = root.join("category");
+            Join<ProductEntity, CategoryEntity> categoryJoin = root.join("category");
             return builder.equal(categoryJoin.get("id"), catId);
         };
     }
 
-    public static Specification<Product> bySubCategory(Long subCatId) {
+    public static Specification<ProductEntity> bySubCategory(Long subCatId) {
         return (root, query, builder) -> {
-            Join<Product, SubCategory> subCategoryJoin = root.join("subCategory");
+            Join<ProductEntity, SubCategoryEntity> subCategoryJoin = root.join("subCategory");
             return builder.equal(subCategoryJoin.get("id"), subCatId);
         };
     }

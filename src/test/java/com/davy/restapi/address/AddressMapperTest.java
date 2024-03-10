@@ -1,7 +1,7 @@
 package com.davy.restapi.address;
 
 import com.davy.restapi.address.dto.AddressDTO;
-import com.davy.restapi.address.entity.Address;
+import com.davy.restapi.address.entity.AddressEntity;
 import com.davy.restapi.address.dto.AddressRequestDTO;
 import com.davy.restapi.address.mapper.AddressMapper;
 import com.davy.restapi.shared.mapper.ObjectMapper;
@@ -17,18 +17,18 @@ import static org.mockito.Mockito.when;
 
 public class AddressMapperTest {
 
-    private ObjectMapper<AddressRequestDTO, Address> addressMapper;
+    private ObjectMapper<AddressRequestDTO, AddressEntity> addressMapper;
     private AddressRequestDTO source;
     private AddressRequestDTO request;
-    private Address destination;
-    private Address address;
+    private AddressEntity destination;
+    private AddressEntity address;
 
     @BeforeEach
     public void SetUp(){
         addressMapper = new AddressMapper();
         source = mock(AddressRequestDTO.class);
-        destination = new Address();
-        address = mock(Address.class);
+        destination = new AddressEntity();
+        address = mock(AddressEntity.class);
         request = mock(AddressRequestDTO.class);
     }
 
@@ -40,7 +40,7 @@ public class AddressMapperTest {
         when(source.getPostalCode()).thenReturn("3630");
         when(source.getLocalAuthority()).thenReturn("Maasmechelen");
 
-        Address result = (Address) addressMapper.mapSourceToDestination(source, destination);
+        AddressEntity result = (AddressEntity) addressMapper.mapSourceToDestination(source, destination);
 
         assertEquals("Rootstraat", result.getStreet());
         assertEquals("30", result.getHouseNumber());
@@ -78,7 +78,7 @@ public class AddressMapperTest {
         when(request.getPostalCode()).thenReturn(null);
         when(request.getLocalAuthority()).thenReturn(null);
 
-        Address result = (Address) addressMapper.mapToEntity(request);
+        AddressEntity result = (AddressEntity) addressMapper.mapToEntity(request);
         assertNull(result.getStreet());
         assertNull(result.getLocalAuthority());
     }

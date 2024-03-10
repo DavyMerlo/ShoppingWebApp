@@ -1,14 +1,14 @@
 package com.davy.restapi.order.service;
 
-import com.davy.restapi.order.request.OrderUpdateRequest;
-import com.davy.restapi.order.response.OrderListResponse;
-import com.davy.restapi.order.response.OrderResponse;
+import com.davy.restapi.order.entity.OrderEntity;
+import com.davy.restapi.order.request.OrderRequest;
+import com.davy.restapi.shared.service.CrudService;
 
-public interface OrderService {
-    OrderListResponse findAllOrders();
-    OrderResponse findOrderById(Long id);
-    OrderListResponse findOrdersByUserId(Long userId);
-    OrderResponse findOrderByUserId(Long userId);
-    void saveOrder(Long userId);
-    void updateOrderById(Long id, OrderUpdateRequest request);
+public interface OrderService extends CrudService<OrderEntity, OrderRequest> {
+//    OrderListResponse findAllOrders();
+//    OrderResponse findOrderById(Long id);
+//    OrderListResponse findOrdersByUserId(Long userId);
+//    OrderResponse findOrderByUserId(Long userId);
+//    void saveOrder(Long userId);
+//    void updateOrderById(Long id, OrderUpdateRequest request);
 }

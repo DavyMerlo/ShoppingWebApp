@@ -2,16 +2,16 @@ package com.davy.restapi.address.mapper;
 
 import com.davy.restapi.address.dto.AddressDetailDTO;
 import com.davy.restapi.address.dto.AddressDTO;
-import com.davy.restapi.address.entity.Address;
+import com.davy.restapi.address.entity.AddressEntity;
 import com.davy.restapi.address.dto.AddressRequestDTO;
 import com.davy.restapi.shared.mapper.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AddressMapper implements ObjectMapper<AddressRequestDTO, Address> {
+public class AddressMapper implements ObjectMapper<AddressRequestDTO, AddressEntity> {
 
     @Override
-    public Address mapSourceToDestination(AddressRequestDTO source, Address destination) {
+    public AddressEntity mapSourceToDestination(AddressRequestDTO source, AddressEntity destination) {
         destination.setStreet(source.getStreet());
         destination.setHouseNumber(source.getHouseNumber());
         destination.setBusNumber(source.getBusNumber());
@@ -21,7 +21,7 @@ public class AddressMapper implements ObjectMapper<AddressRequestDTO, Address> {
     }
 
     @Override
-    public AddressDTO mapToDto(Address address) {
+    public AddressDTO mapToDto(AddressEntity address) {
         return new AddressDTO(
                 address.getId(),
                 address.getStreet(),
@@ -33,7 +33,7 @@ public class AddressMapper implements ObjectMapper<AddressRequestDTO, Address> {
     }
 
     @Override
-    public AddressDetailDTO mapToDetailsDto(Address address) {
+    public AddressDetailDTO mapToDetailsDto(AddressEntity address) {
         return new AddressDetailDTO(
                 address.getId(),
                 address.getStreet(),
@@ -45,11 +45,11 @@ public class AddressMapper implements ObjectMapper<AddressRequestDTO, Address> {
     }
 
     @Override
-    public Address mapToEntity(AddressRequestDTO addressRequestDTO) {
+    public AddressEntity mapToEntity(AddressRequestDTO addressRequestDTO) {
         if (addressRequestDTO == null) {
             return null;
         }
-        return Address.builder()
+        return AddressEntity.builder()
                 .street(addressRequestDTO.getStreet())
                 .houseNumber(addressRequestDTO.getHouseNumber())
                 .busNumber(addressRequestDTO.getBusNumber())
@@ -59,7 +59,7 @@ public class AddressMapper implements ObjectMapper<AddressRequestDTO, Address> {
     }
 
     @Override
-    public Object mapToListDto(Address entity) {
+    public Object mapToListDto(AddressEntity entity) {
         return null;
     }
 }

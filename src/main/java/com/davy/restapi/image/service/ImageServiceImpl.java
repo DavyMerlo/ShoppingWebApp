@@ -2,7 +2,7 @@ package com.davy.restapi.image.service;
 
 import com.davy.restapi.image.response.ImageUploadResponse;
 import com.davy.restapi.image.utils.ImageUtils;
-import com.davy.restapi.image.entities.Image;
+import com.davy.restapi.image.entities.ImageEntity;
 import com.davy.restapi.image.repository.ImageRepository;
 import com.davy.restapi.image.response.ImageResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public ImageUploadResponse save(MultipartFile file) throws IOException {
         var response = new ImageUploadResponse();
-        imageRepository.save(Image.builder()
+        imageRepository.save(ImageEntity.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .imageData(ImageUtils.compressImage(file.getBytes()))
@@ -41,7 +41,7 @@ public class ImageServiceImpl implements ImageService {
 
     //This was just for testing out...
     public byte[] downloadImage(Long id) {
-        Optional<Image> dbImage = imageRepository.findById(id);
+        Optional<ImageEntity> dbImage = imageRepository.findById(id);
         return dbImage.map(image -> {
             try {
                 return ImageUtils.decompressImage(image.getImageData());

@@ -1,6 +1,6 @@
 package com.davy.restapi.inventory.repository;
 
-import com.davy.restapi.inventory.entity.Inventory;
+import com.davy.restapi.inventory.entity.InventoryEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
@@ -20,34 +20,34 @@ public class CustomInventoryRepositoryImpl implements CustomInventoryRepository 
     private final EntityManager entityManager;
 
     @Override
-    public List<Inventory> getAllInventories() {
+    public List<InventoryEntity> getAllInventories() {
         Query query = entityManager.createQuery(
-                "SELECT I from Inventory I WHERE deletedAt = NULL ORDER BY id");
+                "SELECT I from InventoryEntity I WHERE deletedAt = NULL ORDER BY id");
         return query.getResultList();
     }
 
     @Override
-    public Optional<Inventory> getInventoryById(Long id) {
-        return Optional.ofNullable(entityManager.find(Inventory.class, id));
+    public Optional<InventoryEntity> getInventoryById(Long id) {
+        return Optional.ofNullable(entityManager.find(InventoryEntity.class, id));
     }
 
     @Override
     @Transactional
-    public Inventory saveInventory(Inventory inventory) {
+    public InventoryEntity saveInventory(InventoryEntity inventory) {
         entityManager.persist(inventory);
         return inventory;
     }
 
     @Override
     @Transactional
-    public void updateInventory(Inventory inventory) {
+    public void updateInventory(InventoryEntity inventory) {
         entityManager.merge(inventory);
     }
 
     @Override
     @Transactional
     public void removeInventory(Long id) {
-        Inventory inventory = entityManager.find(Inventory.class, id);
+        InventoryEntity inventory = entityManager.find(InventoryEntity.class, id);
         inventory.setDeletedAt(LocalDateTime.now());
     }
 }

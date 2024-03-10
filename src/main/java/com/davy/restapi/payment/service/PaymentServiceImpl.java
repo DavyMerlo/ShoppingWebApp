@@ -1,6 +1,6 @@
 package com.davy.restapi.payment.service;
 
-import com.davy.restapi.payment.entity.Payment;
+import com.davy.restapi.payment.entity.PaymentEntity;
 import com.davy.restapi.payment.mapper.PaymentItemsMapper;
 import com.davy.restapi.payment.repository.PaymentRepository;
 import com.davy.restapi.payment.request.PaymentCreateRequest;
@@ -49,7 +49,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentListResponse savePayment(PaymentCreateRequest request) {
-        var payment = Payment.builder()
+        var payment = PaymentEntity.builder()
                 .amount(request.getAmount())
                 .paymentMethod(request.getPaymentMethod())
                 .paymentStatus(request.getPaymentStatus())

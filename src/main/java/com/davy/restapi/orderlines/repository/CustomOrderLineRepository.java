@@ -1,22 +1,22 @@
 package com.davy.restapi.orderlines.repository;
 
-import com.davy.restapi.order.entity.Order;
-import com.davy.restapi.orderlines.entity.OrderLine;
+import com.davy.restapi.order.entity.OrderEntity;
+import com.davy.restapi.orderlines.entity.OrderLineEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CustomOrderLineRepository {
 
-    List<OrderLine> getAllOrderlines();
+    List<OrderLineEntity> getAllOrderlines();
 
-    Optional<OrderLine> getOrderLineById(Long id);
+    Optional<OrderLineEntity> getOrderLineById(Long id);
 
-    Optional<Order> getOrderByOrderLineId(Long orderLineId);
+    Optional<OrderEntity> getOrderByOrderLineId(Long orderLineId);
 
-    void saveOrderLine(OrderLine orderLine);
+    void saveOrderLine(OrderLineEntity orderLine);
 
-    void updateOrderLine(OrderLine orderLine);
+    void updateOrderLine(OrderLineEntity orderLine);
 
-    void deleteOrderLine(OrderLine orderLine);
+    void deleteOrderLine(OrderLineEntity orderLine);
 }

@@ -1,6 +1,6 @@
 package com.davy.restapi.address;
 
-import com.davy.restapi.address.entity.Address;
+import com.davy.restapi.address.entity.AddressEntity;
 import com.davy.restapi.shared.TestContainer;
 import com.davy.restapi.shared.repository.CrudRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class AddressRepositoryTest extends TestContainer {
 
     @Autowired
-    private CrudRepository<Address> addressRepository;
+    private CrudRepository<AddressEntity> addressRepository;
 
     @DisplayName("Get all addresses")
     @Test
@@ -41,7 +41,7 @@ public class AddressRepositoryTest extends TestContainer {
     @Test
     @Order(3)
     void shouldSaveAddress(){
-        var address = Address.builder()
+        var address = AddressEntity.builder()
                 .street("Teststraat")
                 .houseNumber("50")
                 .busNumber("2")
@@ -65,7 +65,7 @@ public class AddressRepositoryTest extends TestContainer {
     void shouldUpdateAddress(){
         var address = addressRepository.getById(1L);
 
-        address = java.util.Optional.ofNullable(Address.builder()
+        address = java.util.Optional.ofNullable(AddressEntity.builder()
                 .id(1L)
                 .street("Teststraat")
                 .houseNumber("50")

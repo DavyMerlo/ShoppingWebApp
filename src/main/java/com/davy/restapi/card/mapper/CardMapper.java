@@ -2,23 +2,23 @@ package com.davy.restapi.card.mapper;
 
 import com.davy.restapi.card.dto.CardDetailDTO;
 import com.davy.restapi.card.dto.CardDTO;
-import com.davy.restapi.card.entity.CustomerCard;
+import com.davy.restapi.card.entity.CustomerCardEntity;
 import com.davy.restapi.card.dto.CardRequestDTO;
 import com.davy.restapi.shared.mapper.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CardMapper implements ObjectMapper<CardRequestDTO, CustomerCard> {
+public class CardMapper implements ObjectMapper<CardRequestDTO, CustomerCardEntity> {
 
     @Override
-    public CustomerCard mapSourceToDestination(CardRequestDTO source, CustomerCard destination) {
+    public CustomerCardEntity mapSourceToDestination(CardRequestDTO source, CustomerCardEntity destination) {
         destination.setPoints(source.getPoints());
         destination.setNumber(source.getNumber());
         return destination;
     }
 
     @Override
-    public CardDetailDTO mapToDetailsDto(CustomerCard customerCard) {
+    public CardDetailDTO mapToDetailsDto(CustomerCardEntity customerCard) {
         return new CardDetailDTO(
                 customerCard.getId(),
                 customerCard.getNumber(),
@@ -27,7 +27,7 @@ public class CardMapper implements ObjectMapper<CardRequestDTO, CustomerCard> {
     }
 
     @Override
-    public CardDTO mapToDto(CustomerCard customerCard) {
+    public CardDTO mapToDto(CustomerCardEntity customerCard) {
         return new CardDTO(
                 customerCard.getId(),
                 customerCard.getNumber()
@@ -35,18 +35,18 @@ public class CardMapper implements ObjectMapper<CardRequestDTO, CustomerCard> {
     }
 
     @Override
-    public CustomerCard mapToEntity(CardRequestDTO cardRequestDTO) {
+    public CustomerCardEntity mapToEntity(CardRequestDTO cardRequestDTO) {
         if (cardRequestDTO == null) {
             return null;
         }
-        return CustomerCard.builder()
+        return CustomerCardEntity.builder()
                 .points(cardRequestDTO.getPoints())
                 .number(cardRequestDTO.getNumber())
                 .build();
     }
 
     @Override
-    public Object mapToListDto(CustomerCard entity) {
+    public Object mapToListDto(CustomerCardEntity entity) {
         return null;
     }
 }

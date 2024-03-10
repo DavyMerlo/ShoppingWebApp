@@ -1,6 +1,6 @@
 package com.davy.restapi.order.response;
 
-import com.davy.restapi.order.dto.Order;
+import com.davy.restapi.order.dto.OrderDetailDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderResponse {
-    public Order order;
+    public OrderDetailDTO order;
 }

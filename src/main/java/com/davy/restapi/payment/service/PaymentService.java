@@ -1,7 +1,5 @@
 package com.davy.restapi.payment.service;
 
-import com.davy.restapi.order.request.OrderCreateRequest;
-import com.davy.restapi.order.request.OrderUpdateRequest;
 import com.davy.restapi.payment.request.PaymentCreateRequest;
 import com.davy.restapi.payment.request.PaymentUpdateRequest;
 import com.davy.restapi.payment.response.PaymentListResponse;

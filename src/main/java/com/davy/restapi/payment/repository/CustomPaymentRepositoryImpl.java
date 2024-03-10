@@ -1,6 +1,6 @@
 package com.davy.restapi.payment.repository;
 
-import com.davy.restapi.payment.entity.Payment;
+import com.davy.restapi.payment.entity.PaymentEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
@@ -19,31 +19,31 @@ public class CustomPaymentRepositoryImpl implements CustomPaymentRepository{
     private EntityManager entityManager;
 
     @Override
-    public List<Payment> getAllPayments() {
-        Query query = entityManager.createQuery("SELECT P from Payment P");
+    public List<PaymentEntity> getAllPayments() {
+        Query query = entityManager.createQuery("SELECT P from PaymentEntity P");
         return query.getResultList();
     }
 
     @Override
-    public Optional<Payment> getPaymentById(Long id) {
-        return Optional.ofNullable(entityManager.find(Payment.class, id));
+    public Optional<PaymentEntity> getPaymentById(Long id) {
+        return Optional.ofNullable(entityManager.find(PaymentEntity.class, id));
     }
 
     @Override
     @Transactional
-    public Optional<Payment> savePayment(Payment payment) {
+    public Optional<PaymentEntity> savePayment(PaymentEntity payment) {
         entityManager.persist(payment);
         return Optional.ofNullable(payment);
     }
 
     @Override
     @Transactional
-    public void updatePayment(Payment payment) {
+    public void updatePayment(PaymentEntity payment) {
         entityManager.merge(payment);
     }
 
     @Override
-    public void removePayment(Payment payment) {
+    public void removePayment(PaymentEntity payment) {
 
     }
 }

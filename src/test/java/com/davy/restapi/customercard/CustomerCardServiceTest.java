@@ -3,7 +3,7 @@ package com.davy.restapi.customercard;
 import com.davy.restapi.card.dto.CardDetailDTO;
 import com.davy.restapi.card.dto.CardDTO;
 import com.davy.restapi.card.dto.CardRequestDTO;
-import com.davy.restapi.card.entity.CustomerCard;
+import com.davy.restapi.card.entity.CustomerCardEntity;
 import com.davy.restapi.shared.TestContainer;
 import com.davy.restapi.shared.service.CrudService;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class CustomerCardServiceTest extends TestContainer {
 
     @Autowired
-    private CrudService<CustomerCard, CardRequestDTO> cardService;
+    private CrudService<CustomerCardEntity, CardRequestDTO> cardService;
 
     @DisplayName("Get all customer cards")
     @Test

@@ -39,11 +39,11 @@ public class UserController {
         return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
     }
 
-    @GetMapping("/{userId}/orders")
-    public ResponseEntity<?> findOrdersByUserId(@PathVariable(value = "userId") final Long userId){
-        var data = orderService.findOrdersByUserId(userId);
-        return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
-    }
+//    @GetMapping("/{userId}/orders")
+//    public ResponseEntity<?> findOrdersByUserId(@PathVariable(value = "userId") final Long userId){
+//        var data = orderService.findOrdersByUserId(userId);
+//        return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
+//    }
 
     @GetMapping("/{userId}/card")
     public ResponseEntity<?> findUserWithCardByUserId(@PathVariable final Long userId){

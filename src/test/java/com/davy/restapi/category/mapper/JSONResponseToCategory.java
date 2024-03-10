@@ -19,11 +19,11 @@ public class JSONResponseToCategory implements JSONResponseToObject<CategoryTryD
         var category = result.getJSONObject("category");
         var categoryId = category.getLong("id");
         var categoryName = category.getString("name");
-        var subCategoriesList = category.getJSONArray("subCategories");
+        var subCategoryList = category.getJSONArray("subCategories");
         var subCategories = new ArrayList<SubCategoryDTO>();
 
-        for (int i = 0; i < subCategoriesList.length(); i++) {
-            var subCategoryJson = subCategoriesList.getJSONObject(i);
+        for (int i = 0; i < subCategoryList.length(); i++) {
+            var subCategoryJson = subCategoryList.getJSONObject(i);
             var subCategoryId = subCategoryJson.getLong("id");
             var subCategoryName = subCategoryJson.getString("name");
 

@@ -1,7 +1,7 @@
 package com.davy.restapi.authetication.confirmationtoken;
 
 import com.davy.restapi.shared.entity.BaseEntity;
-import com.davy.restapi.user.entity.User;
+import com.davy.restapi.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,7 +31,7 @@ public class ConfirmationToken extends BaseEntity {
     @JoinColumn(
             nullable = false,
             name = "user_id")
-    private User user;
+    private UserEntity user;
 
     public ConfirmationToken(Long id,
                              LocalDateTime createdAt,
@@ -41,7 +41,7 @@ public class ConfirmationToken extends BaseEntity {
                              Long updatedBy,
                              String token,
                              LocalDateTime expiresAt,
-                             User user) {
+                             UserEntity user) {
         super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy);
         this.token = token;
         this.expiresAt = expiresAt;

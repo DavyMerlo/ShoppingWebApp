@@ -3,7 +3,7 @@ package com.davy.restapi.category;
 import com.davy.restapi.category.dto.CategoryDTO;
 import com.davy.restapi.category.dto.CategoryRequestDTO;
 import com.davy.restapi.category.dto.CategoryTryDetailsDTO;
-import com.davy.restapi.category.entity.Category;
+import com.davy.restapi.category.entity.CategoryEntity;
 import com.davy.restapi.shared.TestContainer;
 import com.davy.restapi.shared.service.CrudService;
 import com.davy.restapi.subcategory.dto.SubCategoryDTO;
@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class CategoryServiceTest extends TestContainer {
 
     @Autowired
-    private CrudService<Category, CategoryRequestDTO> categoryService;
+    private CrudService<CategoryEntity, CategoryRequestDTO> categoryService;
 
     @DisplayName("Get all categories")
     @Test

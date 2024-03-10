@@ -26,7 +26,8 @@ public class CrudRepositoryImpl<T> implements CrudRepository<T> {
 
     @Override
     public Optional<T> getById(Long id) {
-        return Optional.ofNullable(entityManager.find(entity, id));
+        var test = Optional.ofNullable(entityManager.find(entity, id));
+        return test;
     }
 
     @Transactional

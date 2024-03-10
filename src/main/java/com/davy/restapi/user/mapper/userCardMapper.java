@@ -2,7 +2,7 @@ package com.davy.restapi.user.mapper;
 
 import com.davy.restapi.card.dto.CardDetailDTO;
 import com.davy.restapi.user.dto.UserCard;
-import com.davy.restapi.user.entity.User;
+import com.davy.restapi.user.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +10,10 @@ import java.util.function.Function;
 
 @Service
 @AllArgsConstructor
-public class userCardMapper implements Function<User, UserCard> {
+public class userCardMapper implements Function<UserEntity, UserCard> {
 
     @Override
-    public UserCard apply(User user) {
+    public UserCard apply(UserEntity user) {
         return new UserCard(
                 user.getId(),
                 user.getFirstname(),

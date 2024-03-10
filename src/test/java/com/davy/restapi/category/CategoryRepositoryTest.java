@@ -1,6 +1,6 @@
 package com.davy.restapi.category;
 
-import com.davy.restapi.category.entity.Category;
+import com.davy.restapi.category.entity.CategoryEntity;
 import com.davy.restapi.shared.TestContainer;
 import com.davy.restapi.shared.repository.CrudRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CategoryRepositoryTest extends TestContainer {
 
     @Autowired
-    private CrudRepository<Category> categoryRepository;
+    private CrudRepository<CategoryEntity> categoryRepository;
 
     @DisplayName("Get all categories")
     @Test
@@ -41,7 +41,7 @@ public class CategoryRepositoryTest extends TestContainer {
     @Order(3)
     void shouldSaveCategory(){
         var emptySubCatList = new ArrayList<>();
-        var category = Category.builder()
+        var category = CategoryEntity.builder()
                 .name("Test Category")
                 .subcategories(null)
                 .build();
@@ -58,7 +58,7 @@ public class CategoryRepositoryTest extends TestContainer {
     @Test
     @Order(4)
     void shouldUpdateCategory(){
-        var category = java.util.Optional.ofNullable(Category.builder()
+        var category = java.util.Optional.ofNullable(CategoryEntity.builder()
                 .id(2L)
                 .name("Test Category Updated")
                 .build());

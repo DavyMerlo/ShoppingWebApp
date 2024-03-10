@@ -1,6 +1,6 @@
 package com.davy.restapi.category.dto;
 
-import com.davy.restapi.product.entity.Product;
+import com.davy.restapi.product.entity.ProductEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
@@ -15,9 +15,9 @@ public class CategoryRequestDTO {
     private String name;
 
     @JsonIgnore
-    private Product product;
+    private ProductEntity product;
 
-    public CategoryRequestDTO(String name, Product product) {
+    public CategoryRequestDTO(String name, ProductEntity product) {
         this.name = name;
     }
 }

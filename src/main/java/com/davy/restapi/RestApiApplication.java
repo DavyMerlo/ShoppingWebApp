@@ -1,9 +1,7 @@
 package com.davy.restapi;
 
-import com.davy.restapi.address.entity.Address;
 import com.davy.restapi.authetication.service.AuthenticationServiceImpl;
-import com.davy.restapi.card.entity.CustomerCard;
-import com.davy.restapi.user.entity.User;
+import com.davy.restapi.user.entity.UserEntity;
 import com.davy.restapi.authetication.service.JwtServiceImp;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -11,7 +9,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
@@ -39,12 +36,12 @@ public class RestApiApplication implements CommandLineRunner{
                 refreshToken);
     }
 
-    private void saveUserToken(User user,
+    private void saveUserToken(UserEntity user,
                                String jwtToken) {
         authenticationServiceImpl.saveUserToken(user, jwtToken);
     }
 
-    private User demoUser(){
+    private UserEntity demoUser(){
         return authenticationServiceImpl.createDemoUser();
     }
 
@@ -57,11 +54,11 @@ public class RestApiApplication implements CommandLineRunner{
         System.out.println("RefreshToken: " + refreshToken);
     }
 
-    private String generateJwtToken(User user){
+    private String generateJwtToken(UserEntity user){
         return jwtServiceImp.generateToken(user);
     }
 
-    private String generateRefreshToken(User user){
+    private String generateRefreshToken(UserEntity user){
         return jwtServiceImp.generateRefreshToken(user);
     }
 }

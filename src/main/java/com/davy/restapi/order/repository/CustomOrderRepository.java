@@ -1,23 +1,13 @@
 package com.davy.restapi.order.repository;
 
-import com.davy.restapi.order.entity.Order;
+import com.davy.restapi.order.entity.OrderEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CustomOrderRepository {
 
-    List<Order> getAllOrders();
+    Optional<OrderEntity> getOrderByUserId(Long id);
 
-    Optional<Order> getOrderById(Long id);
-
-    Optional<Order> getOrderByUserId(Long id);
-
-    List<Order> getOrdersByUserId(Long userId);
-
-    Optional<Order> saveOrder(Order order);
-
-    void updateOrder(Order order);
-
-    void deleteOrder(Order order);
+    List<OrderEntity> getOrdersByUserId(Long userId);
 }

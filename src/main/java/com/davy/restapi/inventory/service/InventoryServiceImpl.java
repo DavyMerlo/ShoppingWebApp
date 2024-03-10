@@ -1,7 +1,7 @@
 package com.davy.restapi.inventory.service;
 
 
-import com.davy.restapi.inventory.entity.Inventory;
+import com.davy.restapi.inventory.entity.InventoryEntity;
 import com.davy.restapi.inventory.repository.InventoryRepository;
 import com.davy.restapi.inventory.request.InventoryCreateRequest;
 import com.davy.restapi.inventory.request.InventoryUpdateRequest;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class InventoryServiceImpl implements InventoryService {
 
     private final InventoryRepository inventoryRepository;
-    private final Mapper<com.davy.restapi.inventory.entity.Inventory,
+    private final Mapper<InventoryEntity,
             com.davy.restapi.inventory.dto.Inventory> inventoryMapper;
 
     @Override
@@ -51,7 +51,7 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public InventoryResponse saveInventory(InventoryCreateRequest request) {
-        var inventory = Inventory.builder()
+        var inventory = InventoryEntity.builder()
                 .quantity(request.quantity)
                 .build();
         inventoryRepository.saveInventory(inventory);

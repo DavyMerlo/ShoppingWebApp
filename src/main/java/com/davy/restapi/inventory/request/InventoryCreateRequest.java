@@ -1,6 +1,6 @@
 package com.davy.restapi.inventory.request;
 
-import com.davy.restapi.product.entity.Product;
+import com.davy.restapi.product.entity.ProductEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
@@ -16,5 +16,5 @@ public class InventoryCreateRequest {
     public short quantity;
 
     @JsonIgnore
-    public Product product;
+    public ProductEntity product;
 }

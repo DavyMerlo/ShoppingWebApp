@@ -1,6 +1,6 @@
 package com.davy.restapi.authetication.service;
 
-import com.davy.restapi.address.entity.Address;
+import com.davy.restapi.address.entity.AddressEntity;
 import com.davy.restapi.address.dto.AddressRequestDTO;
 import com.davy.restapi.address.service.AddressService;
 import com.davy.restapi.authetication.confirmationtoken.ConfirmationToken;
@@ -10,14 +10,14 @@ import com.davy.restapi.authetication.email.EmailSender;
 import com.davy.restapi.authetication.response.*;
 import com.davy.restapi.authetication.request.RegisterRequest;
 import com.davy.restapi.authetication.request.AuthenticationRequest;
-import com.davy.restapi.card.entity.CustomerCard;
+import com.davy.restapi.card.entity.CustomerCardEntity;
 import com.davy.restapi.card.service.CardService;
 import com.davy.restapi.shared.validators.RequestValidator;
-import com.davy.restapi.token.entity.Token;
+import com.davy.restapi.token.entity.TokenEntity;
 import com.davy.restapi.token.repository.TokenRepository;
 import com.davy.restapi.token.enums.TokenType;
 import com.davy.restapi.user.enums.Role;
-import com.davy.restapi.user.entity.User;
+import com.davy.restapi.user.entity.UserEntity;
 import com.davy.restapi.user.mapper.UserItemsMapper;
 import com.davy.restapi.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -58,8 +58,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public RegisterResponse register(RegisterRequest request) {
         requestRequestValidatorImpl.validate(request);
         //Address address = createAddress(request);
-        CustomerCard customerCard = createCustomerCard();
-        User user = createUser(request, null, null);
+        CustomerCardEntity customerCard = createCustomerCard();
+        UserEntity user = createUser(request, null, null);
         //addressService.save(address);
         var savedUser = userRepository.save(user);
         //cardRepository.save(customerCard);
@@ -102,7 +102,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .findByToken(token)
                 .orElseThrow(()
                         -> new IllegalStateException("Token not found"));
-        User user = userRepository.findById(confirmationToken.getUser().getId())
+        UserEntity user = userRepository.findById(confirmationToken.getUser().getId())
                 .orElseThrow(()
                 -> new IllegalStateException("User not found"));
         return AccountStatusResponse.builder()
@@ -162,8 +162,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
     }
 
-    public void saveUserToken(User user, String jwtToken) {
-        var token = Token.builder()
+    public void saveUserToken(UserEntity user, String jwtToken) {
+        var token = TokenEntity.builder()
                 .user(user)
                 .token(jwtToken)
                 .tokenType(TokenType.BEARER)
@@ -173,7 +173,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         tokenRepository.save(token);
     }
 
-    private void revokeAllUserTokens(User user) {
+    private void revokeAllUserTokens(UserEntity user) {
         var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
         if(validUserTokens.isEmpty()){
             return;
@@ -185,8 +185,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         tokenRepository.saveAll(validUserTokens);
     }
 
-    public User createDemoUser(){
-        User DemoUser = User.builder()
+    public UserEntity createDemoUser(){
+        UserEntity DemoUser = UserEntity.builder()
                 .firstname("Davy")
                 .lastname("Merlo")
                 .email("davymerlo@live.be")
@@ -194,7 +194,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .role(Role.MANAGER)
                 .enabled(true)
                 .locked(false)
-                .address(Address.builder()
+                .address(AddressEntity.builder()
                         .street("Rootstraat")
                         .houseNumber("30")
                         .busNumber("1")
@@ -203,7 +203,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         .createdAt(LocalDateTime.now())
                         .updatedAt(LocalDateTime.now())
                         .build())
-                .customerCard(CustomerCard.builder()
+                .customerCard(CustomerCardEntity.builder()
                         .points((byte) 10)
                         .number("15151515151515")
                         .createdAt(LocalDateTime.now())
@@ -215,8 +215,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return userRepository.save(DemoUser);
     }
 
-    private Address createAddress(AddressRequestDTO request){
-        return Address.builder()
+    private AddressEntity createAddress(AddressRequestDTO request){
+        return AddressEntity.builder()
                 .street(request.getStreet())
                 .houseNumber(request.getHouseNumber())
                 .busNumber(request.getBusNumber())
@@ -227,15 +227,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     }
 
-    private CustomerCard createCustomerCard(){
-        return CustomerCard.builder()
+    private CustomerCardEntity createCustomerCard(){
+        return CustomerCardEntity.builder()
                 .points((byte) 0)
                 .number("1515151515151515")
                 .build();
     }
 
-    private User createUser(RegisterRequest request, Address address, CustomerCard customerCard){
-        return User.builder()
+    private UserEntity createUser(RegisterRequest request, AddressEntity address, CustomerCardEntity customerCard){
+        return UserEntity.builder()
                 .customerCard(customerCard)
                 .firstname(request.getFirstName())
                 .lastname(request.getLastName())
@@ -248,12 +248,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
     }
 
-    private void sendConfirmationMail(String token, User user){
+    private void sendConfirmationMail(String token, UserEntity user){
         String link = "http://localhost:8888/api/v1/auth/confirm/" + token;
         emailSender.send(user.getEmail(), buildMail(user, link));
     }
 
-    private ConfirmationToken getConfirmationToken(User user){
+    private ConfirmationToken getConfirmationToken(UserEntity user){
         String token = UUID.randomUUID().toString();
         return new ConfirmationToken(
                 token,
@@ -263,7 +263,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         );
     }
 
-    private String buildMail(User user, String link){
+    private String buildMail(UserEntity user, String link){
         return "<h1>Email Confirmation</h1>"
                 + "<p>Dear "+ user.getFirstname() + " " +user.getLastname() +" ,</p>"
                 + "<p>Thank you for your registration at ECart Belgium!</p>"

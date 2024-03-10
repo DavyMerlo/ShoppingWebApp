@@ -2,7 +2,7 @@ package com.davy.restapi.address;
 
 import com.davy.restapi.address.dto.AddressDetailDTO;
 import com.davy.restapi.address.dto.AddressDTO;
-import com.davy.restapi.address.entity.Address;
+import com.davy.restapi.address.entity.AddressEntity;
 import com.davy.restapi.address.dto.AddressRequestDTO;
 import com.davy.restapi.shared.TestContainer;
 import com.davy.restapi.shared.service.CrudService;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class AddressServiceTest extends TestContainer {
 
     @Autowired
-    private CrudService<Address, AddressRequestDTO> addressService;
+    private CrudService<AddressEntity, AddressRequestDTO> addressService;
 
     @DisplayName("Get all addresses")
     @Test

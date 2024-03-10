@@ -1,6 +1,6 @@
 package com.davy.restapi.customercard;
 
-import com.davy.restapi.card.entity.CustomerCard;
+import com.davy.restapi.card.entity.CustomerCardEntity;
 import com.davy.restapi.shared.TestContainer;
 import com.davy.restapi.shared.repository.CrudRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class CustomerCardRepositoryTest extends TestContainer {
 
     @Autowired
-    private CrudRepository<CustomerCard> cardRepository;
+    private CrudRepository<CustomerCardEntity> cardRepository;
 
     @DisplayName("Get all customer cards")
     @Test
@@ -38,7 +38,7 @@ public class CustomerCardRepositoryTest extends TestContainer {
     @Test
     @Order(3)
     void shouldSaveCustomerCard(){
-        var card = CustomerCard.builder()
+        var card = CustomerCardEntity.builder()
                 .number("10101010101010")
                 .points((byte) 15)
                 .build();
@@ -56,7 +56,7 @@ public class CustomerCardRepositoryTest extends TestContainer {
     void shouldUpdateCustomerCard(){
         var customerCard = cardRepository.getById(1L);
 
-        customerCard = java.util.Optional.ofNullable(CustomerCard.builder()
+        customerCard = java.util.Optional.ofNullable(CustomerCardEntity.builder()
                 .id(1L)
                 .number("10101010101015")
                 .points((byte) 20)

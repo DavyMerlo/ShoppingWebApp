@@ -90,6 +90,6 @@ public class TestAssertionUtils {
         JSONObject result = response.optJSONObject("result");
         JSONArray array = result.optJSONArray(objectName);
         int actualSize = array.length();
-        assertEquals(actualSize, (int) expectedSize);
+        assertEquals((int) expectedSize, actualSize);
     }
 }
