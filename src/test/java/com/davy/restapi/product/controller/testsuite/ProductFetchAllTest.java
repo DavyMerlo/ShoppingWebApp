@@ -2,7 +2,8 @@ package com.davy.restapi.product.controller.testsuite;
 
 import com.davy.restapi.product.dto.ProductDTO;
 import com.davy.restapi.shared.TestContainer;
-import com.davy.restapi.shared.utils.JSONResponseToObject;
+import com.davy.restapi.shared.utils.JSONToObject;
+import com.davy.restapi.shared.utils.TestAssertion;
 import com.davy.restapi.shared.utils.TestAssertionUtils;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
@@ -18,10 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class ProductAllTest extends TestContainer {
+public class ProductFetchAllTest extends TestContainer {
 
     @Autowired
-    private JSONResponseToObject<List<ProductDTO>> mapper;
+    private JSONToObject<List<ProductDTO>> mapper;
+
+    @Autowired
+    private TestAssertion testAssertion;
 
     @DisplayName("Fetch all products")
     @Test
@@ -29,11 +33,15 @@ public class ProductAllTest extends TestContainer {
     public void shouldFetchAllProducts() throws Exception {
         String responseBody = restTemplate
                 .getForObject("http://localhost:" + port + "/api/v2/products", String.class);
-        JSONObject response = new JSONObject(responseBody);
-        assertNotNull(responseBody, "Response body should not be null");
-        TestAssertionUtils.assertResponseHasExpectedStatusCode(response,200);
-        TestAssertionUtils.assertArrayHasExpectedSize(response, "products", 11);
-        TestAssertionUtils.assertListResponseHasExpectedFields(response, "products", expectedProductV2Fields());
-        assertIterableEquals(mapper.mapJSONResponseToObject(response), getExpectedProductList());
+        //JSONObject response = new JSONObject(responseBody);
+        testAssertion.provideResponse(responseBody);
+        testAssertion.responseHasExpectedFields("products", expectedProductV2Fields());
+        testAssertion.responseHasExpectedStatusCode(200);
+        testAssertion.arrayHasExpectedSize("products", 11);
+//        assertNotNull(responseBody, "Response body should not be null");
+//        TestAssertionUtils.assertResponseHasExpectedStatusCode(response,200);
+//        TestAssertionUtils.assertArrayHasExpectedSize(response, "products", 11);
+//        TestAssertionUtils.assertListResponseHasExpectedFields(response, "products", expectedProductV2Fields());
+//        assertIterableEquals(mapper.mapJSONResponseToObject(response), getExpectedProductList());
     }
 }

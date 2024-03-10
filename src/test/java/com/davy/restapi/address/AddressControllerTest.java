@@ -3,7 +3,7 @@ package com.davy.restapi.address;
 import com.davy.restapi.address.dto.AddressDetailDTO;
 import com.davy.restapi.shared.TestContainer;
 import com.davy.restapi.shared.utils.ExpectedDataProvider;
-import com.davy.restapi.shared.utils.JSONResponseToObject;
+import com.davy.restapi.shared.utils.JSONToObject;
 import com.davy.restapi.shared.utils.TestAssertionUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +32,7 @@ public class AddressControllerTest extends TestContainer {
     private TestRestTemplate address;
 
     @Autowired
-    private JSONResponseToObject<AddressDetailDTO> mapper;
+    private JSONToObject<AddressDetailDTO> mapper;
 
     @Autowired
     private ExpectedDataProvider<AddressDetailDTO> expectedDataProvider;

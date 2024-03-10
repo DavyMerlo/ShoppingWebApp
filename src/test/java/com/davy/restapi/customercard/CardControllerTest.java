@@ -3,7 +3,7 @@ package com.davy.restapi.customercard;
 import com.davy.restapi.card.dto.CardDetailDTO;
 import com.davy.restapi.shared.TestContainer;
 import com.davy.restapi.shared.utils.ExpectedDataProvider;
-import com.davy.restapi.shared.utils.JSONResponseToObject;
+import com.davy.restapi.shared.utils.JSONToObject;
 import com.davy.restapi.shared.utils.TestAssertionUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +33,7 @@ public class CardControllerTest extends TestContainer {
     private TestRestTemplate card;
 
     @Autowired
-    private JSONResponseToObject<CardDetailDTO> mapper;
+    private JSONToObject<CardDetailDTO> mapper;
 
     @Autowired
     private ExpectedDataProvider<CardDetailDTO> expectedDataProvider;

@@ -2,15 +2,13 @@ package com.davy.restapi.product.controller.testsuite;
 
 import com.davy.restapi.shared.TestContainer;
 import com.davy.restapi.shared.utils.TestAssertionUtils;
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
+
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 import org.springframework.test.annotation.DirtiesContext;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import static com.davy.restapi.product.data.ProductFieldProvider.expectedProductV1Fields;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -27,23 +25,24 @@ public class ProductPaginationTest extends TestContainer {
         assertNotNull(responseBody, "Response body should not be null");
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response,200);
         TestAssertionUtils.assertArrayHasExpectedSize(response, "products", 8);
-        TestAssertionUtils.assertListResponseHasExpectedFields(response, "products", expectedProductFields());
+        TestAssertionUtils.assertListResponseHasExpectedFields(response, "products", expectedProductV1Fields());
         TestAssertionUtils.assertResultHasExpectedMetaDataFields(response);
+        TestAssertionUtils.assertArrayContains(response, "products", "name", "The Women in Me");
     }
 
     @DisplayName("Fetch products paginated with page param: 3 and pagesize param: 4")
     @Test
     @Order(2)
     public void shouldFetchProductsPaginatedWithPage3PageSize4() throws Exception {
-        int page3 = 2;
-        int pageSize4 = 4;
+        int page = 2;
+        int pageSize = 4;
         String responseBody = restTemplate
-                .getForObject("http://localhost:" + port + "/api/v1/products?page=" + page3 + "&pagesize=" + pageSize4,
+                .getForObject("http://localhost:" + port + "/api/v1/products?page=" + page + "&pagesize=" + pageSize,
                         String.class);
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response,200);
         TestAssertionUtils.assertArrayHasExpectedSize(response, "products", 3);
-        TestAssertionUtils.assertListResponseHasExpectedFields(response, "products", expectedProductFields());
+        TestAssertionUtils.assertListResponseHasExpectedFields(response, "products", expectedProductV1Fields());
         TestAssertionUtils.assertResultHasExpectedMetaDataFields(response);
     }
 
@@ -51,15 +50,15 @@ public class ProductPaginationTest extends TestContainer {
     @Test
     @Order(3)
     public void shouldFetchProductsPaginatedWithPage1PageSize5() throws Exception {
-        int page1 = 0;
-        int pageSize5 = 5;
+        int page = 0;
+        int pageSize = 5;
         String responseBody = restTemplate
-                .getForObject("http://localhost:" + port + "/api/v1/products?page=" + page1 + "&pagesize=" + pageSize5,
+                .getForObject("http://localhost:" + port + "/api/v1/products?page=" + page + "&pagesize=" + pageSize,
                         String.class);
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response,200);
         TestAssertionUtils.assertArrayHasExpectedSize(response, "products", 5);
-        TestAssertionUtils.assertListResponseHasExpectedFields(response, "products", expectedProductFields());
+        TestAssertionUtils.assertListResponseHasExpectedFields(response, "products", expectedProductV1Fields());
         TestAssertionUtils.assertResultHasExpectedMetaDataFields(response);
     }
 
@@ -74,7 +73,7 @@ public class ProductPaginationTest extends TestContainer {
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response,200);
         TestAssertionUtils.assertArrayHasExpectedSize(response, "products", 4);
-        TestAssertionUtils.assertListResponseHasExpectedFields(response, "products", expectedProductFields());
+        TestAssertionUtils.assertListResponseHasExpectedFields(response, "products", expectedProductV1Fields());
         TestAssertionUtils.assertResultHasExpectedMetaDataFields(response);
     }
 
@@ -89,7 +88,7 @@ public class ProductPaginationTest extends TestContainer {
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response,200);
         TestAssertionUtils.assertArrayHasExpectedSize(response, "products", 1);
-        TestAssertionUtils.assertListResponseHasExpectedFields(response, "products", expectedProductFields());
+        TestAssertionUtils.assertListResponseHasExpectedFields(response, "products", expectedProductV1Fields());
         TestAssertionUtils.assertResultHasExpectedMetaDataFields(response);
     }
 
@@ -105,7 +104,7 @@ public class ProductPaginationTest extends TestContainer {
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response,200);
         TestAssertionUtils.assertArrayHasExpectedSize(response, "products", 8);
-        TestAssertionUtils.assertListResponseHasExpectedFields(response, "products", expectedProductFields());
+        TestAssertionUtils.assertListResponseHasExpectedFields(response, "products", expectedProductV1Fields());
         TestAssertionUtils.assertResultHasExpectedMetaDataFields(response);
     }
 
@@ -121,7 +120,7 @@ public class ProductPaginationTest extends TestContainer {
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response,200);
         TestAssertionUtils.assertArrayHasExpectedSize(response, "products", 8);
-        TestAssertionUtils.assertListResponseHasExpectedFields(response, "products", expectedProductFields());
+        TestAssertionUtils.assertListResponseHasExpectedFields(response, "products", expectedProductV1Fields());
         TestAssertionUtils.assertResultHasExpectedMetaDataFields(response);
     }
 
@@ -137,7 +136,7 @@ public class ProductPaginationTest extends TestContainer {
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response,200);
         TestAssertionUtils.assertArrayHasExpectedSize(response, "products", 8);
-        TestAssertionUtils.assertListResponseHasExpectedFields(response, "products", expectedProductFields());
+        TestAssertionUtils.assertListResponseHasExpectedFields(response, "products", expectedProductV1Fields());
         TestAssertionUtils.assertResultHasExpectedMetaDataFields(response);
     }
 
@@ -153,52 +152,7 @@ public class ProductPaginationTest extends TestContainer {
         JSONObject response = new JSONObject(responseBody);
         TestAssertionUtils.assertResponseHasExpectedStatusCode(response,200);
         TestAssertionUtils.assertArrayHasExpectedSize(response, "products", 8);
-        TestAssertionUtils.assertListResponseHasExpectedFields(response, "products", expectedProductFields());
+        TestAssertionUtils.assertListResponseHasExpectedFields(response, "products", expectedProductV1Fields());
         TestAssertionUtils.assertResultHasExpectedMetaDataFields(response);
-    }
-
-    @NotNull
-    private static JSONObject getJsonObjectToUpdate() throws JSONException {
-        JSONObject requestBody = new JSONObject();
-        requestBody.put("name", "Test Product Updated");
-        requestBody.put("description", "Test Product Description Updated");
-        requestBody.put("imageUrl", "https://example.com/image.jpg");
-        requestBody.put("purchasePrice", 49.99);
-        requestBody.put("sellingPrice", 59.99);
-        requestBody.put("vat", 0);
-        requestBody.put("quantity", 100);
-        requestBody.put("categoryId", 1);
-        requestBody.put("subCategoryId", 2);
-        return requestBody;
-    }
-
-    @NotNull
-    private static JSONObject getJsonObjectToSave() throws JSONException {
-        JSONObject requestBody = new JSONObject();
-        requestBody.put("name", "Test Product Saved");
-        requestBody.put("description", "Test Product Description");
-        requestBody.put("imageUrl", "https://example.com/image.jpg");
-        requestBody.put("purchasePrice", 49.99);
-        requestBody.put("sellingPrice", 59.99);
-        requestBody.put("vat", 0);
-        requestBody.put("quantity", 100);
-        requestBody.put("categoryId", 1);
-        requestBody.put("subCategoryId", 2);
-        return requestBody;
-    }
-
-    private List<String> expectedProductFields() {
-        List<String> fields = new ArrayList<>();
-        fields.add("id");
-        fields.add("name");
-        fields.add("imageUrl");
-        fields.add("description");
-        fields.add("purchasePrice");
-        fields.add("sellingPrice");
-        fields.add("vat");
-        fields.add("category");
-        fields.add("inventory");
-        fields.add("sellingPrice");
-        return fields;
     }
 }

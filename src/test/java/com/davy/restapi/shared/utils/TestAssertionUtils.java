@@ -56,6 +56,29 @@ public class TestAssertionUtils {
         assertEquals(size, array.length());
     }
 
+    public static void assertArrayContains(JSONObject response,
+                                           String arrayName,
+                                           String fieldName,
+                                           String value)
+            throws JSONException {
+        var array = getArray(response, arrayName);
+        boolean found = false;
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject obj = array.getJSONObject(i);
+            if (obj.getString(fieldName).equals(value)) {
+                found = true;
+                break;
+            }
+        }
+        assertTrue(found, "Item '" + value + "' not found");
+    }
+
+    public static JSONArray getArray(JSONObject response, String arrayName)
+            throws JSONException {
+        JSONObject result = response.getJSONObject("result");
+        return result.getJSONArray(arrayName);
+    }
+
     public static void assertResponseHasExpectedFields(JSONObject response,
                                                        String objectName,
                                                        List<String> expectedFields)

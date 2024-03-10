@@ -1,7 +1,7 @@
 package com.davy.restapi.product.mapper;
 
 import com.davy.restapi.product.dto.ProductDTO;
-import com.davy.restapi.shared.utils.JSONResponseToObject;
+import com.davy.restapi.shared.utils.JSONToObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class JSONResponseToListProductDTO implements JSONResponseToObject<List<ProductDTO>> {
+public class JSONToListProductDTO implements JSONToObject<List<ProductDTO>> {
 
     @Override
     public List<ProductDTO> mapJSONResponseToObject(JSONObject response) throws JSONException {

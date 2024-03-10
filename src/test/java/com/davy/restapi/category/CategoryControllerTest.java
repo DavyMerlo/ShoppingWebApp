@@ -3,7 +3,7 @@ package com.davy.restapi.category;
 import com.davy.restapi.category.dto.CategoryTryDetailsDTO;
 import com.davy.restapi.shared.TestContainer;
 import com.davy.restapi.shared.utils.ExpectedDataProvider;
-import com.davy.restapi.shared.utils.JSONResponseToObject;
+import com.davy.restapi.shared.utils.JSONToObject;
 import com.davy.restapi.shared.utils.TestAssertionUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +33,7 @@ public class CategoryControllerTest extends TestContainer {
     private TestRestTemplate category;
 
     @Autowired
-    private JSONResponseToObject<CategoryTryDetailsDTO> mapper;
+    private JSONToObject<CategoryTryDetailsDTO> mapper;
 
     @Autowired
     private ExpectedDataProvider<CategoryTryDetailsDTO> expectedDataProvider;

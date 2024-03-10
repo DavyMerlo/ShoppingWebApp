@@ -1,13 +1,13 @@
 package com.davy.restapi.customercard.mapper;
 
 import com.davy.restapi.card.dto.CardDetailDTO;
-import com.davy.restapi.shared.utils.JSONResponseToObject;
+import com.davy.restapi.shared.utils.JSONToObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JSONResponseToCustomerCard implements JSONResponseToObject<CardDetailDTO> {
+public class JSONToCustomerCard implements JSONToObject<CardDetailDTO> {
 
     @Override
     public CardDetailDTO mapJSONResponseToObject(JSONObject response)

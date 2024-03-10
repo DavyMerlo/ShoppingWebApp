@@ -2,7 +2,7 @@ package com.davy.restapi.subcategory;
 
 import com.davy.restapi.shared.TestContainer;
 import com.davy.restapi.shared.utils.ExpectedDataProvider;
-import com.davy.restapi.shared.utils.JSONResponseToObject;
+import com.davy.restapi.shared.utils.JSONToObject;
 import com.davy.restapi.shared.utils.TestAssertionUtils;
 import com.davy.restapi.subcategory.dto.SubCategoryDetailDTO;
 import org.json.JSONException;
@@ -33,7 +33,7 @@ public class SubCategoryEntityControllerTestEntity extends TestContainer {
     private TestRestTemplate subCategory;
 
     @Autowired
-    private JSONResponseToObject<SubCategoryDetailDTO> mapper;
+    private JSONToObject<SubCategoryDetailDTO> mapper;
 
     @Autowired
     private ExpectedDataProvider<SubCategoryDetailDTO> expectedDataProvider;

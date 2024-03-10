@@ -1,13 +1,13 @@
 package com.davy.restapi.address.mapper;
 
 import com.davy.restapi.address.dto.AddressDetailDTO;
-import com.davy.restapi.shared.utils.JSONResponseToObject;
+import com.davy.restapi.shared.utils.JSONToObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JSONResponseToAddress implements JSONResponseToObject<AddressDetailDTO> {
+public class JSONToAddress implements JSONToObject<AddressDetailDTO> {
 
     @Override
     public AddressDetailDTO mapJSONResponseToObject(JSONObject response)

@@ -1,7 +1,7 @@
 package com.davy.restapi.category.mapper;
 
 import com.davy.restapi.category.dto.CategoryTryDetailsDTO;
-import com.davy.restapi.shared.utils.JSONResponseToObject;
+import com.davy.restapi.shared.utils.JSONToObject;
 import com.davy.restapi.subcategory.dto.SubCategoryDTO;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 
 @Component
-public class JSONResponseToCategory implements JSONResponseToObject<CategoryTryDetailsDTO> {
+public class JSONToCategory implements JSONToObject<CategoryTryDetailsDTO> {
 
     @Override
     public CategoryTryDetailsDTO mapJSONResponseToObject(JSONObject response)

@@ -1,6 +1,9 @@
 package com.davy.restapi.product.data;
 
 import com.davy.restapi.product.dto.ProductDTO;
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,5 +24,35 @@ public class ProductDataProvider {
                 new ProductDTO(10L, "Taylor Swift - 1989 (Taylor's Version) (CD)"),
                 new ProductDTO(11L, "Suicide Squad: Kill The Justice League - PlayStation 5")
         );
+    }
+
+    @NotNull
+    public static JSONObject getJsonObjectToUpdate() throws JSONException {
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("name", "Test Product Updated");
+        requestBody.put("description", "Test Product Description Updated");
+        requestBody.put("imageUrl", "https://example.com/image.jpg");
+        requestBody.put("purchasePrice", 49.99);
+        requestBody.put("sellingPrice", 59.99);
+        requestBody.put("vat", 0);
+        requestBody.put("quantity", 100);
+        requestBody.put("categoryId", 1);
+        requestBody.put("subCategoryId", 2);
+        return requestBody;
+    }
+
+    @NotNull
+    public static JSONObject getJsonObjectToSave() throws JSONException {
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("name", "Test Product Saved");
+        requestBody.put("description", "Test Product Description");
+        requestBody.put("imageUrl", "https://example.com/image.jpg");
+        requestBody.put("purchasePrice", 49.99);
+        requestBody.put("sellingPrice", 59.99);
+        requestBody.put("vat", 0);
+        requestBody.put("quantity", 100);
+        requestBody.put("categoryId", 1);
+        requestBody.put("subCategoryId", 2);
+        return requestBody;
     }
 }
