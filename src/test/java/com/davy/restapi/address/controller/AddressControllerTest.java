@@ -1,4 +1,4 @@
-package com.davy.restapi.address;
+package com.davy.restapi.address.controller;
 
 import com.davy.restapi.address.dto.AddressDetailDTO;
 import com.davy.restapi.shared.TestContainer;

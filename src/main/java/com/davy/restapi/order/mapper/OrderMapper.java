@@ -51,8 +51,10 @@ public class OrderMapper implements ObjectMapper<OrderRequest, OrderEntity> {
                     item.getId(),
                     new ProductDTO(
                             item.getProduct().getId(),
-                            item.getProduct().getName()),
-                    item.getQuantity()));
+                            item.getProduct().getName(),
+                            item.getProduct().getSellingPrice()),
+                    item.getQuantity(),
+                    item.getQuantity() * item.getProduct().getSellingPrice()));
         }
         return new OrderDetailDTO(
                 entity.getId(),

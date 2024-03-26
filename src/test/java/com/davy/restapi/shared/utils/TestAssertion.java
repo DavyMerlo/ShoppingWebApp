@@ -7,15 +7,26 @@ import java.util.List;
 
 public interface TestAssertion {
 
-    void provideResponse(String responseBody)
+    JSONObject provideResponse(String responseBody)
             throws JSONException;
 
-    void responseHasExpectedFields(String objName, List<String> expectedFields)
+    void listResponseHasExpectedFields(String objName, List<String> expectedFields)
+            throws JSONException;
+
+    void objectResponseHasExpectedFields(String objectName, List<String> expectedFields)
             throws JSONException;
 
     void responseHasExpectedStatusCode(int statusCode)
             throws JSONException;
 
     void arrayHasExpectedSize(String objectName, int expectedSize)
+            throws JSONException;
+
+    void responseHasMetaDataFields(String objectName)
+            throws JSONException;
+
+    void assertArrayContains(String arrayName,
+                             String fieldName,
+                             String value)
             throws JSONException;
 }

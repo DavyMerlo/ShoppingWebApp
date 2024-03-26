@@ -54,7 +54,8 @@ public class ProductMapper implements ObjectMapper<ProductRequestDTO, ProductEnt
     public ProductDTO mapToDto(ProductEntity entity) {
         return new ProductDTO(
                 entity.getId(),
-                entity.getName()
+                entity.getName(),
+                entity.getSellingPrice()
         );
     }
 

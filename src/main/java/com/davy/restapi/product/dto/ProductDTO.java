@@ -1,4 +1,9 @@
 package com.davy.restapi.product.dto;
 
-public record ProductDTO(Long id,
-                         String name){}
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record ProductDTO(
+        @JsonProperty("id")Long id,
+        @JsonProperty("name")String name,
+        @JsonProperty("sellingPrice") float sellingPrice
+){}

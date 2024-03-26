@@ -8,15 +8,15 @@ import java.util.Optional;
 
 public interface CustomOrderLineRepository {
 
-    List<OrderLineEntity> getAllOrderlines();
-
-    Optional<OrderLineEntity> getOrderLineById(Long id);
-
-    Optional<OrderEntity> getOrderByOrderLineId(Long orderLineId);
-
-    void saveOrderLine(OrderLineEntity orderLine);
-
-    void updateOrderLine(OrderLineEntity orderLine);
-
-    void deleteOrderLine(OrderLineEntity orderLine);
+//    List<OrderLineEntity> getAllOrderlines();
+//
+//    Optional<OrderLineEntity> getOrderLineById(Long id);
+//
+//    Optional<OrderEntity> getOrderByOrderLineId(Long orderLineId);
+//
+//    void saveOrderLine(OrderLineEntity orderLine);
+//
+//    void updateOrderLine(OrderLineEntity orderLine);
+//
+//    void deleteOrderLine(OrderLineEntity orderLine);
 }

@@ -6,7 +6,6 @@ import com.davy.restapi.orderlines.dto.OrderLineDetail;
 import com.davy.restapi.orderlines.entity.OrderLineEntity;
 import com.davy.restapi.orderlines.request.OrderLineCreateRequest;
 import com.davy.restapi.product.entity.ProductEntity;
-import com.davy.restapi.product.repository.ProductRepository;
 import com.davy.restapi.shared.mapper.ObjectMapper;
 import com.davy.restapi.shared.repository.CrudRepository;
 import lombok.AllArgsConstructor;

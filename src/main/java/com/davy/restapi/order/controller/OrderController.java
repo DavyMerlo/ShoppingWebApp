@@ -50,6 +50,11 @@ public class OrderController {
         response.setOrder((OrderDetailDTO) order);
         return ResponseHandler.generateResponse(true, HttpStatus.CREATED, response);
     }
+
+    @GetMapping("/{orderId}/total-price")
+    public ResponseEntity<?> findTotalPriceByOrderId(@PathVariable(value = "orderId") final Long orderId){
+        return null;
+    }
 //
 //    @PutMapping("/{id}")
 //    public ResponseEntity<?> updateOrderById(@PathVariable(value = "id") final Long id,

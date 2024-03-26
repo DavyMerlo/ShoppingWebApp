@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static com.davy.restapi.product.data.ProductFieldProvider.getObjectMetaDataFields;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Component
 public class TestAssertionImpl implements TestAssertion {
@@ -17,13 +17,14 @@ public class TestAssertionImpl implements TestAssertion {
     private JSONObject response;
 
     @Override
-    public void provideResponse(String responseBody)
+    public JSONObject provideResponse(String responseBody)
             throws JSONException {
         this.response = new JSONObject(responseBody);
+        return response;
     }
 
     @Override
-    public void responseHasExpectedFields(String objectName, List<String> expectedFields)
+    public void listResponseHasExpectedFields(String objectName, List<String> expectedFields)
             throws JSONException {
         JSONObject responseObj = response;
         JSONObject resultObj = responseObj.getJSONObject(resultKey);
@@ -34,6 +35,42 @@ public class TestAssertionImpl implements TestAssertion {
                 assertTrue(object.has(field));
             }
         }
+    }
+
+    @Override
+    public void objectResponseHasExpectedFields(String objectName, List<String> expectedFields)
+            throws JSONException {
+        JSONObject responseObj = response;
+        JSONObject resultObj = responseObj.getJSONObject(resultKey);
+        JSONObject object = resultObj.getJSONObject(objectName);
+        for(String field: expectedFields){
+            assertTrue(object.has(field));
+        }
+    }
+
+    @Override
+    public void responseHasMetaDataFields(String objectName)
+            throws JSONException {
+        JSONObject responseObject = response;
+        JSONObject resultObject = responseObject.getJSONObject(resultKey);
+        for(var field: getObjectMetaDataFields()){
+            assertTrue(resultObject.has(field));
+        }
+    }
+
+    @Override
+    public void assertArrayContains(String arrayName, String fieldName, String value)
+            throws JSONException {
+        var array = getArray(response, arrayName);
+        boolean found = false;
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject obj = array.getJSONObject(i);
+            if (obj.getString(fieldName).equals(value)) {
+                found = true;
+                break;
+            }
+        }
+        assertTrue(found, "Item '" + value + "' not found");
     }
 
     @Override
@@ -49,5 +86,11 @@ public class TestAssertionImpl implements TestAssertion {
     public void responseHasExpectedStatusCode(int statusCode)
             throws JSONException {
         assertEquals(statusCode, response.get("statusCode"), "StatusCode not correct");
+    }
+
+    private JSONArray getArray(JSONObject response, String arrayName)
+            throws JSONException {
+        JSONObject result = response.getJSONObject("result");
+        return result.getJSONArray(arrayName);
     }
 }

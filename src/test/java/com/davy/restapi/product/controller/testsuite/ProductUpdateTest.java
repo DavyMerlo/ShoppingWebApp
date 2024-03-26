@@ -1,10 +1,11 @@
 package com.davy.restapi.product.controller.testsuite;
 
 import com.davy.restapi.shared.TestContainer;
-import com.davy.restapi.shared.utils.TestAssertionUtils;
+import com.davy.restapi.shared.utils.TestAssertion;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -14,9 +15,13 @@ import org.springframework.test.annotation.DirtiesContext;
 import static com.davy.restapi.product.data.ProductDataProvider.getJsonObjectToUpdate;
 import static com.davy.restapi.product.data.ProductFieldProvider.expectedProductV1Fields;
 
+@DisplayName("Update product with ID: 5 and fetch this product")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class ProductUpdateTest extends TestContainer {
+
+    @Autowired
+    private TestAssertion testAssertion;
 
     @DisplayName("Update product with ID: 5")
     @Test
@@ -35,9 +40,9 @@ public class ProductUpdateTest extends TestContainer {
                 String.class
         );
         String responseBody = responseEntity.getBody();
-        JSONObject response = new JSONObject(responseBody);
-        TestAssertionUtils.assertResponseHasExpectedStatusCode(response, 200);
-        TestAssertionUtils.assertResponseHasExpectedFields(response, "product", expectedProductV1Fields());
+        testAssertion.provideResponse(responseBody);
+        testAssertion.objectResponseHasExpectedFields("product", expectedProductV1Fields());
+        testAssertion.responseHasExpectedStatusCode(200);
     }
 
     @DisplayName("Fetch updated product")
@@ -47,8 +52,8 @@ public class ProductUpdateTest extends TestContainer {
         long id = 5L;
         String responseBody = restTemplate
                 .getForObject("http://localhost:" + port + "/api/v1/products/" + id, String.class);
-        JSONObject response = new JSONObject(responseBody);
-        TestAssertionUtils.assertResponseHasExpectedStatusCode(response,200);
-        TestAssertionUtils.assertResponseHasExpectedFields(response, "product", expectedProductV1Fields());
+        testAssertion.provideResponse(responseBody);
+        testAssertion.objectResponseHasExpectedFields("product", expectedProductV1Fields());
+        testAssertion.responseHasExpectedStatusCode(200);
     }
 }
