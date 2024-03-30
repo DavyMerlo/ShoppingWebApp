@@ -1,10 +1,14 @@
 package com.davy.restapi.orderlines.repository;
 
+import com.davy.restapi.order.entity.OrderEntity;
 import com.davy.restapi.orderlines.entity.OrderLineEntity;
 import com.davy.restapi.shared.repository.CrudRepositoryImpl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class CustomOrderLineRepositoryImpl extends CrudRepositoryImpl<OrderLineEntity>
@@ -16,6 +20,13 @@ public class CustomOrderLineRepositoryImpl extends CrudRepositoryImpl<OrderLineE
     public CustomOrderLineRepositoryImpl(EntityManager entityManager) {
         super(entityManager, OrderLineEntity.class);
         this.entityManager = entityManager;
+    }
+
+    @Override
+    public List<OrderLineEntity> findOrderLinesByOrderId(Long orderId){
+        Query query = entityManager.createQuery("SELECT ol FROM OrderLineEntity ol WHERE ol.order.id = :orderId");
+        query.setParameter("orderId", orderId);
+        return (List<OrderLineEntity>) query.getResultList();
     }
 
 

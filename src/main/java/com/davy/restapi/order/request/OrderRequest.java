@@ -1,6 +1,6 @@
 package com.davy.restapi.order.request;
 
-import com.davy.restapi.orderlines.request.OrderLineCreateRequest;
+import com.davy.restapi.orderlines.request.OrderLineRequest;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,5 +20,5 @@ public class OrderRequest {
     private Long paymentId;
 
     @JsonProperty("orderlines")
-    private List<OrderLineCreateRequest> orderLines;
+    private List<OrderLineRequest> orderLines;
 }

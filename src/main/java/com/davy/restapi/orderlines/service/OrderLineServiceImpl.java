@@ -1,25 +1,25 @@
-//package com.davy.restapi.orderlines.service;
-//
-//import com.davy.restapi.order.mapper.OrderMapper;
-//import com.davy.restapi.order.repository.OrderRepository;
-//import com.davy.restapi.order.response.OrderResponse;
-//import com.davy.restapi.orderlines.entity.OrderLine;
-//import com.davy.restapi.orderlines.mapper.OrderLineMapper;
-//import com.davy.restapi.orderlines.repository.OrderLineRepository;
-//import com.davy.restapi.orderlines.request.OrderLineCreateRequest;
-//import com.davy.restapi.orderlines.request.OrderLineUpdateRequest;
-//import com.davy.restapi.orderlines.response.OrderLineListResponse;
-//import com.davy.restapi.orderlines.response.OrderLineResponse;
-//import com.davy.restapi.product.entity.ProductEntity;
-//import com.davy.restapi.product.repository.ProductRepository;
-//import com.davy.restapi.shared.exceptions.ThrowException;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.stereotype.Service;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.stream.Collectors;
-//
+package com.davy.restapi.orderlines.service;
+
+import com.davy.restapi.orderlines.entity.OrderLineEntity;
+import com.davy.restapi.orderlines.repository.OrderLineRepository;
+import com.davy.restapi.orderlines.request.OrderLineRequest;
+import com.davy.restapi.shared.mapper.ObjectMapper;
+import com.davy.restapi.shared.repository.CrudRepository;
+import com.davy.restapi.shared.service.CrudServiceImpl;
+import org.springframework.stereotype.Service;
+
+@Service
+public class OrderLineServiceImpl extends CrudServiceImpl<OrderLineEntity, OrderLineRequest>
+    implements OrderLineService{
+
+
+    public OrderLineServiceImpl(CrudRepository<OrderLineEntity> repository,
+                                ObjectMapper<OrderLineRequest, OrderLineEntity> mapper) {
+        super(repository, mapper);
+    }
+}
+
+
 //@Service
 //@RequiredArgsConstructor
 //public class OrderLineServiceImpl implements OrderLineService {

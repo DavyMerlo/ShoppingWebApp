@@ -4,6 +4,7 @@ import com.davy.restapi.order.dto.OrderDTO;
 import com.davy.restapi.order.dto.OrderDetailDTO;
 import com.davy.restapi.order.request.OrderRequest;
 import com.davy.restapi.order.response.OrderListResponse;
+import com.davy.restapi.order.response.OrderPriceResponse;
 import com.davy.restapi.order.response.OrderResponse;
 import com.davy.restapi.order.service.OrderService;
 import com.davy.restapi.shared.handler.ResponseHandler;
@@ -29,12 +30,6 @@ public class OrderController {
         return ResponseHandler.generateResponse(true,  HttpStatus.OK, response);
     }
 
-//    @GetMapping("/{orderId}/orderlines")
-//    public ResponseEntity<?> findOrderLinesByOrderId(@PathVariable(value = "orderId") final Long id){
-//        var data = orderLineService.findOrderLinesByOrderId(id);
-//        return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
-//    }
-//
     @GetMapping
     public ResponseEntity<?> findAllOrders(){
         var response = new OrderListResponse();
@@ -53,8 +48,17 @@ public class OrderController {
 
     @GetMapping("/{orderId}/total-price")
     public ResponseEntity<?> findTotalPriceByOrderId(@PathVariable(value = "orderId") final Long orderId){
-        return null;
+        var response = new OrderPriceResponse();
+        var order = orderService.getTotalByOrderId(orderId);
+        response.setOrderPrice(order);
+        return ResponseHandler.generateResponse(true, HttpStatus.OK, response);
     }
+
+//    @GetMapping
+//    public ResponseEntity<?> findOrdersByUserId(@RequestParam(value = "userId") final Long userId) {
+//
+//        return null;
+//    }
 //
 //    @PutMapping("/{id}")
 //    public ResponseEntity<?> updateOrderById(@PathVariable(value = "id") final Long id,

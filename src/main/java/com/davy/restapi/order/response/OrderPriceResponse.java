@@ -1,6 +1,7 @@
 package com.davy.restapi.order.response;
 
-import com.davy.restapi.order.dto.OrderDetailDTO;
+import com.davy.restapi.order.dto.OrderPriceDTO;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderResponse {
+public class OrderPriceResponse {
 
-    public OrderDetailDTO order;
+    @JsonProperty("order")
+    public OrderPriceDTO orderPrice;
 
 }

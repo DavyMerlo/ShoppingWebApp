@@ -1,6 +1,7 @@
 package com.davy.restapi.orderlines.controller;
 
 import com.davy.restapi.orderlines.request.OrderLineUpdateRequest;
+import com.davy.restapi.orderlines.service.OrderLineService;
 import com.davy.restapi.shared.handler.ResponseHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -8,27 +9,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-//@RestController
-//@RequestMapping("/api/v1/orderlines")
-//@RequiredArgsConstructor
-//public class OrderLineController {
-//
-//    private final OrderLineService orderLineService;
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<?> findOrderLineById(@PathVariable(value = "id")
-//                                                   final Long id){
-//        var data = orderLineService.findOrderLineById(id);
-//        return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
-//    }
-//
+@RestController
+@RequestMapping("/api/v1/orderlines")
+@RequiredArgsConstructor
+public class OrderLineController {
+
+    private final OrderLineService orderLineService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findOrderLineById(@PathVariable(value = "id")
+                                                   final Long id){
+        var data = orderLineService.findById(id);
+        return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
+    }
+
 //    @GetMapping("/{orderLineId}/order")
 //    public ResponseEntity<?> findOrderByOrderLineId(@PathVariable(value = "orderLineId")
 //                                                        final Long orderLineId){
 //        var data = orderLineService.findOrderByOrderLineId(orderLineId);
 //        return ResponseHandler.generateResponse(true,  HttpStatus.OK, data);
 //    }
-//
+
 //    @GetMapping
 //    public ResponseEntity<?> findAllOrderLines(){
 //        var data = orderLineService.findAllOrderLines();
@@ -42,4 +43,4 @@ import org.springframework.web.bind.annotation.*;
 //        var data = orderLineService.updateOrderLineById(id, request);
 //        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
 //    }
-//}
+}

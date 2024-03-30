@@ -7,8 +7,7 @@ import com.davy.restapi.order.enums.OrderStatus;
 import com.davy.restapi.order.request.OrderRequest;
 import com.davy.restapi.orderlines.dto.OrderLineDetail;
 import com.davy.restapi.orderlines.entity.OrderLineEntity;
-import com.davy.restapi.orderlines.repository.OrderLineRepository;
-import com.davy.restapi.orderlines.request.OrderLineCreateRequest;
+import com.davy.restapi.orderlines.request.OrderLineRequest;
 import com.davy.restapi.payment.entity.PaymentEntity;
 import com.davy.restapi.product.dto.ProductDTO;
 import com.davy.restapi.shared.mapper.ObjectMapper;
@@ -25,8 +24,7 @@ import java.util.stream.Collectors;
 public class OrderMapper implements ObjectMapper<OrderRequest, OrderEntity> {
 
     private final UserRepository userRepository;
-    private final OrderLineRepository orderLineRepository;
-    private final ObjectMapper<OrderLineCreateRequest, OrderLineEntity> orderLineMapper;
+    private final ObjectMapper<OrderLineRequest, OrderLineEntity> orderLineMapper;
 
     @Override
     public OrderEntity mapSourceToDestination(OrderRequest source,
@@ -38,6 +36,7 @@ public class OrderMapper implements ObjectMapper<OrderRequest, OrderEntity> {
     public OrderDTO mapToDto(OrderEntity entity) {
         return new OrderDTO(
                 entity.getId(),
+                entity.user.getId(),
                 entity.getStatus(),
                 entity.getCreatedAt()
         );
@@ -47,6 +46,7 @@ public class OrderMapper implements ObjectMapper<OrderRequest, OrderEntity> {
     public OrderDetailDTO mapToDetailsDto(OrderEntity entity) {
         List<OrderLineDetail> orderLines = new ArrayList<>();
         for(var item: entity.getOrderItems()){
+            var totalPrice = item.getQuantity() * item.getProduct().getSellingPrice();
             orderLines.add(new OrderLineDetail(
                     item.getId(),
                     new ProductDTO(
@@ -54,14 +54,14 @@ public class OrderMapper implements ObjectMapper<OrderRequest, OrderEntity> {
                             item.getProduct().getName(),
                             item.getProduct().getSellingPrice()),
                     item.getQuantity(),
-                    item.getQuantity() * item.getProduct().getSellingPrice()));
+                    totalPrice));
         }
-        return new OrderDetailDTO(
-                entity.getId(),
-                entity.getStatus(),
-                entity.getCreatedAt(),
-                orderLines
-        );
+        return OrderDetailDTO.builder()
+                .id(entity.getId())
+                .status(entity.getStatus())
+                .date(entity.getCreatedAt())
+                .orderLines(orderLines)
+                .build();
     }
 
     @Override

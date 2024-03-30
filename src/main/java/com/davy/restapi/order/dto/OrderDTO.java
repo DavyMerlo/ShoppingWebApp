@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 public record OrderDTO(
         Long id,
+        Long userId,
         OrderStatus status,
         LocalDateTime date
 ) {

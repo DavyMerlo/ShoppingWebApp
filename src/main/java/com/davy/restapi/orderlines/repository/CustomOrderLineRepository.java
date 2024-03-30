@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface CustomOrderLineRepository {
 
+    List<OrderLineEntity> findOrderLinesByOrderId(Long orderId);
+
 //    List<OrderLineEntity> getAllOrderlines();
 //
 //    Optional<OrderLineEntity> getOrderLineById(Long id);
