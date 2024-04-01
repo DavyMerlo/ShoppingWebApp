@@ -116,7 +116,6 @@ public class ProductServiceImpl extends CrudServiceImpl<ProductEntity, ProductRe
 
     private Specification<ProductEntity> specification(Long catId, Long subCatId, String name) {
         Specification<ProductEntity> spec = Specification.where(null);
-
         if (name != null) {
             spec = spec.and(ProductSpecification.nameLike(name));
         }

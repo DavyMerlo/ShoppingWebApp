@@ -15,6 +15,7 @@ import com.davy.restapi.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,6 +46,7 @@ public class OrderMapper implements ObjectMapper<OrderRequest, OrderEntity> {
     @Override
     public OrderDetailDTO mapToDetailsDto(OrderEntity entity) {
         List<OrderLineDetail> orderLines = new ArrayList<>();
+
         for(var item: entity.getOrderItems()){
             var totalPrice = item.getQuantity() * item.getProduct().getSellingPrice();
             orderLines.add(new OrderLineDetail(
@@ -59,7 +61,7 @@ public class OrderMapper implements ObjectMapper<OrderRequest, OrderEntity> {
         return OrderDetailDTO.builder()
                 .id(entity.getId())
                 .status(entity.getStatus())
-                .date(entity.getCreatedAt())
+                .date(entity.getCreatedAt().withNano(0))
                 .orderLines(orderLines)
                 .build();
     }
