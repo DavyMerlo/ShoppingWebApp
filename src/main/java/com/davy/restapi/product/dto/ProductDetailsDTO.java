@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Builder
 @Getter
 @Setter
@@ -27,10 +29,10 @@ public class ProductDetailsDTO {
     private String description;
 
     @JsonProperty("purchasePrice")
-    private float purchasePrice;
+    private BigDecimal purchasePrice;
 
     @JsonProperty("sellingPrice")
-    private float sellingPrice;
+    private BigDecimal sellingPrice;
 
     @JsonProperty("vat")
     private int vat;
@@ -48,8 +50,8 @@ public class ProductDetailsDTO {
                              String name,
                              String description,
                              String imageUrl,
-                             float purchasePrice,
-                             float sellingPrice,
+                             BigDecimal purchasePrice,
+                             BigDecimal sellingPrice,
                              int vat,
                              CategoryDTO category,
                              SubCategoryDTO subCategory,

@@ -47,6 +47,7 @@ public class SecurityConfiguration {
                     "/api/v1/addresses/**",
                     "/api/v1/cards/**",
                     "/api/v1/inventories/**",
+                    "/api/v1/payments/**",
                     "/wss/**",
             };
 

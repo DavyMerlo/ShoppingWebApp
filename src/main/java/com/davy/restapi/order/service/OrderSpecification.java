@@ -4,6 +4,8 @@ import com.davy.restapi.order.entity.OrderEntity;
 import com.davy.restapi.order.enums.OrderStatus;
 import com.davy.restapi.user.entity.UserEntity;
 import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
@@ -27,25 +29,35 @@ public class OrderSpecification {
         };
     }
 
-    public static Specification<OrderEntity> byUser(Long userId){
+    private static Specification<OrderEntity> byName(String fullName){
+        return (root, query, builder) -> {
+            Join<OrderEntity, UserEntity> userJoin = root.join("user");
+            String[] names = fullName.split(" ");
+            Predicate userFirstNamePredicate = builder.equal(userJoin.get("firstname"), names[0]);
+            Predicate userLastNamePredicate = builder.equal(userJoin.get("lastname"), names.length > 1 ? names[1] : "");
+            return builder.and(userFirstNamePredicate, userLastNamePredicate);
+        };
+    }
+
+    public static Specification<OrderEntity> byUserId(Long userId){
         return (root, query, builder) -> {
             Join<OrderEntity, UserEntity> userJoin = root.join("user");
             return builder.equal(userJoin.get("id"), userId);
         };
     }
 
-    public static Specification<OrderEntity> byOrder(Long orderId) {
+    public static Specification<OrderEntity> byOrderId(Long orderId) {
         return (root, query, builder) -> builder.equal(root.get("id"), orderId);
     }
 
-    public static Specification<OrderEntity> byDate(LocalDateTime dateTime) {
+    private static Specification<OrderEntity> byDate(LocalDateTime dateTime) {
         LocalDateTime startDateTime = dateTime.truncatedTo(ChronoUnit.MINUTES);
         LocalDateTime endDateTime = startDateTime.plusMinutes(1);
         return (root, query, builder) ->
                 builder.between(root.get("createdAt"), startDateTime, endDateTime);
     }
 
-    public static Specification<OrderEntity> byStatus(String status) {
+    private static Specification<OrderEntity> byStatus(String status) {
         OrderStatus orderStatus = OrderStatus.valueOf(status.toUpperCase());
         return (root, query, builder) -> builder.equal(root.get("status"), orderStatus);
     }

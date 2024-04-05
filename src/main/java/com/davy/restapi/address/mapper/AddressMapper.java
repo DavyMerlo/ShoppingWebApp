@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 public class AddressMapper implements ObjectMapper<AddressRequestDTO, AddressEntity> {
 
     @Override
-    public AddressEntity mapSourceToDestination(AddressRequestDTO source, AddressEntity destination) {
+    public AddressEntity mapSourceToDestination(AddressRequestDTO source,
+                                                AddressEntity destination) {
         destination.setStreet(source.getStreet());
         destination.setHouseNumber(source.getHouseNumber());
         destination.setBusNumber(source.getBusNumber());

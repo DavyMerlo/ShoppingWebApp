@@ -9,6 +9,7 @@ import com.davy.restapi.product.enums.Vat;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -32,10 +33,10 @@ public class ProductEntity extends BaseEntity {
     private String imageUrl;
 
     @Column(name = "purchase_price")
-    private float purchasePrice;
+    private BigDecimal purchasePrice;
 
     @Column(name = "selling_price")
-    private float sellingPrice;
+    private BigDecimal sellingPrice;
 
     @Column(name = "vat")
     @Enumerated(EnumType.ORDINAL)
@@ -67,8 +68,8 @@ public class ProductEntity extends BaseEntity {
                          String name,
                          String description,
                          String imageUrl,
-                         float purchasePrice,
-                         float sellingPrice,
+                         BigDecimal purchasePrice,
+                         BigDecimal sellingPrice,
                          Vat VAT,
                          SubCategoryEntity subCategory,
                          CategoryEntity category,

@@ -3,6 +3,7 @@ package com.davy.restapi.order.controller;
 import com.davy.restapi.order.dto.OrderDTO;
 import com.davy.restapi.order.dto.OrderDetailDTO;
 import com.davy.restapi.order.request.OrderRequest;
+import com.davy.restapi.order.response.OrderInvoiceResponse;
 import com.davy.restapi.order.response.OrderListResponse;
 import com.davy.restapi.order.response.OrderPriceResponse;
 import com.davy.restapi.order.response.OrderResponse;
@@ -41,30 +42,16 @@ public class OrderV1Controller {
     @PostMapping()
     public ResponseEntity<?> saveOrderByUserId(@RequestBody OrderRequest request){
         var response = new OrderResponse();
-        var order = orderService.save(request);
-        response.setOrder((OrderDetailDTO) order);
-        return ResponseHandler.generateResponse(true, HttpStatus.CREATED, response);
+        var orderDetail = orderService.create(request);
+        response.setOrder(orderDetail);
+        return ResponseHandler.generateResponse(true, HttpStatus.CREATED, orderDetail);
     }
 
     @GetMapping("/{orderId}/total-price")
     public ResponseEntity<?> findTotalPriceByOrderId(@PathVariable(value = "orderId") final Long orderId){
         var response = new OrderPriceResponse();
-        var order = orderService.getTotalByOrderId(orderId);
-        response.setOrderPrice(order);
+        var totalPrice = orderService.getTotalPriceByOrderId(orderId);
+        response.setOrderPrice(totalPrice);
         return ResponseHandler.generateResponse(true, HttpStatus.OK, response);
     }
-
-//    @GetMapping
-//    public ResponseEntity<?> findOrdersByUserId(@RequestParam(value = "userId") final Long userId) {
-//
-//        return null;
-//    }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<?> updateOrderById(@PathVariable(value = "id") final Long id,
-//                                               @RequestBody OrderUpdateRequest request){
-//        orderService.updateOrderById(id, request);
-//        var data = orderService.findOrderById(id);
-//        return ResponseHandler.generateResponse(true, HttpStatus.OK, data);
-//    }
 }

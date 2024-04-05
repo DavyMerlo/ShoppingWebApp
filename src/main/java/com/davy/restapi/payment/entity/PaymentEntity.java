@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -23,8 +24,8 @@ import java.time.LocalDateTime;
         allocationSize=1)
 public class PaymentEntity extends BaseEntity {
 
-    @Column(name = "amaount")
-    private int amount;
+    @Column(name = "amount")
+    private BigDecimal amount;
 
     @Column(name = "method")
     @Enumerated(EnumType.STRING)
@@ -34,8 +35,8 @@ public class PaymentEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
-    @OneToOne(mappedBy = "payment")
-    private OrderEntity order;
+//    @OneToOne(mappedBy = "payment")
+//    private OrderEntity order;
 
     @Builder
     public PaymentEntity(LocalDateTime createdAt,
@@ -43,15 +44,14 @@ public class PaymentEntity extends BaseEntity {
                          LocalDateTime deletedAt,
                          Long createdBy,
                          Long updatedBy,
-                         int amount,
+                         BigDecimal amount,
                          PaymentMethod paymentMethod,
                          PaymentStatus paymentStatus,
-                         OrderEntity order,
                          Long id) {
         super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy);
         this.amount = amount;
         this.paymentMethod = paymentMethod;
         this.paymentStatus = paymentStatus;
-        this.order = order;
+//        this.order = order;
     }
 }

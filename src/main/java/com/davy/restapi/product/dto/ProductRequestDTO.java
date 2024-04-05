@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Builder
 @Getter
 @Setter
@@ -22,10 +24,10 @@ public class ProductRequestDTO {
     private String imageUrl;
 
     @JsonProperty("purchasePrice")
-    private float purchasePrice;
+    private BigDecimal purchasePrice;
 
     @JsonProperty("sellingPrice")
-    private float sellingPrice;
+    private BigDecimal sellingPrice;
 
     @JsonProperty("vat")
     @Enumerated(EnumType.ORDINAL)
@@ -46,8 +48,8 @@ public class ProductRequestDTO {
     public ProductRequestDTO(String name,
                              String description,
                              String imageUrl,
-                             float purchasePrice,
-                             float sellingPrice,
+                             BigDecimal purchasePrice,
+                             BigDecimal sellingPrice,
                              Vat VAT,
                              short quantity,
                              Long categoryId,

@@ -1,14 +1,8 @@
 package com.davy.restapi.payment.service;
 
-import com.davy.restapi.payment.request.PaymentCreateRequest;
-import com.davy.restapi.payment.request.PaymentUpdateRequest;
-import com.davy.restapi.payment.response.PaymentListResponse;
-import com.davy.restapi.payment.response.PaymentResponse;
+import com.davy.restapi.payment.entity.PaymentEntity;
+import com.davy.restapi.payment.request.PaymentRequest;
+import com.davy.restapi.shared.service.CrudService;
 
-public interface PaymentService {
-
-    PaymentListResponse findAllPayments();
-    PaymentResponse findPaymentById(Long id);
-    PaymentListResponse savePayment(PaymentCreateRequest request);
-    PaymentResponse updatePaymentById(Long id, PaymentUpdateRequest request);
+public interface PaymentService extends CrudService<PaymentEntity, PaymentRequest> {
 }

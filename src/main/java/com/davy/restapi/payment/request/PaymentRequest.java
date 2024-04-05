@@ -7,13 +7,18 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Builder
 @Getter
 @Setter
-public class PaymentCreateRequest {
+public class PaymentRequest {
+
+//    @JsonProperty("orderId")
+//    private Long orderId;
 
     @JsonProperty("amount")
-    private int amount;
+    private BigDecimal amount;
 
     @JsonProperty("paymentMethod")
     private PaymentMethod paymentMethod;

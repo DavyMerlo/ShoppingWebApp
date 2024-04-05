@@ -16,8 +16,8 @@ public class OrderRequest {
     @JsonProperty("userId")
     private Long userId;
 
-    @JsonProperty("paymentId")
-    private Long paymentId;
+//    @JsonProperty("paymentId")
+//    private Long paymentId;
 
     @JsonProperty("orderlines")
     private List<OrderLineRequest> orderLines;

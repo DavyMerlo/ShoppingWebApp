@@ -12,6 +12,8 @@ import com.davy.restapi.shared.repository.CrudRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 @AllArgsConstructor
 public class OrderLineTryMapper implements ObjectMapper<OrderLineRequest, OrderLineEntity> {
@@ -32,7 +34,8 @@ public class OrderLineTryMapper implements ObjectMapper<OrderLineRequest, OrderL
 
     @Override
     public OrderLineDetail mapToDetailsDto(OrderLineEntity entity) {
-        var totalPrice = entity.getQuantity() * entity.getProduct().getSellingPrice();
+        BigDecimal quantity = BigDecimal.valueOf(entity.getQuantity());
+        BigDecimal totalPrice = quantity.multiply(entity.getProduct().getSellingPrice());
         return new OrderLineDetail(
                 entity.getId(),
                 new ProductDTO(
