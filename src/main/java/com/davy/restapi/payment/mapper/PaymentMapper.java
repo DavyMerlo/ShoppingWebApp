@@ -2,6 +2,7 @@ package com.davy.restapi.payment.mapper;
 
 import com.davy.restapi.order.entity.OrderEntity;
 import com.davy.restapi.order.repository.OrderRepository;
+import com.davy.restapi.payment.dto.PaymentDetailsDTO;
 import com.davy.restapi.payment.entity.PaymentEntity;
 import com.davy.restapi.payment.request.PaymentRequest;
 import com.davy.restapi.shared.mapper.ObjectMapper;
@@ -26,8 +27,14 @@ public class PaymentMapper implements ObjectMapper<PaymentRequest, PaymentEntity
     }
 
     @Override
-    public Object mapToDetailsDto(PaymentEntity entity) {
-        return null;
+    public PaymentDetailsDTO mapToDetailsDto(PaymentEntity entity) {
+        return PaymentDetailsDTO.builder()
+                .id(entity.getId())
+                .totalPrice(entity.getAmount())
+                .method(entity.getPaymentMethod())
+                .status(entity.getPaymentStatus())
+                .date(entity.getCreatedAt())
+                .build();
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.davy.restapi.payment.service;
 
+import com.davy.restapi.order.entity.OrderEntity;
+import com.davy.restapi.payment.dto.PaymentInvoiceDTO;
 import com.davy.restapi.payment.entity.PaymentEntity;
 import com.davy.restapi.payment.request.PaymentRequest;
 import com.davy.restapi.shared.mapper.ObjectMapper;
@@ -11,9 +13,36 @@ import org.springframework.stereotype.Service;
 public class PaymentServiceImpl extends CrudServiceImpl<PaymentEntity, PaymentRequest>
     implements PaymentService {
 
-    public PaymentServiceImpl(CrudRepository<PaymentEntity> repository,
-                              ObjectMapper<PaymentRequest, PaymentEntity> mapper) {
-        super(repository, mapper);
+    private final CrudRepository<OrderEntity> orderRepository;
+    private final CrudRepository<PaymentEntity> paymentRepository;
+
+    public PaymentServiceImpl(CrudRepository<PaymentEntity> paymentRepository,
+                              CrudRepository<OrderEntity> orderRepository,
+                              ObjectMapper<PaymentRequest, PaymentEntity> mapper,
+                              CrudRepository<PaymentEntity> paymentRepository1) {
+        super(paymentRepository, mapper);
+        this.orderRepository = orderRepository;
+        this.paymentRepository = paymentRepository1;
+    }
+
+    @Override
+    public PaymentInvoiceDTO generateInvoiceByOrderId(Long orderId){
+
+        var order = orderRepository.getById(orderId).get();
+        var payment = paymentRepository.getById(order.getId());
+//        var totalPrice =
+//
+//        var invoice = PaymentInvoiceDTO.builder()
+//                .paymentId(payment.get().getId())
+//                .address(null)
+//                .paymentDate(payment.get().getCreatedAt())
+//                .paymentMethod(payment.get().getPaymentMethod())
+//                .orderId(order.getId())
+//                .products(null)
+//                .vat(order)
+
+
+        return null;
     }
 
 //    @Override
